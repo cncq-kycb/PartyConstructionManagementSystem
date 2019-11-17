@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.Dao.StudentMapper">
+
+	<select id="select" resultType="cn.edu.cqu.Model.Student">
+		select *
+		from
+		student
+		<where>
+			<if test="student_num != null">
+				<bind name="student_num" value="'%' + student_num + '%' " />
+				student_num like #{student_num}
+			</if>
+			<if test="student_name != null">
+				<bind name="student_name" value="'%' + student_name + '%' " />
+				and student_name like #{student_name}
+			</if>
+			<if test="branch_name != null">
+				<bind name="branch_name" value="'%' + branch_name + '%' " />
+				and branch_name like {branch_name}
+			</if>
+			<if test="student_status != null">and student_status=#{student_status}</if>
+		</where>
+	</select>
+
+	<select id="select_vStudent_by_student_id"
+		resultType="cn.edu.cqu.Model.vStudent">
+		select *
+		from student_view
+		where student_id = #{student_id}
+	</select>
+
+	<update id="update_info_stu">
+		update student
+		<set>
+			<if test="student_tel != null and student_tel != ''">student_tel =#{student_tel},</if>
+			<if test="student_email != null and student_email != ''">student_email = #{student_email}</if>
+		</set>
+		where student_id =
+		#{student_id}
+	</update>
+
+	<select id="select_status_mean_by_student_id"
+		resultType="java.lang.String">
+		select student_status
+		from student_view
+		where student_id =
+		#{student_id}
+	</select>
+
+	<select id="select_branch_id_by_student_id"
+		resultType="java.lang.String">
+		select branch_id
+		from student
+		where student_id = #{student_id}
+	</select>
+</mapper>

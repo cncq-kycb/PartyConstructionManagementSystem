@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.Dao.BranchMapper">
+
+	<select id="select" resultType="cn.edu.cqu.Model.Branch">
+		select *
+		from
+		branch
+		<where>
+			<if test="branch_id != null">branch_id=#{branch_id}</if>
+			<if test="branch_name != null">
+				<bind name="branch_name" value="'%' + branch_name + '%' " />
+				and branch_name like {branch_name}
+			</if>
+		</where>
+	</select>
+
+	<select id="select_name_by_id" resultType="java.lang.String">
+		select branch_name
+		from branch
+		where branch_id =
+		#{branch_id}
+	</select>
+
+	<select id="select_id_by_name" resultType="java.lang.String">
+		select branch_id
+		from branch
+		<where>
+			<bind name="branch_name " value=" '%' + branch_name + '%' " />
+			branch_name LIKE #{branch_name}
+		</where>
+
+	</select>
+
+	<delete id="delete">
+		delete
+		from branch
+		where
+		branch_id = #{branch_id}
+	</delete>
+
+	<update id="update">
+		update branch
+		set branch_name = #{branch_name}
+		where
+		branch_id = #{branch_id}
+	</update>
+
+</mapper>
