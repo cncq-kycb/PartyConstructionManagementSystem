@@ -69,4 +69,23 @@
 		#{student_id} and attendance_status = 4
 	</select>
 
+	<update id="add_pic_for_attendance"
+		parameterType="java.lang.String">
+		update attendance
+		set
+		attendance_pic =
+		#{attendance_pic},attendance_status = 5
+		where
+		student_id = #{student_id}
+		and activity_id = #{activity_id}
+	</update>
+
+	<update id="absent_for_attendance" parameterType="java.lang.String">
+		update attendance
+		set attendance_status = 2
+		where
+		student_id = #{student_id}
+		and activity_id = #{activity_id}
+	</update>
+
 </mapper>

@@ -42,7 +42,8 @@
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="mainPage" class="navbar-brand d-none d-sm-inline-block">
+					<a href="/mis/stu/mainPage"
+						class="navbar-brand d-none d-sm-inline-block">
 						<div class="brand-text d-none d-lg-inline-block">党员组织生活（学生端）</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
 							<strong>党员组织生活（学生端）</strong>
@@ -109,7 +110,7 @@
 									</div>
 								</div>
 								<div class="line"></div>
-								<c:if test="${vapply.permission != 1}">
+								<c:if test="${vapply.permission > 2}">
 									<div class="form-group row">
 										<label class="col-sm-3 form-control-label">当前进度</label>
 										<div class="col-sm-9">
@@ -119,7 +120,7 @@
 									</div>
 								</c:if>
 								<div class="line"></div>
-								<c:if test="${vapply.apply_status == '未提交'}">
+								<c:if test="${vapply.apply_status == '未提交申请'}">
 									<div class="form-group row">
 										<div class="col-sm-4 offset-sm-3">
 											<button type="submit" class="btn btn-primary">提交入党申请</button>

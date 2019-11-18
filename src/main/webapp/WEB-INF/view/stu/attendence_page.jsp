@@ -35,6 +35,12 @@
 		if (msg == "2") {
 			alert('签到失败');
 		}
+		if (msg == "3") {
+			alert('请假成功');
+		}
+		if (msg == "4") {
+			alert('请假失败');
+		}
 	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">
@@ -42,7 +48,7 @@
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="mainPage" class="navbar-brand d-none d-sm-inline-block">
+					<a href="/mis/stu/mainPage" class="navbar-brand d-none d-sm-inline-block">
 						<div class="brand-text d-none d-lg-inline-block">党员组织生活（学生端）</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
 							<strong>党员组织生活（学生端）</strong>
@@ -120,6 +126,8 @@
 										<td>
 											<button id="up" onclick="uploadModal(this)"
 												class="btn btn-success btn-sm" data-toggle="modal">上传图片签到</button>
+											<button onclick="absentModal(this)"
+												class="btn btn-info btn-sm" data-toggle="modal">请假</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -174,18 +182,48 @@
 					<br>
 					<div class="modal-body">
 						&ensp;&ensp;学号：<input type="text" readonly style="border: none"
-							name="student_num_submit" value="${student.student_num}">
+							value="${student.student_num}">
 					</div>
 					<div class="modal-body">
-						&ensp;&ensp;活动编号：：<input id="activity_id_submit" type="text"
+						&ensp;&ensp;活动编号：<input id="activity_id_submit" type="text"
 							name="activity_id_submit" readonly style="border: none">
 					</div>
 					<div class="modal-body">
-						<label class="heading">选择上传签到图片</label> <input type="file"
-							class="form-control" accept=".jpg" id="file" name="file">
+						<label class="heading">&ensp;&ensp;选择上传签到图片(直接拍照方可提交.jpg文件)</label> <input
+							type="file" class="form-control" accept=".jpg" id="file"
+							name="file">
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary">提交</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="absentModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">确认请假</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="absent" id="absent" method="post" class="form-validate"
+					enctype="multipart/form-data" action="/mis/stu/absent_attendance">
+					<br>
+					<div class="modal-body">
+						&ensp;&ensp;学号：<input type="text" readonly style="border: none"
+							value="${student.student_num}">
+					</div>
+					<div class="modal-body">
+						&ensp;&ensp;活动编号：<input id="activity_id_absent" type="text"
+							name="activity_id_absent" readonly style="border: none">
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">提交请假申请</button>
 					</div>
 				</form>
 			</div>
@@ -197,6 +235,14 @@
 			var $td = $(obj).parents('tr').children('td');
 			var activity_id_submit = $td.eq(0).text();
 			$("#activity_id_submit").val(activity_id_submit);
+		}
+	</script>
+	<script type="text/javascript">
+		function absentModal(obj) {
+			$("#absentModal").modal('show');
+			var $td = $(obj).parents('tr').children('td');
+			var activity_id_absent = $td.eq(0).text();
+			$("#activity_id_absent").val(activity_id_absent);
 		}
 	</script>
 	<script type="text/javascript">

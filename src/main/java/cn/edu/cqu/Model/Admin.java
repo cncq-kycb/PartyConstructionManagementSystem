@@ -1,19 +1,12 @@
 package cn.edu.cqu.Model;
 
 public class Admin {
-	private User user;
 	private String admin_id;
+	private String user_id;
+	private String user_account;
 	private String admin_name;
 	private String admin_tel;
 	private String admin_email;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public String getAdmin_id() {
 		return admin_id;
@@ -21,6 +14,22 @@ public class Admin {
 
 	public void setAdmin_id(String admin_id) {
 		this.admin_id = admin_id;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getUser_account() {
+		return user_account;
+	}
+
+	public void setUser_account(String user_account) {
+		this.user_account = user_account;
 	}
 
 	public String getAdmin_name() {
@@ -45,12 +54,6 @@ public class Admin {
 
 	public void setAdmin_email(String admin_email) {
 		this.admin_email = admin_email;
-	}
-
-	@Override
-	public String toString() {
-		return "Admin [user=" + user + ", admin_id=" + admin_id + ", admin_name=" + admin_name + ", admin_tel="
-				+ admin_tel + ", admin_email=" + admin_email + "]";
 	}
 
 }

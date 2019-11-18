@@ -11,8 +11,18 @@
 	</select>
 
 	<insert id="insert_apply">
-		insert into apply(student_id,apply_status)
-		values(#{student_id},5)
+		update apply
+		set apply_status = 2
+		where student_id =
+		#{student_id}
 	</insert>
+
+	<update id="update_apply_status">
+		update apply
+		set apply_status = #{apply_status}
+		where
+		student_id =
+		#{student_id}
+	</update>
 
 </mapper>

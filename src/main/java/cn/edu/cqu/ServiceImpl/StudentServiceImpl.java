@@ -174,4 +174,30 @@ public class StudentServiceImpl implements StudentService {
 		}
 	}
 
+	@Override
+	public boolean add_pic_for_attendance(String student_id, String activity_id, String attendance_pic) {
+		// TODO Auto-generated method stub
+		try {
+			attendanceMapper.add_pic_for_attendance(student_id, activity_id, attendance_pic);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("add_pic_for_attendance err");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean absent_for_attendance(String student_id, String activity_id) {
+		// TODO Auto-generated method stub
+		try {
+			attendanceMapper.absent_for_attendance(student_id, activity_id);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("absent_for_attendance err");
+			return false;
+		}
+	}
+
 }

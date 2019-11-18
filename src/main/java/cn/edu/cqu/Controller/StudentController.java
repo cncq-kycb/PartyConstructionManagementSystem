@@ -25,8 +25,19 @@ import cn.edu.cqu.Service.StudentService;
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
-	@Autowired
-	private HttpServletRequest request;
+
+	// 主页
+	@RequestMapping(value = "/mainPage")
+	public String mainPage() {
+		return "main_page_2";
+	}
+
+	// 每日竞答
+	@RequestMapping(value = "/test_page")
+	public String test_page(HttpSession session) {
+
+		return "stu/test_page";
+	}
 
 	// 活动签到页面
 	@RequestMapping(value = "/attendence_page")
@@ -44,16 +55,40 @@ public class StudentController {
 
 	// 提交照片
 	@RequestMapping(value = "/upload_file")
-	public String upload_file(String student_num_submit, String activity_id_submit,
-			@RequestParam("file") MultipartFile file, HttpSession session) {
+	public String upload_file(String activity_id_submit, @RequestParam("file") MultipartFile file, HttpSession session,
+			HttpServletRequest request) {
 		try {
-			String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/"
-					+ file.getOriginalFilename();
+			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+			String newFileName = student_id + "_" + activity_id_submit + ".jpg";
+			String filePath = request.getSession().getServletContext().getRealPath("/") + "upload_attendance_pic\\"
+					+ newFileName;
 			file.transferTo(new File(filePath));
-			session.setAttribute("message", "1");
+			if (studentService.add_pic_for_attendance(student_id, activity_id_submit, filePath)) {
+				session.setAttribute("message", "1");
+				ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
+				PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
+				session.setAttribute("pageInfo", pageInfo);
+			} else {
+				session.setAttribute("message", "2");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("message", "2");
+		}
+		return "stu/attendence_page";
+	}
+
+	// 提交缺席
+	@RequestMapping(value = "/absent_attendance")
+	public String absent_attendance(String activity_id_absent, HttpSession session) {
+		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		if (studentService.absent_for_attendance(student_id, activity_id_absent)) {
+			session.setAttribute("message", "3");
+			ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
+			PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
+			session.setAttribute("pageInfo", pageInfo);
+		} else {
+			session.setAttribute("message", "4");
 		}
 		return "stu/attendence_page";
 	}

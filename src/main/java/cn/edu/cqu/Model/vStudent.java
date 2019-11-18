@@ -9,6 +9,7 @@ public class vStudent {
 	private String student_status;
 	private String student_permission;
 	private String branch_name;
+	private String student_gender;
 
 	public String getStudent_id() {
 		return student_id;
@@ -74,10 +75,20 @@ public class vStudent {
 		this.branch_name = branch_name;
 	}
 
+	public String getStudent_gender() {
+		return student_gender;
+	}
+
+	public void setStudent_gender(String student_gender) {
+		this.student_gender = student_gender;
+	}
+
 	@Override
 	public String toString() {
 		return "vStudent [student_id=" + student_id + ", student_num=" + student_num + ", student_name=" + student_name
 				+ ", student_tel=" + student_tel + ", student_email=" + student_email + ", student_status="
-				+ student_status + ", student_permission=" + student_permission + ", branch_name=" + branch_name + "]";
+				+ student_status + ", student_permission=" + student_permission + ", branch_name=" + branch_name
+				+ ", student_gender=" + student_gender + "]";
 	}
+
 }

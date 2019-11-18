@@ -33,7 +33,7 @@
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="mainPage" class="navbar-brand d-none d-sm-inline-block">
+					<a href="/mis/stu/mainPage" class="navbar-brand d-none d-sm-inline-block">
 						<div class="brand-text d-none d-lg-inline-block">党员组织生活（学生端）</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
 							<strong>党员组织生活（学生端）</strong>

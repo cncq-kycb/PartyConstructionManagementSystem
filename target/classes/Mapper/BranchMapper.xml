@@ -16,6 +16,12 @@
 		</where>
 	</select>
 
+	<select id="select_all" resultType="cn.edu.cqu.Model.Branch">
+		select *
+		from
+		branch
+	</select>
+
 	<select id="select_name_by_id" resultType="java.lang.String">
 		select branch_name
 		from branch

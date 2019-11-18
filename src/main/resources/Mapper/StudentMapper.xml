@@ -9,8 +9,7 @@
 		student
 		<where>
 			<if test="student_num != null">
-				<bind name="student_num" value="'%' + student_num + '%' " />
-				student_num like #{student_num}
+				student_num = #{student_num}
 			</if>
 			<if test="student_name != null">
 				<bind name="student_name" value="'%' + student_name + '%' " />
@@ -24,11 +23,44 @@
 		</where>
 	</select>
 
+	<select id="select_vstudent"
+		resultType="cn.edu.cqu.Model.vStudent">
+		select *
+		from
+		student_view
+		<where>
+			<if test="student_name != null and student_name != ''">
+				<bind name="student_name" value="'%' + student_name + '%' " />
+				and student_name like #{student_name}
+			</if>
+			<if test="branch_name != null and branch_name != ''">
+				and branch_name = #{branch_name}
+			</if>
+			<if test="student_status != null and student_status != ''">and student_status = #{student_status}</if>
+			<if test="student_num != null and student_num != ''">and student_num = #{student_num}</if>
+		</where>
+	</select>
+
 	<select id="select_vStudent_by_student_id"
 		resultType="cn.edu.cqu.Model.vStudent">
 		select *
 		from student_view
 		where student_id = #{student_id}
+	</select>
+
+	<select id="select_student_id_by_student_num"
+		resultType="java.lang.String">
+		select student_id
+		from student
+		where student_num =
+		#{student_num}
+	</select>
+
+	<select id="select_vstudent_by_branch_name"
+		resultType="cn.edu.cqu.Model.vStudent">
+		select *
+		from student_view
+		where branch_name = #{branch_name}
 	</select>
 
 	<update id="update_info_stu">
@@ -39,6 +71,56 @@
 		</set>
 		where student_id =
 		#{student_id}
+	</update>
+
+	<update id="update_student_info">
+		update student
+		<set>
+			<if test="student_name != null and student_name != ''">student_name = #{student_name},</if>
+			<if test="student_gender != null and student_gender != ''">student_gender = #{student_gender},</if>
+			<if test="student_tel != null and student_tel != ''">student_tel = #{student_tel},</if>
+			<if test="student_email != null and student_email != ''">student_email = #{student_email}</if>
+		</set>
+		where student_num =
+		#{student_num}
+	</update>
+
+	<update id="update_branch">
+		update student
+		set branch_id = #{branch_id}
+		where
+		student_num = #{student_num}
+	</update>
+
+	<update id="delete_branch_by_student_num">
+		update student
+		set branch_id = 1
+		where
+		student_num =
+		#{student_num}
+	</update>
+
+	<update id="pass_branch_by_student_num">
+		update student
+		set student_permission = 2
+		where
+		student_num =
+		#{student_num}
+	</update>
+
+	<update id="unpass_branch_by_student_num">
+		update student
+		set student_permission = 1
+		where
+		student_num =
+		#{student_num}
+	</update>
+
+	<update id="update_permission">
+		update student
+		set student_permission =
+		#{student_permission}
+		where student_num = #{student_num}
 	</update>
 
 	<select id="select_status_mean_by_student_id"
@@ -53,6 +135,21 @@
 		resultType="java.lang.String">
 		select branch_id
 		from student
-		where student_id = #{student_id}
+		where student_id =
+		#{student_id}
 	</select>
+
+	<select id="select_status_by_student_num" resultType="int">
+		select
+		student_status
+		from student
+		where student_num =
+		#{student_num}
+	</select>
+
+	<update id="student_status_level_up">
+		update student
+		set student_status = student_status + 1
+		where student_num = #{student_num}
+	</update>
 </mapper>

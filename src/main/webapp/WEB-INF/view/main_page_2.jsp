@@ -32,7 +32,8 @@
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="mainPage" class="navbar-brand d-none d-sm-inline-block">
+					<a href="/mis/stu/mainPage"
+						class="navbar-brand d-none d-sm-inline-block">
 						<div class="brand-text d-none d-lg-inline-block">党员组织生活（学生端）</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
 							<strong>党员组织生活（学生端）</strong>
@@ -42,8 +43,8 @@
 				</div>
 				<ul
 					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-					<li class="nav-item"><a href="logout" class="nav-link logout">
-							<span class="d-none d-sm-inline">退出登录</span><i
+					<li class="nav-item"><a href="/mis/logout"
+						class="nav-link logout"> <span class="d-none d-sm-inline">退出登录</span><i
 							class="fa fa-sign-out"></i>
 					</a></li>
 				</ul>

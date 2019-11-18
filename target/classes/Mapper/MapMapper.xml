@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.Dao.MapMapper">
+
+	<select id="select_student_status_map"
+		resultType="cn.edu.cqu.Model.StudentStatusMap">
+		select * from student_status_map
+	</select>
+
+	<select id="select_student_permission_map"
+		resultType="cn.edu.cqu.Model.StudentPermissionMap">
+		select * from student_permission_map
+	</select>
+
+</mapper>

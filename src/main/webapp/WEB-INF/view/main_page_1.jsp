@@ -32,7 +32,8 @@
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="mainPage" class="navbar-brand d-none d-sm-inline-block">
+					<a href="/mis/main_page_1"
+						class="navbar-brand d-none d-sm-inline-block">
 						<div class="brand-text d-none d-lg-inline-block">党员管理系统</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
 							<strong>党员管理系统</strong>
@@ -42,8 +43,8 @@
 				</div>
 				<ul
 					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-					<li class="nav-item"><a href="logout" class="nav-link logout">
-							<span class="d-none d-sm-inline">退出登录</span><i
+					<li class="nav-item"><a href="/mis/logout"
+						class="nav-link logout"> <span class="d-none d-sm-inline">退出登录</span><i
 							class="fa fa-sign-out"></i>
 					</a></li>
 				</ul>
@@ -60,40 +61,52 @@
 			</div>
 			<span class="heading">用户管理</span>
 			<ul class="list-unstyled">
-				<li class="active"><a href="authorityPage"> <i
+				<li><a href="/mis/admin/authorityPage"> <i
 						class="icon-list-1"></i>权限管理
 				</a></li>
 				<li><a href="#memberManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-user"></i>成员管理
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
-						<li><a href="manageMemberPage">成员信息管理</a></li>
-						<li><a href="updateStatusPage">成员级别管理</a></li>
+						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
+						<li><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-list"></i>支部管理
 				</a>
 					<ul id="branchManager" class="collapse list-unstyled ">
-						<li><a href="addMemberPage">添加支部成员</a></li>
-						<li><a href="manageBranchPage">支部成员管理</a></li>
+						<li><a href="/mis/admin/addMemberPage">添加支部成员</a></li>
+						<li><a href="/mis/admin/manageBranchPage">支部成员管理</a></li>
 					</ul></li>
 			</ul>
 			<span class="heading">组织生活管理</span>
 			<ul class="list-unstyled">
-				<li><a> <i class="icon-interface-windows"></i>活动的创建与发布
+				<li><a href="/mis/admin/addActivityPage"> <i
+						class="icon-interface-windows"></i>活动的创建与发布
 				</a></li>
-				<li><a href="manageSignInPage"> <i class="icon-grid"></i>组织生活签到管理
+				<li><a href="/mis/admin/manageSignInPage"> <i
+						class="icon-grid"></i>组织生活签到管理
 				</a></li>
 			</ul>
 			<span class="heading">内容管理</span>
 			<ul class="list-unstyled">
-				<li><a href="editStudyPage"> <i class="icon-presentation"></i>学习中心内容编辑
+				<li><a href="#editStudy" aria-expanded="false"
+					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
+				</a>
+					<ul id="editStudy" class="collapse list-unstyled ">
+						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
+					</ul></li>
+				<li><a href="/mis/admin/editCompetitionPage"> <i
+						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
-				<li><a href="editCompetitionPage"> <i class="icon-padnote"></i>知识竞答编辑
-				</a></li>
-				<li><a href="competitionResultPage"> <i
-						class="icon-line-chart"></i>竞答结果统计
-				</a></li>
+				<li><a href="#competitionResult" aria-expanded="false"
+					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
+				</a>
+					<ul id="competitionResult" class="collapse list-unstyled ">
+						<li><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
+						<li><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
+					</ul></li>
 			</ul>
 			</nav>
 			<div class="content-inner"></div>

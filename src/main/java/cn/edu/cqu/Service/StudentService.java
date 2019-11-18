@@ -36,4 +36,8 @@ public interface StudentService {
 
 	ArrayList<vAttendance> select_attendance_now_by_student_id(String student_id);
 
+	boolean add_pic_for_attendance(String student_id, String activity_id, String attendance_pic);
+
+	boolean absent_for_attendance(String student_id, String activity_id);
+
 }
