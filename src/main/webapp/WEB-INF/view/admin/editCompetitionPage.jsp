@@ -61,10 +61,10 @@ table tr th {
 		if (msg == "6") {
 			alert('编辑题目失败');
 		}
-		if (msg == "5") {
+		if (msg == "7") {
 			alert('生成试卷成功');
 		}
-		if (msg == "6") {
+		if (msg == "8") {
 			alert('生成试卷失败');
 		}
 	</script>
@@ -160,71 +160,85 @@ table tr th {
 								<h1>&ensp;</h1>
 							</center>
 						</div>
-
 					</blockquote>
-					<form class="form-horizontal" name="inputForm"
-						action="deleteQuestions" id="inputForm" method="post">
-						<button type="button" class="btn btn-success" id="addBtn"
-							name="addBtn" onclick="insertQuestionModal(this)">添加题目</button>
-						<button type="button" class="btn btn-info" id="autoCreateBtn"
-							name="autoCreateBtn" onclick="autoCreateModal(this)">随机生成试题</button>
-
-						<div id="content" style="width: 100%; height: 533px;">
-							<table class="table table-hover table-bordered" id="Table"
-								data-toggle="table" data-toggle="table" data-pagination="true"
-								data-side-pagination="client">
-								<thead>
-									<tr>
-										<th><input style="width: 30px100%;" type="checkbox"
-											id="ckall" onclick="checkall()" />编号</th>
-
-										<th>题目</th>
-										<th>选项A</th>
-										<th>选项B</th>
-										<th>选项C</th>
-										<th>选项D</th>
-										<th>正确选项</th>
-
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${list}" var="question_list">
-										<tr style="height: auto;">
-											<td><input type="checkbox" name="box" />${question_list.question_id }</td>
-											<td>${question_list.question_problem}</td>
-											<td>${question_list.question_option_A}</td>
-											<td>${question_list.question_option_B}</td>
-											<td>${question_list.question_option_C}</td>
-											<td>${question_list.question_option_D}</td>
-											<td>${question_list.question_answer}</td>
-
-											<td>
-												<button class="btn btn-info btn-sm"
-													onclick="updateQuestionModal(this)" data-toggle="modal">编辑题目</button>
-
-											</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-						<div class="col-sm-4 offset-sm-5">
-
-							<button type="button" class="btn btn-warning" id="createBtn"
-								name="createBtn" onclick="createModal(this)">手动生成试题</button>
-							<button type="submit" class="btn btn-danger" id="deleteBtn"
-								name="deleteBtn">移除题目</button>
-
-
-						</div>
-					</form>
 					<div class="cxbottom">
 						<center>
-							<h1>&ensp;</h1>
+							<button type="button" class="btn btn-success" id="passBtn"
+								onclick="insertQuestionModal(this)" name="passBtn">添加题目</button>
+							<button type="submit" class="btn btn-danger" id="deleteBtn"
+								onclick="deleteQuestionModal(this)" name="deleteBtn">移除选中题目</button>
+							<button type="button" class="btn btn-warning" id="unpassBtn"
+								onclick="deleteButton('/mis/admin/unpassFromBranch')"
+								name="unpassBtn">随机题目组卷</button>
+							<button type="button" class="btn btn-primary" id="createBtn"
+								name="createBtn" onclick="createModal(this)">选中题目组卷</button>
 							<h1>&ensp;</h1>
 						</center>
 					</div>
+					<div id="content" style="width: 100%; height: 533px;">
+						<table class="table table-hover table-bordered" id="Table"
+							data-toggle="table" data-toggle="table" data-pagination="true"
+							data-side-pagination="client">
+							<thead>
+								<tr>
+									<th><input id="checkAll" type="checkbox" name="checkAll" /></th>
+									<th>题目编号</th>
+									<th>题目</th>
+									<th>选项A</th>
+									<th>选项B</th>
+									<th>选项C</th>
+									<th>选项D</th>
+									<th>正确选项</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${pageInfo.list}" var="question_list">
+									<tr style="height: auto;">
+										<td><input type="checkbox" class="checkItem" /></td>
+										<td>${question_list.question_id}</td>
+										<td>${question_list.question_problem}</td>
+										<td>${question_list.question_option_a}</td>
+										<td>${question_list.question_option_b}</td>
+										<td>${question_list.question_option_c}</td>
+										<td>${question_list.question_option_d}</td>
+										<td>${question_list.question_answer}</td>
+										<td>
+											<button class="btn btn-info btn-sm"
+												onclick="updateQuestionModal(this)" data-toggle="modal">编辑题目</button>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					<center>
+						<div class="col-sm-4 offset-sm-5">
+							<ul class="pagination">
+								<c:if test="${pageInfo.hasPreviousPage}">
+									<li class="page-item"><a class="page-link"
+										href="/mis/admin/editCompetionPage?pn=${pageInfo.pageNum -1}"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									</a></li>
+								</c:if>
+								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
+									<c:if test="${pageNum == pageInfo.pageNum }">
+										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
+									</c:if>
+									<c:if test="${pageNum != pageInfo.pageNum }">
+										<li class="page-item"><a class="page-link"
+											href="/mis/admin/editCompetionPage?pn=${pageNum }">${pageNum }</a></li>
+									</c:if>
+								</c:forEach>
+								<c:if test="${pageInfo.hasNextPage}">
+									<li class="page-item"><a class="page-link"
+										href="/mis/admin/editCompetionPage?pn=${pageInfo.pageNum +1}"
+										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									</a></li>
+								</c:if>
+							</ul>
+						</div>
+					</center>
 				</div>
 			</div>
 		</div>
@@ -243,20 +257,24 @@ table tr th {
 				<form name="updateQuestionForm" id="updateQuestionForm"
 					action="updateQuestion" method="post" class="form-validate">
 					<div class="modal-body">
-						题目： <input id="qustion_problem_check" type="text"
-							name="qustion_problem_check">
+						题目： <input id="question_problem_check" type="text"
+							name="question_problem_check">
 					</div>
 					<div class="modal-body">
-						选项A： <input id="option_A_check" type="text" name="option_A_check">
+						选项A： <input id=question_option_A_check type="text"
+							name="question_option_A_check">
 					</div>
 					<div class="modal-body">
-						选项B： <input id="option_B_check" type="text" name="option_B_check">
+						选项B： <input id="question_option_B_check" type="text"
+							name="question_option_B_check">
 					</div>
 					<div class="modal-body">
-						选项C： <input id="option_C_check" type="text" name="option_C_check">
+						选项C： <input id="question_option_C_check" type="text"
+							name="question_option_C_check">
 					</div>
 					<div class="modal-body">
-						选项D： <input id="option_D_check" type="text" name="option_D_check">
+						选项D： <input id="question_option_D_check" type="text"
+							name="question_option_D_check">
 					</div>
 					<div class="modal-body">
 						正确选项： <select name="question_answer_check"
@@ -266,6 +284,10 @@ table tr th {
 							<option>C</option>
 							<option>D</option>
 						</select>
+					</div>
+					<div class="modal-body">
+						<input id="question_id_check" type="text" style="display: none"
+							name="question_id_check">
 					</div>
 					<div class="modal-footer"></div>
 					<div class="modal-footer">
@@ -315,6 +337,30 @@ table tr th {
 					<div class="modal-footer"></div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">确定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteQuestionModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">移除题目</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="deleteQuestionForm" id="deleteQuestionForm"
+					action="deleteQuestion" method="post" class="form-validate">
+					<div class="modal-body">
+						移除题目编号： <input id="question_id_delete" type="text"
+							name="question_id_delete" readonly>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-danger">确定移除</button>
 					</div>
 				</form>
 			</div>
@@ -372,11 +418,15 @@ table tr th {
 						试卷名称： <input id="test_name" type="text" name="test_name">
 					</div>
 					<div class="modal-body">
-						开始时间： <input id="test_date_start" type="text"
+						开始时间： <input id="test_date_start" type="date"
 							name="test_date_start">
 					</div>
 					<div class="modal-body">
-						结束时间： <input id="test_date_end" type="text" name="test_date_end">
+						结束时间： <input id="test_date_end" type="date" name="test_date_end">
+					</div>
+					<div class="modal-body">
+						选中题目编号： <input id="question_id_select" type="text"
+							name="question_id_select" readonly>
 					</div>
 					<div class="modal-footer"></div>
 					<div class="modal-footer">
@@ -404,73 +454,80 @@ table tr th {
 		function updateQuestionModal(obj) {
 			$("#updateQuestionModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var question_problem_check = $td.eq(1).text();
-			var question_option_A_check = $td.eq(2).text();
-			var question_option_B_check = $td.eq(3).text();
-			var question_option_C_check = $td.eq(4).text();
-			var question_option_D_check = $td.eq(5).text();
-			var question_answer_check = $td.eq(6).text();
-
+			var question_id_check = $td.eq(1).text();
+			var question_problem_check = $td.eq(2).text();
+			var question_option_A_check = $td.eq(3).text();
+			var question_option_B_check = $td.eq(4).text();
+			var question_option_C_check = $td.eq(5).text();
+			var question_option_D_check = $td.eq(6).text();
+			var question_answer_check = $td.eq(7).text();
+			$("#question_id_check").val(question_id_check);
 			$("#question_problem_check").val(question_problem_check);
 			$("#question_option_A_check").val(question_option_A_check);
 			$("#question_option_B_check").val(question_option_B_check);
 			$("#question_option_C_check").val(question_option_C_check);
 			$("#question_option_D_check").val(question_option_D_check);
 			$("#question_answer_check").val(question_answer_check);
-
 		}
 	</script>
+
+	<script type="text/javascript">
+		function deleteQuestionModal(obj) {
+			$("#deleteQuestionModal").modal('show');
+			var record_ids = "";
+			$.each($(".checkItem:checked"), function() {
+				record_ids += $(this).parents("tr").find("td:eq(1)").text()
+						+ ",";
+			});
+			record_ids = record_ids.substring(0, record_ids.length - 1);
+			$("#question_id_delete").val(record_ids);
+		}
+	</script>
+
 	<script>
 		function insertQuestionModal(obj) {
 			$("#insertQuestionModal").modal('show');
-		}
-	</script>
-	<script>
+		};
 		function aotoCreateModal(obj) {
 			$("#aotoCreateModal").modal('show');
-		}
-	</script>
-	<script>
+		};
 		function createModal(obj) {
 			$("#createModal").modal('show');
-		}
+			var record_ids = "";
+			$.each($(".checkItem:checked"), function() {
+				record_ids += $(this).parents("tr").find("td:eq(1)").text()
+						+ ",";
+			});
+			record_ids = record_ids.substring(0, record_ids.length - 1);
+			$("#question_id_select").val(record_ids);
+		};
 	</script>
 	<script>
-		function checkall() {
-			var flag = document.getElementById("ckall").checked;
-			var ho = document.getElementsByName("box");
-			for (var i = 0; i < ho.length; i++) {
-				ho[i].checked = flag;
-			}
+		$("#checkAll").click(function() {
+			$(".checkItem").prop("checked", $(this).prop("checked"));
+		});
+
+		$(document)
+				.on(
+						"click",
+						".checkItem",
+						function() {
+							var flag = $(".checkItem:checked").length == $(".checkItem").length;
+							$("#checkAll").prop("checked", flag);
+						});
+
+		function deleteButton(href) {
+			var record_ids = "";
+			$.each($(".checkItem:checked"), function() {
+				record_ids += $(this).parents("tr").find("td:eq(1)").text()
+						+ ",";
+			});
+			record_ids = record_ids.substring(0, record_ids.length - 1);
+			$("#student_num").val(record_ids);
+			var form = document.thisForm;
+			form.action = href;//传想要跳转的路径
+			form.submit();
 		}
-
-		$("#createBtn")
-				.click(
-						function() {
-							var record_ids = "";
-							$.each($(".checkItem:checked"), function() {
-								record_ids += $(this).parents("tr").find(
-										"td:eq(1)").text()
-										+ ",";
-							});
-							record_ids = record_ids.substring(0,
-									record_ids.length - 1);
-							$("#question_list_create").val(record_ids);
-						});
-
-		$("#deleteBtn")
-				.click(
-						function() {
-							var record_ids = "";
-							$.each($(".checkItem:checked"), function() {
-								record_ids += $(this).parents("tr").find(
-										"td:eq(1)").text()
-										+ ",";
-							});
-							record_ids = record_ids.substring(0,
-									record_ids.length - 1);
-							$("#question_list_delete").val(record_ids);
-						});
 	</script>
 
 

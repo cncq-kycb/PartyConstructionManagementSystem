@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 
 import cn.edu.cqu.Model.Study;
-import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vStudy;
 
 public interface StudyMapper {

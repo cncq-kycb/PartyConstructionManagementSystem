@@ -11,10 +11,11 @@ import cn.edu.cqu.Dao.AttendanceMapper;
 import cn.edu.cqu.Dao.BranchMapper;
 import cn.edu.cqu.Dao.MapMapper;
 import cn.edu.cqu.Dao.StudyMapper;
+import cn.edu.cqu.Dao.TestMapper;
 import cn.edu.cqu.Dao.StudentMapper;
-import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
+import cn.edu.cqu.Model.Question;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
@@ -43,6 +44,8 @@ public class AdminServiceImpl implements AdminService {
 	AttendanceMapper attendanceMapper;
 	@Autowired
 	StudyMapper studyMapper;
+	@Autowired
+	TestMapper testMapper;
 
 	@Override
 	public ArrayList<Student> select(String student_num, String student_name, String branch_name, int student_status) {
@@ -123,7 +126,6 @@ public class AdminServiceImpl implements AdminService {
 		return mapMapper.select_study_status_map();
 	}
 
-	
 	@Override
 	public ArrayList<StudentPermissionMap> select_student_permission_map() {
 		// TODO Auto-generated method stub
@@ -175,12 +177,11 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<Branch> select_all_branch() {
 		return branchMapper.select_all();
 	}
-	
+
 	@Override
-	public ArrayList<Study> select_all_study(){
+	public ArrayList<Study> select_all_study() {
 		return studyMapper.select_all_study();
 	}
-
 
 	@Override
 	public boolean add_member_to_branch(String student_num, String branch_id) {
@@ -244,12 +245,11 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return activityMapper.select_vactivity(activity_name, activity_status, activity_date, activity_location);
 	}
-	
+
 	@Override
-	public ArrayList<vStudy> select_study_list(String study_title, String study_status){
+	public ArrayList<vStudy> select_study_list(String study_title, String study_status) {
 		return studyMapper.select_study_list(study_title, study_status);
 	};
-
 
 	@Override
 	public ArrayList<vAttendance> select_vAttendance_by_activity_id(String activity_id) {
@@ -280,23 +280,23 @@ public class AdminServiceImpl implements AdminService {
 			return false;
 		}
 	}
-	
+
 	@Override
-	public boolean insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
-			String activity_item,String activity_duration) {
+	public boolean insert_activity(String activity_name, String branch_id, String activity_date,
+			String activity_location, String activity_item, String activity_duration) {
 		// TODO Auto-generated method stub
 		try {
-			activityMapper.insert_activity(activity_name, branch_id, activity_date, activity_location,
-					activity_item,activity_duration);
+			activityMapper.insert_activity(activity_name, branch_id, activity_date, activity_location, activity_item,
+					activity_duration);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return false;
 		}
 	};
-	
+
 	@Override
-	public boolean insert_study(String study_title, String study_status, String study_content){
+	public boolean insert_study(String study_title, String study_status, String study_content) {
 		// TODO Auto-generated method stub
 		try {
 			studyMapper.insert_study(study_title, study_status, study_content);
@@ -307,41 +307,110 @@ public class AdminServiceImpl implements AdminService {
 		}
 	};
 
-	
-	//根据ID获取活动
+	// 根据ID获取活动
 	@Override
 	public vActivity select_activity_by_id(String activity_id) {
 		return activityMapper.select_activity_by_id(activity_id);
 	};
-	
-	//根据ID获取推文
+
+	// 根据ID获取推文
 	@Override
-	public vStudy select_study_by_id(String study_id){
+	public vStudy select_study_by_id(String study_id) {
 		return studyMapper.select_study_by_id(study_id);
 	};
-	
+
 	@Override
 	public boolean update_study(String study_id, String study_title, String study_status, String study_content) {
 		// TODO Auto-generated method stub
-				try {
-					studyMapper.update_study(study_id, study_title, study_status, study_content);
-					return true;
-				} catch (Exception e) {
-					// TODO: handle exception
-					return false;
-				}
-			};
-			
-			@Override
-			public boolean delete_study(String study_id) {
-				try {
-					studyMapper.delete_study(study_id);
-					return true;
-				} catch (Exception e) {
-					// TODO: handle exception
-					return false;
-				}
-			};
+		try {
+			studyMapper.update_study(study_id, study_title, study_status, study_content);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	};
 
+	@Override
+	public boolean delete_study(String study_id) {
+		try {
+			studyMapper.delete_study(study_id);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public boolean insert_question(String question_problem, String question_option_a, String question_option_b,
+			String question_option_c, String question_option_d, String question_answer) {
+		// TODO Auto-generated method stub
+		try {
+			testMapper.insert_question(question_problem, question_option_a, question_option_b, question_option_c,
+					question_option_d, question_answer);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<Question> select_all_question() {
+		// TODO Auto-generated method stub
+		return testMapper.select_all_question();
+	}
+
+	@Override
+	public boolean update_question(String question_id, String question_problem, String question_option_a,
+			String question_option_b, String question_option_c, String question_option_d, String question_answer) {
+		// TODO Auto-generated method stub
+		try {
+			testMapper.update_question(question_id, question_problem, question_option_a, question_option_b,
+					question_option_c, question_option_d, question_answer);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public boolean delete_question(String question_id) {
+		// TODO Auto-generated method stub
+		try {
+			testMapper.delete_question(question_id);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public String insert_test(String test_name, String test_date_start, String test_date_end) {
+		// TODO Auto-generated method stub
+		int curr_test_id = testMapper.select_curr_test_id();
+		try {
+			testMapper.insert_test(curr_test_id + 1, test_name, test_date_start, test_date_end);
+			return String.valueOf(curr_test_id + 1);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	@Override
+	public boolean produceExam(String test_id, String question_id) {
+		// TODO Auto-generated method stub
+		try {
+			testMapper.insert_examination(test_id, question_id);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
 
 }

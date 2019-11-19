@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 
 import cn.edu.cqu.Model.Admin;
 import cn.edu.cqu.Model.Student;
-import cn.edu.cqu.Model.User;
 
 public interface UserMapper {
 

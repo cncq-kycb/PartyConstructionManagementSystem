@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
-import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.vActivity;
 

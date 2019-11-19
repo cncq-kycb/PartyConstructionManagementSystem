@@ -1,158 +1,278 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>党员组织生活（学生端）</title>
-<meta name="description" content="">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="all,follow">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/css/style.default.css"
-	id="theme-stylesheet">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/css/custom.css">
-<link rel="shortcut icon"
-	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="images/favicon.png">
+	<title>CQU党建</title>
+
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/materialize.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/loader.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/fontawesome.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/style.css">
+    <link href="<%=request.getContextPath()%>/exam/main.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath()%>/exam/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath()%>/exam/test.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .hasBeenAnswer {
+            background: #5d9cec;
+            color: #fff;
+        }
+
+        .reading h2 {
+            width: 100%;
+            margin: 20px 0 70px;
+            text-align: center;
+            line-height: 2;
+            font-size: 20px;
+            color: #59595b;
+        }
+
+            .reading h2 a {
+                text-decoration: none;
+                color: #59595b;
+                font-size: 20px;
+            }
+
+                .reading h2 a:hover {
+                    color: #2183f1;
+                }
+    </style>
 </head>
 <body>
-	<script type="text/javascript">
-		var msg = "${message}";
-		if (msg == "1") {
-			alert('签到成功');
-		}
-		if (msg == "2") {
-			alert('签到失败');
-		}
-		if (msg == "3") {
-			alert('请假成功');
-		}
-		if (msg == "4") {
-			alert('请假失败');
-		}
-	</script>
-	<div class="page">
-		<header class="header"> <nav class="navbar">
-		<div class="container-fluid">
-			<div
-				class="navbar-holder d-flex align-items-center justify-content-between">
-				<div class="navbar-header">
-					<a href="/mis/stu/mainPage" class="navbar-brand d-none d-sm-inline-block">
-						<div class="brand-text d-none d-lg-inline-block">党员组织生活（学生端）</div>
-						<div class="brand-text d-none d-sm-inline-block d-lg-none">
-							<strong>党员组织生活（学生端）</strong>
-						</div>
-					</a> <a id="toggle-btn" href="#" class="menu-btn active"> <span></span><span></span><span></span>
-					</a>
-				</div>
-				<ul
-					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-					<li class="nav-item"><a href="/mis/logout"
-						class="nav-link logout"> <span class="d-none d-sm-inline">退出登录</span><i
-							class="fa fa-sign-out"></i>
-					</a></li>
-				</ul>
-			</div>
-		</div>
-		</nav> </header>
-		<div class="page-content d-flex align-items-stretch">
-			<nav class="side-navbar">
-			<div class="sidebar-header d-flex align-items-center">
-				<div class="title">
-					<p>欢迎您：</p>
-					<h1 class="h4">${student_name}</h1>
-				</div>
-			</div>
-			<ul class="list-unstyled">
-				<li><a href="#studyCenter" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-list"></i>学习中心
-				</a>
-					<ul id="studyCenter" class="collapse list-unstyled ">
-						<li><a href="/mis/stu/NCCPC_page">十九大讲话</a></li>
-						<li><a href="/mis/stu/material_page">历史学习资料</a></li>
-						<li><a href="/mis/stu/member_read_page">党员必读</a></li>
-						<li class="active"><a href="/mis/stu/test_page">每日竞答</a></li>
-					</ul></li>
-				<li><a href="#lifeCenter" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-interface-windows"></i>组织生活
-				</a>
-					<ul id="lifeCenter" class="collapse list-unstyled ">
-						<li><a href="/mis/stu/attendence_page">活动签到/请假</a></li>
-						<li><a href="/mis/stu/life_record_page">组织生活记录</a></li>
-					</ul></li>
-				<li><a href="#selfCenter" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>个人中心
-				</a>
-					<ul id="selfCenter" class="collapse list-unstyled ">
-						<li><a href="/mis/stu/info_page">个人信息</a></li>
-						<li><a href="/mis/stu/apply_page">申请党员</a></li>
-						<li><a href="/mis/stu/activity_record_page">活动记录</a></li>
-					</ul></li>
-			</ul>
-			</nav>
-			<div class="content-inner">
-				<section class="dashboard-counts no-padding-bottom">
-				<div class="container-fluid">
-					<div class="demo">
-						<div id='quiz-container'></div>
+<script type="text/javascript">
+var question_list = <%=session.getAttribute("question_list")%>";
+for (let i = 0; i <question_list.length; i++) {
+var j = i+1;
+var temp= '<li id="qu_0_'+i+']"><div class="test_content_nr_tt"><i>'
+         + j + '</i><span>(10分)</span><font>'
+         + question_list.get(i).getQustion_problem +
+         '（  ）</font></div><div class="test_content_nr_main"><ul><li class="option"><input type="radio" class="radioOrCheck" name="answer'
+         + j + '"id="0_answer_' 
+         + j + '_option_1" /><label for="0_answer_'
+         + j + '_option_1"><p class="ue" style="display: inline;">'
+         + question_list.get(i).getOptionA + '</p></label></li><li class="option"><input type="radio" class="radioOrCheck" name="answer'
+         + j + '"id="0_answer_'
+         + j + '_option_2" /><label for="0_answer_'
+         + j + '_option_2"><p class="ue" style="display: inline;">'
+         + question_list.get(i).getOptionB +'</p></label></li><li class="option"><input type="radio" class="radioOrCheck" name="answer'
+         + j + '"id="0_answer_'
+         + j + '_option_3" /><label for="0_answer_'
+         + j + '_option_3"><p class="ue" style="display: inline;"> '
+         + question_list.get(i).getOptionC + '</p></label></li><li class="option"><input type="radio" class="radioOrCheck" name="answer'
+         + j + '"id="0_answer_'
+         + j + '_option_4" /><label for="0_answer_'
+         + j + '_option_4"><p class="ue" style="display: inline;"> '
+         + question_list.get(i).getOptionD + '</p></label></li></ul></div></li>';
+ 
+$(test_content).append(temp);
+ 
+}
+</script>
+
+	<!-- preloader -->
+	<div class="loader-wrapper">
+		<div class="loader-cube"></div>
+	</div>
+	<!-- end preloader -->
+
+	<!-- navbar -->
+	<div class="navbar">
+		<div class="container">
+			<div class="row">
+				<div class="col s6">
+					<div class="content-left">
+						<a href="index.html">
+							<h1>
+								<span class="color-indigo1">C</span><span class="color-indigo2">Q</span><span class="color-indigo3">U</span><span class="color-indigo4">党</span><span class="color-indigo5">建</span>
+							</h1>
+						</a>
 					</div>
 				</div>
-				</section>
+				<div class="col s6">
+					<div class="content-right">
+						<a href="#slide-out" data-activates="slide-out" class="sidebar"><i class="fas fa-bars"></i></a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript"
-		src="<%=request.getContextPath()%>/lib/quiz/jquery.min.js"></script>
-	<script type="text/javascript"
-		src="<%=request.getContextPath()%>/lib/quiz/quiz.js"></script>
-	<script type="text/javascript">
-		var init = {
-			'questions' : [ {
-				'question' : 'jQuery是什么？',
-				'answers' : [ 'JavaScript库', 'CSS库', 'PHP框架', '以上都不是' ],
-				'correctAnswer' : 1
-			}, {
-				'question' : '找出不同类的一项?',
-				'answers' : [ '写字台', '沙发', '电视', '桌布' ],
-				'correctAnswer' : 3
-			}, {
-				'question' : '国土面积最大的国家是：',
-				'answers' : [ '美国', '中国', '俄罗斯', '加拿大' ],
-				'correctAnswer' : 3
-			}, {
-				'question' : '月亮距离地球多远？',
-				'answers' : [ '18万公里', '38万公里', '100万公里', '180万公里' ],
-				'correctAnswer' : 2
-			} ]
-		};
+	<!-- end navbar -->
 
-		$(function() {
-			$('#quiz-container').jquizzy({
-				questions : init.questions
-			});
-		});
-	</script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/popper.js/umd/popper.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/chart.js/Chart.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
-	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
+	<!-- sidebar left -->
+	<div class="sidebar-panel">
+		<ul id="slide-out" class="collapsible side-nav">
+			<li class="list-top">
+				<div class="user-view">
+					<h4>${student_name}</h4>
+					<span>${branch_name}</span>
+				</div>
+			</li>
+			<li><a href="/mis/main_page_2"><i class="fas fa-home"></i>主页</a></li>
+			<li><a href="/mis/stu/test_page"><i class="fas fa-graduation-cap"></i>每日竞答</a></li>
+			<li>
+				<div class="collapsible-header">
+					<i class="fas fa-clone"></i>学习中心<span><i class="fas fa-angle-right right"></i></span>
+				</div>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="/mis/stu/material_page">十九大讲话</a></li>
+						<li><a href="/mis/stu/member_read_page">历史学习资料</a></li>
+						<li><a href="/mis/stu/test_page">党员必读</a></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div class="collapsible-header">
+					<i class="fas fa-calendar-alt"></i>组织生活<span><i class="fas fa-angle-right right"></i></span>
+				</div>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="/mis/stu/attendence_page">活动签到/请假</a></li>
+						<li><a href="/mis/stu/life_record_page">组织生活记录</a></li>
+					</ul>
+				</div>
+			</li>
+						<li>
+				<div class="collapsible-header">
+					<i class="fas fa-user"></i>个人中心<span><i class="fas fa-angle-right right"></i></span>
+				</div>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="/mis/stu/info_page">个人信息</a></li>
+						<li><a href="/mis/stu/life_record_page">活动记录</a></li>
+				    	<li><a href="/mis/stu/activity_record_page">申请入党</a></li>
+					</ul>
+				</div>
+			</li>
+			<li><a href="/mis/login"><i class="fas fa-sign-in-alt"></i>登    录</a></li>
+			<li><a href="/mis/register"><i class="fas fa-user-plus"></i>注    册</a></li>
+			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
+		</ul>
+	</div>
+	<!-- end sidebar left -->
+
+	<!-- slider -->
+	<div class="container">
+		<div class="slide">
+				<div class="content">
+					<div class="mask-red"></div>
+					<div class="slider-caption">
+						<h2>${test_name}如：十九大知识竞答</h2>
+						<p>${test_start_time}如：2019-11-11</p>
+					</div>
+				</div>
+		</div>
+	</div>
+	<!-- end slider -->
+	
+	<!-- features -->
+	<div class="features segments">
+		<div class="container">
+			<div class="row">
+			
+			<div>
+            <div >
+                <div class="test">
+                    <form action="postAnswer" method="post">
+                        <div class="test_content">
+                            <div class="test_content_title">
+                                <center>             
+                                    <span>共</span>
+                                    <i class="content_lit">${test_length}</i>
+                                    <span>题，</span>
+                                    <span>合计</span>
+                                    <i class="content_fs">${test_total_score}</i>
+                                    <span>分</span>
+                                </center>
+                            </div>
+                        </div>
+                        
+                         <div class="test_content_nr">
+                            <ul>
+                            
+               <script id="test_content"></script>
+            
+                     <center>
+                     <h1>&ensp;&ensp;</h1>
+                     <botton type="submit" class="button">交  卷</botton>
+                     <h1>&ensp;&ensp;</h1>
+                     </center>
+                     
+                        </form>
+                        </div>
+		
+				
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	<!-- end features -->
+
+
+	<!-- footer -->
+	<footer>
+		<div class="container">
+			<div class="wrap-logo">
+				<h3>CQU党建</h3>
+			</div>
+			<div class="wrap-desc">
+				<p>研究学术 造就人才 佑启乡邦 振导社会</p>
+			</div>
+	
+			<div class="footer-text">
+				<p>Copyright ©重庆大学 All Right Reserved</p>
+			</div>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+	<script src="<%=request.getContextPath()%>/Edugo/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/materialize.min.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/main.js"></script>
+	
+	    <script src="http://cdn.bootstrapmb.com/jquery/jquery-1.11.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/exam/jquery.easy-pie-chart.js"></script>
+    <!--时间js-->
+    <script src="<%=request.getContextPath()%>/exam/time/jquery.countdown.js"></script>
+    <script>
+        window.jQuery(function ($) {
+            "use strict";
+
+            $('time').countDown({
+                with_separators: false
+            });
+            $('.alt-1').countDown({
+                css_class: 'countdown-alt-1'
+            });
+            $('.alt-2').countDown({
+                css_class: 'countdown-alt-2'
+            });
+
+        });
+
+
+        $(function () {
+            $('li.option label').click(function () {
+                debugger;
+                var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+                var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+                // 设置已答题
+                if (!cardLi.hasClass('hasBeenAnswer')) {
+                    cardLi.addClass('hasBeenAnswer');
+                }
+
+            });
+        });
+    </script>
+
 </body>
 </html>

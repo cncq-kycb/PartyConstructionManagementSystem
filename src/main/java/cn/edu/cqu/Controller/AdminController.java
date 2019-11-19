@@ -19,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
+import cn.edu.cqu.Model.Question;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
@@ -346,7 +347,10 @@ public class AdminController {
 		session.setAttribute("student_name_input", "");
 		session.setAttribute("branch_name_input", "");
 		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
 		session.setAttribute("ssm", ssm);
+		session.setAttribute("pageInfo", pageInfo);
 		return "admin/manageMemberPage";
 	}
 
@@ -692,8 +696,108 @@ public class AdminController {
 
 	// 知识竞答编辑
 	@RequestMapping(value = "/editCompetitionPage")
-	public String editCompetitionPage(HttpSession session) {
+	public String editCompetitionPage(@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
 		session.setAttribute("message", "");
+		ArrayList<Question> questions = adminService.select_all_question();
+		for (Question q : questions) {
+			String ans = q.getQuestion_answer();
+			q.setQuestion_answer(Utils.option_transform(ans));
+		}
+		PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
+		session.setAttribute("pageInfo", pageInfo);
+		return "admin/editCompetitionPage";
+	}
+
+	// 添加知识竞答题目
+	@RequestMapping(value = "/insertQuestion")
+	public String insertQuestion(String qustion_problem_new, String option_A_new, String option_B_new,
+			String option_C_new, String option_D_new, String qustion_answer_new, HttpSession session) {
+		qustion_answer_new = Utils.option_transform(qustion_answer_new);
+		if (adminService.insert_question(qustion_problem_new, option_A_new, option_B_new, option_C_new, option_D_new,
+				qustion_answer_new)) {
+			session.setAttribute("message", "1");
+			ArrayList<Question> questions = adminService.select_all_question();
+			for (Question q : questions) {
+				String ans = q.getQuestion_answer();
+				q.setQuestion_answer(Utils.option_transform(ans));
+			}
+			PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
+			session.setAttribute("pageInfo", pageInfo);
+		} else {
+			session.setAttribute("message", "2");
+		}
+		return "admin/editCompetitionPage";
+	}
+
+	// 修改知识竞答题目
+	@RequestMapping(value = "/updateQuestion")
+	public String updateQuestion(String question_id_check, String question_problem_check,
+			String question_option_A_check, String question_option_B_check, String question_option_C_check,
+			String question_option_D_check, String question_answer_check, HttpSession session) {
+		question_answer_check = Utils.option_transform(question_answer_check);
+		if (adminService.update_question(question_id_check, question_problem_check, question_option_A_check,
+				question_option_B_check, question_option_C_check, question_option_D_check, question_answer_check)) {
+			session.setAttribute("message", "5");
+			ArrayList<Question> questions = adminService.select_all_question();
+			for (Question q : questions) {
+				String ans = q.getQuestion_answer();
+				q.setQuestion_answer(Utils.option_transform(ans));
+			}
+			PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
+			session.setAttribute("pageInfo", pageInfo);
+		} else {
+			session.setAttribute("message", "6");
+		}
+		return "admin/editCompetitionPage";
+	}
+
+	// 删除知识竞答题目
+	@RequestMapping(value = "/deleteQuestion")
+	public String deleteQuestion(String question_id_delete, HttpSession session) {
+		List<String> question_ids = Utils.splitByComma(question_id_delete);
+		for (String question_id : question_ids) {
+			if (adminService.delete_question(question_id)) {
+				session.setAttribute("message", "3");
+			} else {
+				session.setAttribute("message", "4");
+				return "admin/editCompetitionPage";
+			}
+		}
+		ArrayList<Question> questions = adminService.select_all_question();
+		for (Question q : questions) {
+			String ans = q.getQuestion_answer();
+			q.setQuestion_answer(Utils.option_transform(ans));
+		}
+		PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
+		session.setAttribute("pageInfo", pageInfo);
+		return "admin/editCompetitionPage";
+	}
+
+	// 手动选择组卷
+	@RequestMapping(value = "/createTest")
+	public String createTest(String question_id_select, String test_name, String test_date_start, String test_date_end,
+			HttpSession session) {
+		String test_id = adminService.insert_test(test_name, test_date_start, test_date_end);
+		List<String> question_ids = Utils.splitByComma(question_id_select);
+		for (String question_id : question_ids) {
+			if (question_id.equals("")) {
+				continue;
+			}
+			if (adminService.produceExam(test_id, question_id)) {
+				continue;
+			} else {
+				session.setAttribute("message", "8");
+				return "admin/editCompetitionPage";
+			}
+		}
+		session.setAttribute("message", "7");
+		ArrayList<Question> questions = adminService.select_all_question();
+		for (Question q : questions) {
+			String ans = q.getQuestion_answer();
+			q.setQuestion_answer(Utils.option_transform(ans));
+		}
+		PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
+		session.setAttribute("pageInfo", pageInfo);
 		return "admin/editCompetitionPage";
 	}
 

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
-import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
+import cn.edu.cqu.Model.Question;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
@@ -70,7 +70,7 @@ public interface AdminService {
 	boolean update_activity_status(String activity_id, String activity_status);
 
 	boolean insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
-			String activity_item,String activity_duration);
+			String activity_item, String activity_duration);
 
 	vActivity select_activity_by_id(String activity_id);
 
@@ -88,5 +88,18 @@ public interface AdminService {
 
 	boolean delete_study(String study_id);
 
+	boolean insert_question(String question_problem, String question_option_a, String question_option_b,
+			String question_option_c, String question_option_d, String question_answer);
+
+	ArrayList<Question> select_all_question();
+
+	boolean update_question(String question_id, String question_problem, String question_option_a,
+			String question_option_b, String question_option_c, String question_option_d, String question_answer);
+
+	boolean delete_question(String question_id);
+
+	String insert_test(String test_name, String test_date_start, String test_date_end);
+
+	boolean produceExam(String test_id, String question_id);
 
 }
