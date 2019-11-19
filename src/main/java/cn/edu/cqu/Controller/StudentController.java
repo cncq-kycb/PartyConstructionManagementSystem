@@ -15,9 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.cqu.Model.Student;
+import cn.edu.cqu.Model.Study;
+import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.StudentService;
 
 @Controller
@@ -30,6 +33,62 @@ public class StudentController {
 	@RequestMapping(value = "/mainPage")
 	public String mainPage() {
 		return "main_page_2";
+	}
+
+	// 十九大讲话
+	@RequestMapping(value = "/NCCPC_page")
+	public String NCCPC_page(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+			HttpSession session) {
+		studentService.jump_study_page(study_title_input, session, "十九大讲话");
+		return "stu/NCCPC_page";
+	}
+
+	// 历史学习资料
+	@RequestMapping(value = "/material_page")
+	public String material_page(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+			HttpSession session) {
+		studentService.jump_study_page(study_title_input, session, "历史学习资料");
+		return "stu/material_page";
+	}
+
+	// 党员必读
+	@RequestMapping(value = "/member_read_page")
+	public String member_read_page(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+			HttpSession session) {
+		studentService.jump_study_page(study_title_input, session, "党员必读");
+		return "stu/member_read_page";
+	}
+
+	// 十九大学习内容查询结果
+	@RequestMapping(value = "/NCCPC_pageFinder")
+	public String NCCPC_pageFinder(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+			HttpSession session) {
+		studentService.jump_study_page(study_title_input, session, "十九大讲话");
+		return "stu/NCCPC_page";
+	}
+
+	// 历史学习资料查询结果
+	@RequestMapping(value = "/material_pageFinder")
+	public String material_pageFinder(String study_title_input,
+			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+		studentService.jump_study_page(study_title_input, session, "历史学习资料");
+		return "stu/material_page";
+	}
+
+	// 党员必读查询结果
+	@RequestMapping(value = "/member_read_pageFinder")
+	public String member_read_pageFinder(String study_title_input,
+			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+		studentService.jump_study_page(study_title_input, session, "党员必读");
+		return "stu/member_read_page";
+	}
+
+	// 跳转学习内容界面
+	@RequestMapping(value = "/study")
+	public String studyContentPage(String study_id, HttpSession session) {
+		vStudy study = studentService.select_study_by_study_id(study_id);
+		session.setAttribute("study", study);
+		return "stu/study_page";
 	}
 
 	// 每日竞答
@@ -60,12 +119,12 @@ public class StudentController {
 		try {
 			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 			String newFileName = student_id + "_" + activity_id_submit + ".jpg";
-			String filePath = request.getSession().getServletContext().getRealPath("");
+			String filePath = request.getSession().getServletContext().getRealPath("") + "\\upload_attendance_pic\\";
 			File dir = new File(filePath);
 			if (!dir.exists()) {
 				dir.mkdir();
 			}
-			filePath = filePath + "\\upload_attendance_pic\\" + newFileName;
+			filePath = filePath + newFileName;
 			file.transferTo(new File(filePath));
 			if (studentService.add_pic_for_attendance(student_id, activity_id_submit, filePath)) {
 				session.setAttribute("message", "1");
@@ -145,7 +204,7 @@ public class StudentController {
 	@RequestMapping(value = "/apply_page")
 	public String apply_page(HttpSession session) {
 		session.setAttribute("message", "");
-		if (!(((Student) session.getAttribute("student")).getStudent_status().equals("4"))) {
+		if (!(((Student) session.getAttribute("student")).getStudent_status().equals("5"))) {
 			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 			vApply vapply = studentService.select_vapply_by_student_id(student_id);
 			if (vapply != null) {

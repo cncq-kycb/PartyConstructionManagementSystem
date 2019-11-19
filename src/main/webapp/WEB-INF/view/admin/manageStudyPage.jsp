@@ -157,15 +157,16 @@ table tr th {
 													<div class="input-daterange input-group" id="datepicker">
 														<input type="text" placeholder="模糊查询，推文题目的一部分即可"
 															value="${study_title_input}" class="form-control"
-															style="border-radius: 3px; height: 30px" id="study_title_input"
-															name="study_title_input"></input>
+															style="border-radius: 3px; height: 30px"
+															id="study_title_input" name="study_title_input"></input>
 													</div>
 												</div>
 											</td>
 											<th width="12%">所在栏目：</th>
 											<td width="21%"><select name="study_status_input"
 												id="study_status_input">
-													<c:forEach var="study_status_map" items="${study_status_map}">
+													<c:forEach var="study_status_map"
+														items="${study_status_map}">
 														<option>${study_status_map.means }</option>
 													</c:forEach>
 											</select></td>
@@ -186,17 +187,17 @@ table tr th {
 							data-side-pagination="client">
 							<thead>
 								<tr>
-								    <th>编号</th>
+									<th>编号</th>
 									<th>推文题目</th>
 									<th>上线日期</th>
-									<th>所在栏目</th>		
+									<th>所在栏目</th>
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${pageInfo.list}" var="study_list">
 									<tr style="height: auto;">
-						                <td>${study_list.study_id }</td>
+										<td>${study_list.study_id }</td>
 										<td>${study_list.study_title }</td>
 										<td>${study_list.study_date}</td>
 										<td>${study_list.means}</td>
@@ -265,9 +266,9 @@ table tr th {
 				<form name="checkStudyForm" id="checkStudyForm"
 					action="/mis/admin/checkStudyPage" target="_blank" method="post"
 					class="form-validate">
-										<div class="modal-body">
-						推文编号：<input id="study_id_check" style="border: none;"
-							type="text" name="study_id_check" readonly>
+					<div class="modal-body">
+						推文编号：<input id="study_id_check" style="border: none;" type="text"
+							name="study_id_check" readonly>
 					</div>
 					<div class="modal-body">
 						推文题目：<input id="study_title_check" style="border: none;"
@@ -299,11 +300,12 @@ table tr th {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form name="updateStudyForm" id="updateStudyForm" target="_blank"
-					action="/mis/admin/updateStudyPage" method="post" class="form-validate">
-															<div class="modal-body">
-						推文编号：<input id="study_id_update" style="border: none;"
-							type="text" name="study_id_update" readonly>
+				<form name="updateStudyForm" id="updateStudyForm"
+					action="/mis/admin/updateStudyPage" method="post"
+					class="form-validate">
+					<div class="modal-body">
+						推文编号：<input id="study_id_update" style="border: none;" type="text"
+							name="study_id_update" readonly>
 					</div>
 					<div class="modal-body">
 						推文题目：<input id="study_title_update" style="border: none;"
@@ -337,26 +339,26 @@ table tr th {
 				</div>
 				<form name="deleteStudyForm" id="deleteStudyForm"
 					action="/mis/admin/deleteStudy" method="post" class="form-validate">
-															<div class="modal-body">
-						推文编号：<input id="study_id_del" style="border: none;"
-							type="text" name="study_id_del" readonly>
+					<div class="modal-body">
+						推文编号：<input id="study_id_del" style="border: none;" type="text"
+							name="study_id_del" readonly>
 					</div>
 					<div class="modal-body">
-						推文题目：<input id="study_title_del" style="border: none;"
-							type="text" name="study_title_del" readonly>
+						推文题目：<input id="study_title_del" style="border: none;" type="text"
+							name="study_title_del" readonly>
 					</div>
 					<div class="modal-body">
-						上线日期： <input id="study_date_del" style="border: none;"
-							type="text" name="study_date_del" readonly>
+						上线日期： <input id="study_date_del" style="border: none;" type="text"
+							name="study_date_del" readonly>
 					</div>
 					<div class="modal-body">
 						所在栏目： <input id="study_status_del" style="border: none;"
 							type="text" name="study_status_del" readonly>
 					</div>
 					<div class="modal-footer">
-					
+
 						<button type="submit" class="btn btn-danger">删 除</button>
-						
+
 					</div>
 
 				</form>

@@ -2,9 +2,14 @@ package cn.edu.cqu.Service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
+import cn.edu.cqu.Model.Study;
+import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudy;
 
 public interface StudentService {
 
@@ -39,5 +44,13 @@ public interface StudentService {
 	boolean add_pic_for_attendance(String student_id, String activity_id, String attendance_pic);
 
 	boolean absent_for_attendance(String student_id, String activity_id);
+
+	ArrayList<StudyStatusMap> select_study_status_map();
+
+	ArrayList<vStudy> select_study_list(String study_title, String study_status);
+
+	void jump_study_page(String study_title, HttpSession session, String study_status_name);
+
+	vStudy select_study_by_study_id(String study_id);
 
 }

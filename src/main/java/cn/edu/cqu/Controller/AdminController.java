@@ -550,62 +550,64 @@ public class AdminController {
 		session.setAttribute("message", "");
 		return "admin/insertStudyPage";
 	}
-	
+
 	// 发布学习内容
-		@RequestMapping(value = "/insertStudy")
-		public String insertStudy(HttpSession session, HttpServletRequest request, String study_title,String study_status)
-				throws ServletException, IOException {
-			// 设置请求和响应的编码统一为UTF-8
-			request.setCharacterEncoding("UTF-8");
-			// 拿到编辑器的内容
-			String study_content = request.getParameter("editorValue");
-			
-			ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
-			for (StudyStatusMap item : study_status_map) {
-				if (item.getMeans().equals(study_status)) {
-					study_status = item.getStudy_status();
-					break;
-				}
+	@RequestMapping(value = "/insertStudy")
+	public String insertStudy(HttpSession session, HttpServletRequest request, String study_title, String study_status)
+			throws ServletException, IOException {
+		// 设置请求和响应的编码统一为UTF-8
+		request.setCharacterEncoding("UTF-8");
+		// 拿到编辑器的内容
+		String study_content = request.getParameter("editorValue");
+		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
+		for (StudyStatusMap item : study_status_map) {
+			if (item.getMeans().equals(study_status)) {
+				study_status = item.getStudy_status();
+				break;
 			}
-			
-			if (adminService.insert_study(study_title, study_status, study_content)) {
-				session.setAttribute("message", "1");
-			} else {
-				session.setAttribute("message", "2");
-			}
-			return "admin/insertStudyPage";
 		}
+
+		if (adminService.insert_study(study_title, study_status, study_content)) {
+			session.setAttribute("message", "1");
+		} else {
+			session.setAttribute("message", "2");
+		}
+		return "admin/insertStudyPage";
+	}
 
 	// 管理学习内容页面
 	@RequestMapping(value = "/manageStudyPage")
 	public String manageStudyPage(HttpSession session) {
 		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
+		ArrayList<vStudy> study_list = new ArrayList<vStudy>();
+		PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 10);
+		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("study_status_map", study_status_map);
 		session.setAttribute("study_title_input", "");
 		session.setAttribute("message", "");
 		session.setAttribute("study_status_input", "");
 		return "admin/manageStudyPage";
 	}
-	
+
 	// 删除学习内容
 	@RequestMapping(value = "/deleteStudy")
-	public String deleteStudy(HttpSession session,String study_id_del) {
+	public String deleteStudy(HttpSession session, String study_id_del) {
 		System.out.println(study_id_del);
-		if(adminService.delete_study(study_id_del)) {
-			String study_title_input=(String) session.getAttribute("study_title_input");
-			String study_status_input=(String) session.getAttribute("study_status_input");
+		if (adminService.delete_study(study_id_del)) {
+			String study_title_input = (String) session.getAttribute("study_title_input");
+			String study_status_input = (String) session.getAttribute("study_status_input");
 
 			ArrayList<vStudy> study_list = adminService.select_study_list(study_title_input, study_status_input);
 			PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 10);
 			session.setAttribute("pageInfo", pageInfo);
-		session.setAttribute("message", "1");
-		}else {
+			session.setAttribute("message", "1");
+		} else {
 			session.setAttribute("message", "2");
 
-		}		
+		}
 		return "admin/manageStudyPage";
 	}
-	
+
 	// 管理学习内容查询结果
 	@RequestMapping(value = "/manageStudyPageFinder")
 	public String manageStudyPageFinder(String study_title_input, String study_status_input,
@@ -625,69 +627,68 @@ public class AdminController {
 		session.setAttribute("message", "");
 		return "admin/manageStudyPage";
 	}
-	
+
 	// 推文详情页面
-		@RequestMapping(value = "/checkStudyPage")
-		public String checkStudyPage(HttpSession session, String study_id_check) {
-			vStudy study = adminService.select_study_by_id(study_id_check);
-			session.setAttribute("study_title", study.getStudy_title());
-			session.setAttribute("study_date", study.getStudy_date());
-			session.setAttribute("study_content", study.getStudy_content());
-			session.setAttribute("study_status", study.getMeans());
-			session.setAttribute("message", "");
-			return "admin/checkStudyPage";
+	@RequestMapping(value = "/checkStudyPage")
+	public String checkStudyPage(HttpSession session, String study_id_check) {
+		vStudy study = adminService.select_study_by_id(study_id_check);
+		session.setAttribute("study_title", study.getStudy_title());
+		session.setAttribute("study_date", study.getStudy_date());
+		session.setAttribute("study_content", study.getStudy_content());
+		session.setAttribute("study_status", study.getMeans());
+		session.setAttribute("message", "");
+		return "admin/checkStudyPage";
+	}
+
+	// 编辑推文页面
+	@RequestMapping(value = "/updateStudyPage")
+	public String update(HttpSession session, String study_id_update) {
+		vStudy study = adminService.select_study_by_id(study_id_update);
+		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
+		session.setAttribute("study_status_map", study_status_map);
+		session.setAttribute("study_title", study.getStudy_title());
+		session.setAttribute("study_date", study.getStudy_date());
+		session.setAttribute("study_content", study.getStudy_content());
+		session.setAttribute("means", study.getMeans());
+		session.setAttribute("study_status", study.getStudy_status());
+		session.setAttribute("study_id_update", study_id_update);
+		session.setAttribute("message", "");
+		return "admin/updateStudyPage";
+	}
+
+	// 重新发布学习内容
+	@RequestMapping(value = "/updateStudy")
+	public String updateStudy(HttpSession session, HttpServletRequest request, String study_title, String study_status)
+			throws ServletException, IOException {
+		// 设置请求和响应的编码统一为UTF-8
+		request.setCharacterEncoding("UTF-8");
+		// 拿到编辑器的内容
+		String study_content = request.getParameter("editorValue");
+		String study_id = (String) session.getAttribute("study_id_update");
+		String study_status_num = null;
+		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
+		for (StudyStatusMap item : study_status_map) {
+			if (item.getMeans().equals(study_status)) {
+				study_status_num = item.getStudy_status();
+				break;
+			}
 		}
 
-		
-		// 编辑推文页面
-		@RequestMapping(value = "/updateStudyPage")
-		public String update(HttpSession session, String study_id_update) {
-			vStudy study = adminService.select_study_by_id(study_id_update);
-			ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
+		if (adminService.update_study(study_id, study_title, study_status_num, study_content)) {
+			session.setAttribute("message", "1");
 			session.setAttribute("study_status_map", study_status_map);
-			session.setAttribute("study_title", study.getStudy_title());
-			session.setAttribute("study_date", study.getStudy_date());
-			session.setAttribute("study_content", study.getStudy_content());
-			session.setAttribute("means", study.getMeans());
-			session.setAttribute("study_status", study.getStudy_status());
-			session.setAttribute("study_id_update", study_id_update);
-			session.setAttribute("message", "");
-			return "admin/updateStudyPage";
+			session.setAttribute("study_title", study_title);
+			session.setAttribute("study_content", study_content);
+			session.setAttribute("study_status", study_status_num);
+			session.setAttribute("means", study_status);
+			session.setAttribute("study_id_update", study_id);
+			session.setAttribute("message", "1");
+		} else {
+			session.setAttribute("message", "2");
 		}
-		
-		// 重新发布学习内容
-		@RequestMapping(value = "/updateStudy")
-		public String updateStudy(HttpSession session, HttpServletRequest request, String study_title,String study_status)
-				throws ServletException, IOException {
-			// 设置请求和响应的编码统一为UTF-8
-			request.setCharacterEncoding("UTF-8");
-			// 拿到编辑器的内容
-			String study_content = request.getParameter("editorValue");
-			String study_id = (String)session.getAttribute("study_id_update");
-			String study_status_num = null;
-			ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
-			for (StudyStatusMap item : study_status_map) {
-				if (item.getMeans().equals(study_status)) {
-					study_status_num = item.getStudy_status();
-					break;
-				}
-			}
-			
-			if (adminService.update_study(study_id, study_title, study_status_num, study_content)) {
-				session.setAttribute("message", "1");
-				session.setAttribute("study_status_map", study_status_map);
-				session.setAttribute("study_title", study_title);
-				session.setAttribute("study_content", study_content);
-				session.setAttribute("study_status", study_status_num);
-				session.setAttribute("means", study_status);
-				session.setAttribute("study_id_update", study_id);
-				session.setAttribute("message", "1");
-			} else {
-				session.setAttribute("message", "2");
-			}
-			return "admin/updateStudyPage";
-		}
-		
+		return "admin/updateStudyPage";
+	}
+
 	// 知识竞答编辑
 	@RequestMapping(value = "/editCompetitionPage")
 	public String editCompetitionPage(HttpSession session) {

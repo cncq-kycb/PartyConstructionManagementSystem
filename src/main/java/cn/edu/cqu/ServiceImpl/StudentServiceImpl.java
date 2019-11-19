@@ -2,16 +2,25 @@ package cn.edu.cqu.ServiceImpl;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageInfo;
 
 import cn.edu.cqu.Dao.ApplyMapper;
 import cn.edu.cqu.Dao.AttendanceMapper;
 import cn.edu.cqu.Dao.BranchMapper;
+import cn.edu.cqu.Dao.MapMapper;
 import cn.edu.cqu.Dao.StudentMapper;
+import cn.edu.cqu.Dao.StudyMapper;
+import cn.edu.cqu.Model.Study;
+import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.StudentService;
 
 @Service
@@ -25,6 +34,10 @@ public class StudentServiceImpl implements StudentService {
 	AttendanceMapper attendanceMapper;
 	@Autowired
 	BranchMapper branchMapper;
+	@Autowired
+	MapMapper mapMapper;
+	@Autowired
+	StudyMapper studyMapper;
 
 	@Override
 	public vStudent select_vstudent_by_student_id(String student_id) {
@@ -198,6 +211,41 @@ public class StudentServiceImpl implements StudentService {
 			System.err.println("absent_for_attendance err");
 			return false;
 		}
+	}
+
+	@Override
+	public ArrayList<StudyStatusMap> select_study_status_map() {
+		// TODO Auto-generated method stub
+		return mapMapper.select_study_status_map();
+	}
+
+	@Override
+	public ArrayList<vStudy> select_study_list(String study_title, String study_status) {
+		// TODO Auto-generated method stub
+		return studyMapper.select_study_list(study_title, study_status);
+	}
+
+	@Override
+	public void jump_study_page(String study_title, HttpSession session, String study_status_name) {
+		// TODO Auto-generated method stub
+		ArrayList<StudyStatusMap> study_status_map = select_study_status_map();
+		String study_status_input = null;
+		for (StudyStatusMap item : study_status_map) {
+			if (item.getMeans().equals(study_status_name)) {
+				study_status_input = item.getStudy_status();
+				break;
+			}
+		}
+		ArrayList<vStudy> study_list = select_study_list(study_title, study_status_input);
+		PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 10);
+		session.setAttribute("pageInfo", pageInfo);
+		session.setAttribute("study_title_input", study_title);
+	}
+
+	@Override
+	public vStudy select_study_by_study_id(String study_id) {
+		// TODO Auto-generated method stub
+		return studyMapper.select_study_by_id(study_id);
 	}
 
 }
