@@ -47,33 +47,7 @@
 </head>
 <body>
 <script type="text/javascript">
-var question_list = <%=session.getAttribute("question_list")%>";
-for (let i = 0; i <question_list.length; i++) {
-var j = i+1;
-var temp= '<li id="qu_0_'+i+']"><div class="test_content_nr_tt"><i>'
-         + j + '</i><span>(10分)</span><font>'
-         + question_list.get(i).getQustion_problem +
-         '（  ）</font></div><div class="test_content_nr_main"><ul><li class="option"><input type="radio" class="radioOrCheck" name="answer'
-         + j + '"id="0_answer_' 
-         + j + '_option_1" /><label for="0_answer_'
-         + j + '_option_1"><p class="ue" style="display: inline;">'
-         + question_list.get(i).getOptionA + '</p></label></li><li class="option"><input type="radio" class="radioOrCheck" name="answer'
-         + j + '"id="0_answer_'
-         + j + '_option_2" /><label for="0_answer_'
-         + j + '_option_2"><p class="ue" style="display: inline;">'
-         + question_list.get(i).getOptionB +'</p></label></li><li class="option"><input type="radio" class="radioOrCheck" name="answer'
-         + j + '"id="0_answer_'
-         + j + '_option_3" /><label for="0_answer_'
-         + j + '_option_3"><p class="ue" style="display: inline;"> '
-         + question_list.get(i).getOptionC + '</p></label></li><li class="option"><input type="radio" class="radioOrCheck" name="answer'
-         + j + '"id="0_answer_'
-         + j + '_option_4" /><label for="0_answer_'
-         + j + '_option_4"><p class="ue" style="display: inline;"> '
-         + question_list.get(i).getOptionD + '</p></label></li></ul></div></li>';
- 
-$(test_content).append(temp);
- 
-}
+alert()
 </script>
 
 	<!-- preloader -->
@@ -197,7 +171,7 @@ $(test_content).append(temp);
                          <div class="test_content_nr">
                             <ul>
                             
-               <script id="test_content"></script>
+               <div id="test_content"></div>
             
                      <center>
                      <h1>&ensp;&ensp;</h1>

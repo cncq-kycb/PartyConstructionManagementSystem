@@ -8,6 +8,7 @@ import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
+import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
 
@@ -52,5 +53,7 @@ public interface StudentService {
 	void jump_study_page(String study_title, HttpSession session, String study_status_name);
 
 	vStudy select_study_by_study_id(String study_id);
+
+	ArrayList<vQuestion> select_exam();
 
 }

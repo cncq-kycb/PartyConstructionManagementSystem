@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import cn.edu.cqu.Model.Question;
+import cn.edu.cqu.Model.vQuestion;
 
 public interface TestMapper {
 
@@ -28,5 +29,9 @@ public interface TestMapper {
 	void insert_examination(@Param("test_id") String test_id, @Param("question_id") String question_id);
 
 	int select_curr_test_id();
+
+	String select_test_id_now();
+
+	ArrayList<vQuestion> select_exam(String test_id);
 
 }

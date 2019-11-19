@@ -19,6 +19,7 @@ import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
+import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.StudentService;
@@ -94,7 +95,10 @@ public class StudentController {
 	// 每日竞答
 	@RequestMapping(value = "/test_page")
 	public String test_page(HttpSession session) {
-
+		ArrayList<vQuestion> question_list = studentService.select_exam();
+		for (vQuestion v : question_list)
+			System.out.println(v.toString());
+		session.setAttribute("question_list", question_list);
 		return "stu/test_page";
 	}
 

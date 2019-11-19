@@ -15,10 +15,12 @@ import cn.edu.cqu.Dao.BranchMapper;
 import cn.edu.cqu.Dao.MapMapper;
 import cn.edu.cqu.Dao.StudentMapper;
 import cn.edu.cqu.Dao.StudyMapper;
+import cn.edu.cqu.Dao.TestMapper;
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
+import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.StudentService;
@@ -38,6 +40,8 @@ public class StudentServiceImpl implements StudentService {
 	MapMapper mapMapper;
 	@Autowired
 	StudyMapper studyMapper;
+	@Autowired
+	TestMapper testMapper;
 
 	@Override
 	public vStudent select_vstudent_by_student_id(String student_id) {
@@ -246,6 +250,13 @@ public class StudentServiceImpl implements StudentService {
 	public vStudy select_study_by_study_id(String study_id) {
 		// TODO Auto-generated method stub
 		return studyMapper.select_study_by_id(study_id);
+	}
+
+	@Override
+	public ArrayList<vQuestion> select_exam() {
+		// TODO Auto-generated method stub
+		String test_id = testMapper.select_test_id_now();
+		return testMapper.select_exam(test_id);
 	}
 
 }

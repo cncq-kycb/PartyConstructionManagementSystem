@@ -51,4 +51,18 @@
 		(#{test_id},#{question_id})
 	</insert>
 
+	<select id="select_test_id_now" resultType="String">
+		select test_id
+		from
+		test
+		where now() > test_date_start and test_date_end > now()
+	</select>
+
+	<select id="select_exam" resultType="cn.edu.cqu.Model.vQuestion">
+		select
+		test_name,test_date_start,test_date_end,question_problem,question_option_a,question_option_b,question_option_c,question_option_d
+		from examination_view
+		where test_id = #{test_id}
+	</select>
+
 </mapper>
