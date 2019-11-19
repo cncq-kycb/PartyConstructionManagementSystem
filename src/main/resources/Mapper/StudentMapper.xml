@@ -34,7 +34,8 @@
 				and student_name like #{student_name}
 			</if>
 			<if test="branch_name != null and branch_name != ''">
-				and branch_name = #{branch_name}
+				<bind name="branch_name" value="'%' + branch_name + '%' " />
+				and branch_name like #{branch_name}
 			</if>
 			<if test="student_status != null and student_status != ''">and student_status = #{student_status}</if>
 			<if test="student_num != null and student_num != ''">and student_num = #{student_num}</if>

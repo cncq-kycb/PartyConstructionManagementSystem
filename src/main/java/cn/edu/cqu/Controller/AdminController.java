@@ -298,6 +298,7 @@ public class AdminController {
 		session.setAttribute("student_num_input", student_num_input);
 		session.setAttribute("student_name_input", student_name_input);
 		session.setAttribute("branch", branch);
+		session.setAttribute("message", "");
 		return "admin/addMemberPage";
 	}
 

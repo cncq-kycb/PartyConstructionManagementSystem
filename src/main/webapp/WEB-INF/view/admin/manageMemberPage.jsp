@@ -155,8 +155,8 @@ table tr th {
 											<td width="21%">
 												<div class="" id="data_5">
 													<div class="input-daterange input-group" id="datepicker">
-														<input type="text" placeholder="模糊查询，学号的一部分即可"
-															value="${student_num_input}" class="form-control"
+														<input type="text" value="${student_num_input}"
+															class="form-control"
 															style="border-radius: 3px; height: 30px"
 															id="student_num_input" name="student_num_input"></input>
 													</div>
