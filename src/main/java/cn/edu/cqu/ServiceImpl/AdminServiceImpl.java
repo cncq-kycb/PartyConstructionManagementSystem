@@ -255,5 +255,25 @@ public class AdminServiceImpl implements AdminService {
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
+			String activity_item,String activity_duration) {
+		// TODO Auto-generated method stub
+		try {
+			activityMapper.insert_activity(activity_name, branch_id, activity_date, activity_location,
+					activity_item,activity_duration);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	};
+	
+	//根据ID获取活动
+	@Override
+	public vActivity select_activity_by_id(String activity_id) {
+		return activityMapper.select_activity_by_id(activity_id);
+	};
 
 }

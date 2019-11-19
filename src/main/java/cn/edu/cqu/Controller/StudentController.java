@@ -60,8 +60,12 @@ public class StudentController {
 		try {
 			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 			String newFileName = student_id + "_" + activity_id_submit + ".jpg";
-			String filePath = request.getSession().getServletContext().getRealPath("/") + "upload_attendance_pic\\"
-					+ newFileName;
+			String filePath = request.getSession().getServletContext().getRealPath("");
+			File dir = new File(filePath);
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			filePath = filePath + "\\upload_attendance_pic\\" + newFileName;
 			file.transferTo(new File(filePath));
 			if (studentService.add_pic_for_attendance(student_id, activity_id_submit, filePath)) {
 				session.setAttribute("message", "1");

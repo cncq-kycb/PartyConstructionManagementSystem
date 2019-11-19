@@ -278,6 +278,10 @@ table tr th {
 				</div>
 				<form name="activityItemForm" id="activityItemForm" target="_blank"
 					action="activityItemPage" method="post" class="form-validate">
+						<div class="modal-body">
+						活动编号：<input id="activity_id_check" style="border: none;"
+							type="text" name="activity_id_check" readonly>
+					</div>
 					<div class="modal-body">
 						活动名称：<input id="activity_name_check" style="border: none;"
 							type="text" name="activity_name_check" readonly>
@@ -408,11 +412,12 @@ table tr th {
 		function activityItemModal(obj) {
 			$("#activityItemModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
+			var activity_id_check = $td.eq(0).text();
 			var activity_name_check = $td.eq(1).text();
 			var activity_date_check = $td.eq(3).text();
 			var activity_location_check = $td.eq(4).text();
 			var activity_status_check = $td.eq(5).text();
-
+			$("#activity_id_check").val(activity_id_check);
 			$("#activity_name_check").val(activity_name_check);
 			$("#activity_date_check").val(activity_date_check);
 			$("#activity_location_check").val(activity_location_check);

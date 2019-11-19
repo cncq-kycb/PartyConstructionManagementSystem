@@ -1,9 +1,12 @@
 package cn.edu.cqu.Controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -397,10 +400,66 @@ public class AdminController {
 		return "admin/manageBranchPage";
 	}
 
+	// 活动的创建与发布页面
 	@RequestMapping(value = "/addActivityPage")
 	public String addActivityPage(HttpSession session) {
+		ArrayList<Branch> branch = adminService.select_all_branch();
+		branch.remove(0);
+		session.setAttribute("branch", branch);
 		session.setAttribute("message", "");
 		return "admin/addActivityPage";
+	}
+
+	// 发布活动
+	@RequestMapping(value = "/insertActivity")
+	public String insertActivity(HttpSession session, HttpServletRequest request, String activity_duration,
+			String activity_name, String branch_name, String activity_date, String activity_location)
+			throws ServletException, IOException {
+		// 设置请求和响应的编码统一为UTF-8
+		request.setCharacterEncoding("UTF-8");
+		// 拿到编辑器的内容
+		String activity_item = request.getParameter("editorValue");
+		ArrayList<Branch> branch = (ArrayList<Branch>) session.getAttribute("branch");
+		String branch_id = null;
+		for (Branch item : branch) {
+			if (item.getBranch_name().equals(branch_name)) {
+				branch_id = item.getBranch_id();
+				break;
+			}
+		}
+		if (adminService.insert_activity(activity_name, branch_id, activity_date, activity_location, activity_item,
+				activity_duration)) {
+			session.setAttribute("message", "1");
+		} else {
+			session.setAttribute("message", "2");
+		}
+		return "admin/addActivityPage";
+	}
+
+	// 查看活动详情页面
+	@RequestMapping(value = "/activityItemPage")
+	public String activityItemPage(HttpSession session, String activity_id_check) {
+		vActivity activity = adminService.select_activity_by_id(activity_id_check);
+		String branch_name = null;
+
+		ArrayList<Branch> branch = adminService.select_all_branch();
+		for (Branch b : branch) {
+			if (b.getBranch_id().equals(activity.getBranch_id())) {
+				branch_name = b.getBranch_name();
+				break;
+			}
+		}
+
+		session.setAttribute("activity_item", activity.getActivity_item());
+		session.setAttribute("activity_name", activity.getActivity_name());
+		session.setAttribute("activity_date", activity.getActivity_date());
+		session.setAttribute("activity_location", activity.getActivity_location());
+		session.setAttribute("activity_status", activity.getMeans());
+		session.setAttribute("activity_duration", activity.getActivity_duration());
+		session.setAttribute("branch_name", branch_name);
+
+		session.setAttribute("message", "");
+		return "admin/activityItemPage";
 	}
 
 	// 组织生活签到管理页面
@@ -412,6 +471,10 @@ public class AdminController {
 		ArrayList<vActivity> activities = new ArrayList<vActivity>();
 		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
 		session.setAttribute("pageInfo", pageInfo);
+		session.setAttribute("activity_name_input", "");
+		session.setAttribute("activity_status_input", "");
+		session.setAttribute("activity_date_input", "");
+		session.setAttribute("activity_location_input", "");
 		return "admin/manageSignInPage";
 	}
 

@@ -8,8 +8,8 @@ public class Activity {
 	private String activity_date;
 	private String activity_item;
 	private String activity_duration;
-	private String actvity_status;
-	private String actvity_location;
+	private String activity_status;
+	private String activity_location;
 
 	public String getActivity_id() {
 		return activity_id;
@@ -59,19 +59,19 @@ public class Activity {
 		this.activity_duration = activity_duration;
 	}
 
-	public String getActvity_status() {
-		return actvity_status;
+	public String getActivity_status() {
+		return activity_status;
 	}
 
-	public void setActvity_status(String actvity_status) {
-		this.actvity_status = actvity_status;
+	public void setActivity_status(String activity_status) {
+		this.activity_status = activity_status;
 	}
 
-	public String getActvity_location() {
-		return actvity_location;
+	public String getActivity_location() {
+		return activity_location;
 	}
 
-	public void setActvity_location(String actvity_location) {
-		this.actvity_location = actvity_location;
+	public void setActivity_location(String activity_location) {
+		this.activity_location = activity_location;
 	}
 }

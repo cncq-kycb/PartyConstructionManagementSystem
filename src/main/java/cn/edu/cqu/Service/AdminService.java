@@ -2,6 +2,7 @@ package cn.edu.cqu.Service;
 
 import java.util.ArrayList;
 
+import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Student;
@@ -64,5 +65,11 @@ public interface AdminService {
 	int count_total_num_by_activity_id(String activity_id);
 
 	boolean update_activity_status(String activity_id, String activity_status);
+
+	boolean insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
+			String activity_item,String activity_duration);
+
+	vActivity select_activity_by_id(String activity_id);
+
 
 }

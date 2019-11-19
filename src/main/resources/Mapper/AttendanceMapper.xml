@@ -89,7 +89,7 @@
 		select *
 		from attendance_view
 		where student_id =
-		#{student_id} and attendance_status = 1
+		#{student_id} and attendance_status = '待签到'
 	</select>
 
 	<update id="add_pic_for_attendance"
@@ -97,7 +97,7 @@
 		update attendance
 		set
 		attendance_pic =
-		#{attendance_pic},attendance_status = 2
+		#{attendance_pic},attendance_status = 4
 		where
 		student_id = #{student_id}
 		and activity_id = #{activity_id}

@@ -39,11 +39,11 @@ table tr th {
 </head>
 <body>
 
-	<div class="page">
+	<div >
 		<header class="header"></header>
 		<div class="content-inner">
 
-			<div style="margin: 0px; background-color: white; margin: 0 10px;">
+			<div >
 				<blockquote class="layui-elem-quote">
 					<div class="cxbottom">
 						<center>
@@ -66,8 +66,8 @@ table tr th {
 
 					</div>
 				</blockquote>
-				<div id="content" style="width: 100%; height: 533px;">
-
+				<div id="content" style="width: 100%; height: 533px;margin-left:120px;">
+               
 					<table class="table table-hover table-bordered" id="tables"
 						data-toggle="table" data-toggle="table" data-pagination="true"
 						data-side-pagination="client" style="border: 1px solid black">
@@ -105,6 +105,7 @@ table tr th {
 							<td>${totalMemberNum}</td>
 						</tr>
 					</table>
+				
 				</div>
 				<div class="cxbottom">
 					<center>

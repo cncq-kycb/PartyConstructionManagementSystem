@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.edu.cqu.Dao.UserMapper;
+import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.Admin;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.User;
@@ -43,5 +44,8 @@ public class UserServiceImpl implements UserService {
 		}
 		return 0;
 	}
+	
+
+
 
 }
