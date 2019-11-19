@@ -2,10 +2,13 @@ package cn.edu.cqu.Service;
 
 import java.util.ArrayList;
 
+import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
+import cn.edu.cqu.Model.vActivity;
+import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 
 public interface AdminService {
@@ -48,5 +51,18 @@ public interface AdminService {
 	boolean pass_branch_by_student_num(String student_num);
 
 	boolean unpass_branch_by_student_num(String student_num);
+
+	ArrayList<ActivityStatusMap> select_activity_status_map();
+
+	ArrayList<vActivity> select_vactivity(String activity_name, String activity_date, String activity_status,
+			String activity_location);
+
+	ArrayList<vAttendance> select_vAttendance_by_activity_id(String activity_id);
+
+	int count_sign_in_num_by_activity_id(String activity_id);
+
+	int count_total_num_by_activity_id(String activity_id);
+
+	boolean update_activity_status(String activity_id, String activity_status);
 
 }

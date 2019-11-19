@@ -5,14 +5,20 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.edu.cqu.Dao.ActivityMapper;
 import cn.edu.cqu.Dao.ApplyMapper;
+import cn.edu.cqu.Dao.AttendanceMapper;
 import cn.edu.cqu.Dao.BranchMapper;
 import cn.edu.cqu.Dao.MapMapper;
 import cn.edu.cqu.Dao.StudentMapper;
+import cn.edu.cqu.Model.Activity;
+import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
+import cn.edu.cqu.Model.vActivity;
+import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Service.AdminService;
 
@@ -27,6 +33,10 @@ public class AdminServiceImpl implements AdminService {
 	MapMapper mapMapper;
 	@Autowired
 	ApplyMapper applyMapper;
+	@Autowired
+	ActivityMapper activityMapper;
+	@Autowired
+	AttendanceMapper attendanceMapper;
 
 	@Override
 	public ArrayList<Student> select(String student_num, String student_name, String branch_name, int student_status) {
@@ -197,6 +207,48 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		try {
 			studentMapper.unpass_branch_by_student_num(student_num);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<ActivityStatusMap> select_activity_status_map() {
+		return activityMapper.select_activity_status_map();
+	}
+
+	@Override
+	public ArrayList<vActivity> select_vactivity(String activity_name, String activity_status, String activity_date,
+			String activity_location) {
+		// TODO Auto-generated method stub
+		return activityMapper.select_vactivity(activity_name, activity_status, activity_date, activity_location);
+	}
+
+	@Override
+	public ArrayList<vAttendance> select_vAttendance_by_activity_id(String activity_id) {
+		// TODO Auto-generated method stub
+		return attendanceMapper.select_all_by_activity_id(activity_id);
+	}
+
+	@Override
+	public int count_sign_in_num_by_activity_id(String activity_id) {
+		// TODO Auto-generated method stub
+		return attendanceMapper.count_sign_in_num_by_activity_id(activity_id);
+	}
+
+	@Override
+	public int count_total_num_by_activity_id(String activity_id) {
+		// TODO Auto-generated method stub
+		return attendanceMapper.count_total_num_by_activity_id(activity_id);
+	}
+
+	@Override
+	public boolean update_activity_status(String activity_id, String activity_status) {
+		// TODO Auto-generated method stub
+		try {
+			activityMapper.update_activity_status(activity_id, activity_status);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception

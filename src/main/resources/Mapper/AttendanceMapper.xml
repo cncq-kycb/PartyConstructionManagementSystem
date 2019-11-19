@@ -61,12 +61,35 @@
 		#{branch_id}
 	</select>
 
+	<select id="select_all_by_activity_id"
+		resultType="cn.edu.cqu.Model.vAttendance">
+		select *
+		from attendance_view
+		where activity_id =
+		#{activity_id}
+	</select>
+
+	<select id="count_sign_in_num_by_activity_id" resultType="int">
+		select
+		count(*)
+		from attendance_view
+		where activity_id = #{activity_id} and
+		attendance_status = '已签到'
+	</select>
+
+	<select id="count_total_num_by_activity_id" resultType="int">
+		select
+		count(*)
+		from attendance_view
+		where activity_id = #{activity_id}
+	</select>
+
 	<select id="select_now_by_student_id"
 		resultType="cn.edu.cqu.Model.vAttendance">
 		select *
 		from attendance_view
 		where student_id =
-		#{student_id} and attendance_status = 4
+		#{student_id} and attendance_status = 1
 	</select>
 
 	<update id="add_pic_for_attendance"
@@ -74,15 +97,16 @@
 		update attendance
 		set
 		attendance_pic =
-		#{attendance_pic},attendance_status = 5
+		#{attendance_pic},attendance_status = 2
 		where
 		student_id = #{student_id}
 		and activity_id = #{activity_id}
 	</update>
 
-	<update id="absent_for_attendance" parameterType="java.lang.String">
+	<update id="absent_for_attendance"
+		parameterType="java.lang.String">
 		update attendance
-		set attendance_status = 2
+		set attendance_status = 6
 		where
 		student_id = #{student_id}
 		and activity_id = #{activity_id}

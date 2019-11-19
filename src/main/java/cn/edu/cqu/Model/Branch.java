@@ -1,8 +1,8 @@
 package cn.edu.cqu.Model;
 
 public class Branch {
-	public String branch_id;
-	public String branch_name;
+	private String branch_id;
+	private String branch_name;
 
 	public String getBranch_id() {
 		return branch_id;

@@ -7,10 +7,14 @@ public class vAttendance {
 	private String activity_date;
 	private String activity_item;
 	private String activity_duration;
-	private String means;
 	private String attendance_status;
+	private String attendance_status_id;
 	private String branch_id;
 	private String branch_name;
+	private String student_num;
+	private String student_name;
+	private String student_status;
+	private String student_status_id;
 
 	public String getStudent_id() {
 		return student_id;
@@ -60,20 +64,20 @@ public class vAttendance {
 		this.activity_duration = activity_duration;
 	}
 
-	public String getMeans() {
-		return means;
-	}
-
-	public void setMeans(String means) {
-		this.means = means;
-	}
-
 	public String getAttendance_status() {
 		return attendance_status;
 	}
 
 	public void setAttendance_status(String attendance_status) {
 		this.attendance_status = attendance_status;
+	}
+
+	public String getAttendance_status_id() {
+		return attendance_status_id;
+	}
+
+	public void setAttendance_status_id(String attendance_status_id) {
+		this.attendance_status_id = attendance_status_id;
 	}
 
 	public String getBranch_id() {
@@ -92,12 +96,36 @@ public class vAttendance {
 		this.branch_name = branch_name;
 	}
 
-	@Override
-	public String toString() {
-		return "vAttendance [student_id=" + student_id + ", activity_id=" + activity_id + ", activity_name="
-				+ activity_name + ", activity_date=" + activity_date + ", activity_item=" + activity_item
-				+ ", activity_duration=" + activity_duration + ", means=" + means + ", attendance_status="
-				+ attendance_status + ", branch_id=" + branch_id + ", branch_name=" + branch_name + "]";
+	public String getStudent_num() {
+		return student_num;
+	}
+
+	public void setStudent_num(String student_num) {
+		this.student_num = student_num;
+	}
+
+	public String getStudent_name() {
+		return student_name;
+	}
+
+	public void setStudent_name(String student_name) {
+		this.student_name = student_name;
+	}
+
+	public String getStudent_status() {
+		return student_status;
+	}
+
+	public void setStudent_status(String student_status) {
+		this.student_status = student_status;
+	}
+
+	public String getStudent_status_id() {
+		return student_status_id;
+	}
+
+	public void setStudent_status_id(String student_status_id) {
+		this.student_status_id = student_status_id;
 	}
 
 }

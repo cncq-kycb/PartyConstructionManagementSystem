@@ -159,7 +159,7 @@
 													<td>${records.activity_item }</td>
 													<td>${records.activity_duration }</td>
 													<td>${records.activity_date }</td>
-													<td>${records.means }</td>
+													<td>${records.attendance_status }</td>
 												</tr>
 											</c:forEach>
 											</tbody>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.Dao.ActivityMapper">
+	<select id="select_activity_status_map"
+		resultType="cn.edu.cqu.Model.ActivityStatusMap">
+		select *
+		from activity_status_map
+	</select>
+
+	<select id="select_vactivity"
+		resultType="cn.edu.cqu.Model.vActivity">
+		select *
+		from
+		activity_view
+		<where>
+			<if test="activity_name != null and activity_name != ''">
+				<bind name="activity_name" value="'%' + activity_name + '%' " />
+				and activity_name like #{activity_name}
+			</if>
+			<if test="activity_date != null and activity_date != ''">
+				and activity_date = #{activity_date}
+			</if>
+			<if
+				test="activity_status_means != null and activity_status_means != ''">
+				and means = #{activity_status_means}
+			</if>
+			<if test="activity_location != null and activity_location != ''">
+				<bind name="activity_location"
+					value="'%' + activity_location + '%' " />
+				and activity_location like #{activity_location}
+			</if>
+		</where>
+	</select>
+
+	<update id="update_activity_status">
+		update activity
+		set activity_status =
+		#{activity_status}
+		where activity_id = #{activity_id}
+	</update>
+</mapper>

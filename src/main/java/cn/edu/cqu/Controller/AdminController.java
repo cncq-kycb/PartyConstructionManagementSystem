@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 
+import cn.edu.cqu.Model.Activity;
+import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
+import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Service.AdminService;
+import cn.edu.cqu.Service.UserService;
 import cn.edu.cqu.Utils.Utils;
 
 @Controller
@@ -149,6 +153,9 @@ public class AdminController {
 		ArrayList<StudentPermissionMap> spm = adminService.select_student_permission_map();
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("spm", spm);
+		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		session.setAttribute("pageInfo", pageInfo);
 		return "admin/authorityPage";
 	}
 
@@ -221,6 +228,8 @@ public class AdminController {
 		session.setAttribute("message", "");
 		ArrayList<Branch> branch = adminService.select_all_branch();
 		session.setAttribute("branch", branch);
+		ArrayList<vStudent> list = new ArrayList<vStudent>();
+		session.setAttribute("list", list);
 		return "admin/manageBranchPage";
 	}
 
@@ -394,10 +403,76 @@ public class AdminController {
 		return "admin/addActivityPage";
 	}
 
-	// 组织生活签到管理
+	// 组织生活签到管理页面
 	@RequestMapping(value = "/manageSignInPage")
 	public String manageSignInPage(HttpSession session) {
 		session.setAttribute("message", "");
+		ArrayList<ActivityStatusMap> asm = adminService.select_activity_status_map();
+		session.setAttribute("asm", asm);
+		ArrayList<vActivity> activities = new ArrayList<vActivity>();
+		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
+		session.setAttribute("pageInfo", pageInfo);
+		return "admin/manageSignInPage";
+	}
+
+	// 组织生活签到查询结果
+	@RequestMapping(value = "/manageSignInPageFinder")
+	public String manageSignInPageFinder(String activity_name_input, String activity_status_input,
+			String activity_date_input, String activity_location_input,
+			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+		ArrayList<vActivity> activities = adminService.select_vactivity(activity_name_input, activity_status_input,
+				activity_date_input, activity_location_input);
+		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
+		session.setAttribute("pageInfo", pageInfo);
+		session.setAttribute("activity_name_input", activity_name_input);
+		session.setAttribute("activity_status_input", activity_status_input);
+		session.setAttribute("activity_date_input", activity_date_input);
+		session.setAttribute("activity_location_input", activity_location_input);
+		session.setAttribute("message", "");
+		return "admin/manageSignInPage";
+	}
+
+	// 组织生活签到审核与查看
+	@RequestMapping(value = "/attendanceCheckPage")
+	public String attendanceCheckPage(String activity_name_signIn, String activity_date_signIn,
+			String branch_name_signIn, String activity_id_signIn, HttpSession session) {
+		session.setAttribute("activity_date", activity_date_signIn);
+		session.setAttribute("activity_name", activity_name_signIn);
+		session.setAttribute("branch_name", branch_name_signIn);
+		ArrayList<vAttendance> vAttendances = adminService.select_vAttendance_by_activity_id(activity_id_signIn);
+		session.setAttribute("list", vAttendances);
+		int signInNum = adminService.count_sign_in_num_by_activity_id(activity_id_signIn);
+		int totalMemberNum = adminService.count_total_num_by_activity_id(activity_id_signIn);
+		session.setAttribute("signInNum", signInNum);
+		session.setAttribute("totalMemberNum", totalMemberNum);
+		session.setAttribute("message", "");
+		return "admin/attendanceCheckPage";
+	}
+
+	// 修改活动状态
+	@RequestMapping(value = "/updateActivityStatus")
+	public String updateActivityStatus(String activity_id_update, String new_activity_status, HttpSession session) {
+		ArrayList<ActivityStatusMap> asm = adminService.select_activity_status_map();
+		String activity_status = null;
+		for (ActivityStatusMap item : asm) {
+			if (item.getMeans().equals(new_activity_status)) {
+				activity_status = item.getActivity_status();
+				break;
+			}
+		}
+		if (adminService.update_activity_status(activity_id_update, activity_status)) {
+			session.setAttribute("message", "1");
+			String activity_name_input = (String) session.getAttribute("activity_name_input");
+			String activity_status_input = (String) session.getAttribute("activity_status_input");
+			String activity_date_input = (String) session.getAttribute("activity_date_input");
+			String activity_location_input = (String) session.getAttribute("activity_location_input");
+			ArrayList<vActivity> activities = adminService.select_vactivity(activity_name_input, activity_status_input,
+					activity_date_input, activity_location_input);
+			PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
+			session.setAttribute("pageInfo", pageInfo);
+		} else {
+			session.setAttribute("message", "2");
+		}
 		return "admin/manageSignInPage";
 	}
 

@@ -27,4 +27,10 @@ public interface AttendanceMapper {
 
 	void absent_for_attendance(@Param("student_id") String student_id, @Param("activity_id") String activity_id);
 
+	ArrayList<vAttendance> select_all_by_activity_id(String activity_id);
+
+	int count_sign_in_num_by_activity_id(String activity_id);
+
+	int count_total_num_by_activity_id(String activity_id);
+
 }

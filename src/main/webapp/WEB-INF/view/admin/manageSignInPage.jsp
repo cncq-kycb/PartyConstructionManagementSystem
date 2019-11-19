@@ -142,7 +142,7 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="manageSignInPageFinder" method="post">
+								action="/mis/admin/manageSignInPageFinder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
@@ -170,16 +170,14 @@ table tr th {
 										</tr>
 										<tr>
 											<th>活动日期：</th>
-											<td><input type="text"
-												placeholder="模糊查询，YYYY-MM-DD中的一部分即可"
-												value="${activity_date_input}" class="form-control"
-												style="border-radius: 3px; height: 30px" id="activity_date_input"
-												name="activity_date_input"></td>
+											<td><input type="date" class="form-control"
+												style="border-radius: 3px; height: 30px"
+												id="activity_date_input" name="activity_date_input"></td>
 											<th>活动地点：</th>
 											<td><input type="text" placeholder="模糊查询，活动地点中的一部分即可"
-												value="${activity_place_input}" class="form-control"
-												style="border-radius: 3px; height: 30px" id="activity_place_input"
-												name="activity_place_input"></td>
+												value="${activity_location_input}" class="form-control"
+												style="border-radius: 3px; height: 30px"
+												id="activity_location_input" name="activity_location_input"></td>
 										</tr>
 									</table>
 									<div class="cxbottom">
@@ -196,6 +194,7 @@ table tr th {
 							data-side-pagination="client">
 							<thead>
 								<tr>
+									<th>活动编号</th>
 									<th>活动名称</th>
 									<th>参与支部</th>
 									<th>活动日期</th>
@@ -205,13 +204,14 @@ table tr th {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${pageInfo.list}" var="acticity_list">
+								<c:forEach var="activity_list" items="${pageInfo.list}">
 									<tr style="height: auto;">
+										<td>${activity_list.activity_id}</td>
 										<td>${activity_list.activity_name}</td>
 										<td>${activity_list.branch_name}</td>
 										<td>${activity_list.activity_date}</td>
-										<td>${activity_list.activity_place}</td>
-										<td>${activity_list.activity_status}</td>
+										<td>${activity_list.activity_location}</td>
+										<td>${activity_list.means}</td>
 										<td>
 											<button class="btn btn-success btn-sm"
 												onclick="activityItemModal(this)" data-toggle="modal">查看活动内容</button>
@@ -287,8 +287,8 @@ table tr th {
 							type="text" name="activity_date_check" readonly>
 					</div>
 					<div class="modal-body">
-						活动地点： <input id="activity_place_check" style="border: none;"
-							type="text" name="activity_place_check" readonly>
+						活动地点： <input id="activity_location_check" style="border: none;"
+							type="text" name="activity_location_check" readonly>
 					</div>
 					<div class="modal-body">
 						活动状态： <input id="activity_status_check" style="border: none;"
@@ -314,26 +314,34 @@ table tr th {
 					</button>
 				</div>
 				<form name="signInForm" id="signInForm" target="_blank"
-					action="attendancePage" method="post" class="form-validate">
+					action="attendanceCheckPage" method="post" class="form-validate">
 					<div class="modal-body">
-						活动名称：<input id="activity_name_check" style="border: none;"
-							type="text" name="activity_name_check" readonly>
+						活动编号：<input id="activity_id_signIn" style="border: none;"
+							type="text" name="activity_id_signIn" readonly>
 					</div>
 					<div class="modal-body">
-						活动时间： <input id="activity_date_check" style="border: none;"
-							type="text" name="activity_date_check" readonly>
+						活动名称：<input id="activity_name_signIn" style="border: none;"
+							type="text" name="activity_name_signIn" readonly>
 					</div>
 					<div class="modal-body">
-						活动地点： <input id="activity_place_check" style="border: none;"
-							type="text" name="activity_place_check" readonly>
+						活动时间： <input id="activity_date_signIn" style="border: none;"
+							type="text" name="activity_date_signIn" readonly>
 					</div>
 					<div class="modal-body">
-						活动状态： <input id="activity_status_check" style="border: none;"
-							type="text" name="activity_status_check" readonly>
+						活动地点： <input id="activity_location_signIn" style="border: none;"
+							type="text" name="activity_location_signIn" readonly>
+					</div>
+					<div class="modal-body">
+						参与支部： <input id="branch_name_signIn" style="border: none;"
+							type="text" name="branch_name_signIn" readonly>
+					</div>
+					<div class="modal-body">
+						活动状态： <input id="activity_status_signIn" style="border: none;"
+							type="text" name="activity_status_signIn" readonly>
 					</div>
 					<div class="modal-footer"></div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">确定</button>
+						<button type="submit" class="btn btn-success">前往查看</button>
 					</div>
 				</form>
 			</div>
@@ -353,22 +361,26 @@ table tr th {
 				<form name="updateStatusForm" id="updateStatusForm" target="_blank"
 					action="updateActivityStatus" method="post" class="form-validate">
 					<div class="modal-body">
-						活动名称：<input id="activity_name_check" style="border: none;"
-							type="text" name="activity_name_check" readonly>
+						活动编号：<input id="activity_id_update" style="border: none;"
+							type="text" name="activity_id_update" readonly>
 					</div>
 					<div class="modal-body">
-						活动时间： <input id="activity_date_check" style="border: none;"
-							type="text" name="activity_date_check" readonly>
+						活动名称：<input id="activity_name_update" style="border: none;"
+							type="text" name="activity_name_update" readonly>
 					</div>
 					<div class="modal-body">
-						活动地点： <input id="activity_place_check" style="border: none;"
-							type="text" name="activity_place_check" readonly>
+						活动时间： <input id="activity_date_update" style="border: none;"
+							type="text" name="activity_date_update" readonly>
+					</div>
+					<div class="modal-body">
+						活动地点： <input id="activity_location_update" style="border: none;"
+							type="text" name="activity_location_update" readonly>
 					</div>
 					<div class="modal-body">
 						活动状态： <select name="new_activity_status" id="new_activity_status">
 							<c:forEach var="asm" items="${asm}">
-							<option>${asm.means }</option>
-						        </c:forEach>
+								<option>${asm.means }</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="modal-footer"></div>
@@ -396,14 +408,14 @@ table tr th {
 		function activityItemModal(obj) {
 			$("#activityItemModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var activity_name_check = $td.eq(0).text();
-			var activity_date_check = $td.eq(2).text();
-			var activity_place_check = $td.eq(3).text();
-			var activity_status_check = $td.eq(4).text();
-			
+			var activity_name_check = $td.eq(1).text();
+			var activity_date_check = $td.eq(3).text();
+			var activity_location_check = $td.eq(4).text();
+			var activity_status_check = $td.eq(5).text();
+
 			$("#activity_name_check").val(activity_name_check);
 			$("#activity_date_check").val(activity_date_check);
-			$("#activity_place_check").val(activity_place_check);
+			$("#activity_location_check").val(activity_location_check);
 			$("#activity_status_check").val(activity_status_check);
 
 		}
@@ -412,15 +424,19 @@ table tr th {
 		function signInModal(obj) {
 			$("#signInModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var activity_name_check = $td.eq(0).text();
-			var activity_date_check = $td.eq(2).text();
-			var activity_place_check = $td.eq(3).text();
-			var activity_status_check = $td.eq(4).text();
-			
-			$("#activity_name_check").val(activity_name_check);
-			$("#activity_date_check").val(activity_date_check);
-			$("#activity_place_check").val(activity_place_check);
-			$("#activity_status_check").val(activity_status_check);
+			var activity_id_check = $td.eq(0).text();
+			var activity_name_check = $td.eq(1).text();
+			var branch_name_signIn = $td.eq(2).text();
+			var activity_date_check = $td.eq(3).text();
+			var activity_location_check = $td.eq(4).text();
+			var activity_status_check = $td.eq(5).text();
+
+			$("#activity_id_signIn").val(activity_id_check);
+			$("#activity_name_signIn").val(activity_name_check);
+			$("#branch_name_signIn").val(branch_name_signIn);
+			$("#activity_date_signIn").val(activity_date_check);
+			$("#activity_location_signIn").val(activity_location_check);
+			$("#activity_status_signIn").val(activity_status_check);
 
 		}
 	</script>
@@ -428,13 +444,14 @@ table tr th {
 		function updateStatusModal(obj) {
 			$("#updateStatusModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var activity_name_check = $td.eq(0).text();
-			var activity_date_check = $td.eq(2).text();
-			var activity_place_check = $td.eq(3).text();
-			
-			$("#activity_name_check").val(activity_name_check);
-			$("#activity_date_check").val(activity_date_check);
-			$("#activity_place_check").val(activity_place_check);
+			var activity_id_check = $td.eq(0).text();
+			var activity_name_check = $td.eq(1).text();
+			var activity_date_check = $td.eq(3).text();
+			var activity_location_check = $td.eq(4).text();
+			$("#activity_id_update").val(activity_id_check);
+			$("#activity_name_update").val(activity_name_check);
+			$("#activity_date_update").val(activity_date_check);
+			$("#activity_location_update").val(activity_location_check);
 
 		}
 	</script>

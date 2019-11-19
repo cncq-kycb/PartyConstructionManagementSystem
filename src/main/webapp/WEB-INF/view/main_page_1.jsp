@@ -32,7 +32,7 @@
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="/mis/main_page_1"
+					<a href="/mis/admin/main_page_1"
 						class="navbar-brand d-none d-sm-inline-block">
 						<div class="brand-text d-none d-lg-inline-block">党员管理系统</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
