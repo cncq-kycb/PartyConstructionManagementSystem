@@ -28,40 +28,21 @@
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
+	
 <script type="text/javascript" charset="utf-8"
-	src="utf8-jsp/ueditor.config.js"></script>
+	src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8"
-	src="utf8-jsp/ueditor.all.min.js"> </script>
+	src="<%=request.getContextPath()%>/utf8-jsp/ueditor.all.min.js"></script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8"
-	src="utf8-jsp/lang/zh-cn/zh-cn.js"></script>
+	src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 
-<style type="text/css">
-div {
-	width: 100%;
-}
-</style>
+
+
 
 </head>
 <body>
-	<script type="text/javascript">
-function change(){
-	var study_type = "<%=session.getAttribute("study_type")%>";
-	var content = "<%=session.getAttribute("study_content")%>
-		";
-			UE.getEditor('editor').setContent(content, isAppendTo);
-
-			if (study_type == '1') {
-				document.getElementById("study_type")[1].selected = true;
-			} else if (study_type == '2') {
-				document.getElementById("study_type")[2].selected = true;
-			} else {
-				document.getElementById("study_type")[3].selected = true;
-
-			}
-		}
-	</script>
 	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
@@ -139,8 +120,8 @@ function change(){
 					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
 				</a>
 					<ul id="editStudy" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
-						<li class="active"><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
+						<li class="active"><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
 				<li><a href="/mis/admin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
@@ -164,39 +145,42 @@ function change(){
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm "
-								action="updateStudy" onsubmit="return validateForm()"
+							<form class="form-horizontal" name="inputForm"
+								action="/mis/admin/updateStudy"
 								method="post">
 								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;选择栏目:&ensp;<select
-										name="study_type" id="study_type">
-											<c:forEach var="stm" items="${stm}">
-												<option>${stm.means}</option>
-											</c:forEach>
+									<label class="layui-form-label">&ensp;&ensp;选择栏目:&ensp;&ensp;<select
+										name="study_status" id="study_status">
+												<c:forEach var="study_status_map" items="${study_status_map}">
+										<option>${study_status_map.means}</option>
+										</c:forEach>
 									</select></label>
 								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;推文题目: <input
-										type="text" value="${study_title}" name="study_title"
-										id="study_title" style="width: 800px;" placeholder="请输入推文题目">
+									<label class="layui-form-label">&ensp;&ensp;推文题目: &ensp;<input
+										type="text" name="study_title" id="study_title" value="${study_title}"
+										style="width: 800px;" placeholder="请输入推文题目">
 									</label>
 								</div>
 
 								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;推文内容：</label> <input
-										hidden="hidden" id="study_content" name="study_content">
+									<label class="layui-form-label">&ensp;&ensp;推文内容：</label> 
+								
 									<div class="layui-input-block">
-										<div>
-											<script id="editor" type="text/plain"
-												style="width:1024px;height:500px;"></script>
-										</div>
+								<div>
+										<script id="editor" type="text/plain" style="width:1024px;height:500px;">	${study_content}	</script>
+
+									</div>
 
 									</div>
 								</div>
 								<div class="layui-form-item">
+									<center>
+									<h4>&ensp;</h4>
+								</center>
 									<div class="layui-input-block">
-										<button class="btn btn-info" lay-submit=""
-											lay-filter="rulesSubmit">确认修改</button>
+										<button class="btn btn-success" lay-submit="" id="save"
+											lay-filter="rulesSubmit">重新发布推文</button>
 									</div>
 								</div>
 
@@ -213,53 +197,39 @@ function change(){
 		</div>
 	</div>
 
+	<script
+		src="<%=request.getContextPath()%>/lib/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/lib/vendor/popper.js/umd/popper.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/lib/vendor/jquery.cookie/jquery.cookie.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/lib/vendor/chart.js/Chart.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
+	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
+	
 
-	<script>
-		//实例化编辑器
-		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-		var ue = UE.getEditor('editor', {
-			toolbars : [ [ 'fullscreen', 'source', '|', 'undo', 'redo', '|',
-					'bold', 'italic', 'underline', 'fontborder',
-					'strikethrough', 'superscript', 'subscript',
-					'removeformat', 'formatmatch', 'autotypeset', 'blockquote',
-					'pasteplain', '|', 'forecolor', 'backcolor',
-					'insertorderedlist', 'insertunorderedlist', 'selectall',
-					'cleardoc', '|', 'rowspacingtop', 'rowspacingbottom',
-					'lineheight', '|', 'customstyle', 'paragraph',
-					'fontfamily', 'fontsize', '|', 'directionalityltr',
-					'directionalityrtl', 'indent', '|', 'justifyleft',
-					'justifycenter', 'justifyright', 'justifyjustify', '|',
-					'touppercase', 'tolowercase', '|', 'link', 'unlink', '|',
-					'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-					'simpleupload', 'insertimage', 'attachment', 'emotion',
-					'template', 'background', '|', 'horizontal', 'date',
-					'time', 'spechars', 'snapscreen', 'wordimage', '|',
-					'inserttable', 'deletetable', '|', 'print', 'preview',
-					'searchreplace', 'drafts', 'help' ] ],
-			autoHeightEnabled : true,
-			autoFloatEnabled : true
-		});
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 
-		layui
-				.use(
-						[ 'element', 'form', 'jquery' ],
-						function() {
-							var form = layui.form, layer = layui.layer, element = layui.element, $ = layui.jquery;
+<script type="text/javascript">
 
-							//监听导航点击
-							element.on('nav(demo)', function(elem) {
-								//console.log(elem)
-								layer.msg(elem.text());
-							});
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，
+    //直接调用UE.getEditor('editor')就能拿到相关的实例
+            var editorOption = {
+            //是否自动清除编辑器初始内容
+            autoClearinitialContent:false
+        };
+    UE.delEditor('editor');
+    var ue = UE.getEditor('editor');
+       
 
-							//监听提交
-							form.on('submit(rulesSubmit)', function(data) {
-								//提交表单
-								var content = UE.getEditor('editor')
-										.getContent();
-								$("#content").val(content);
-							});
-						});
-	</script>
+</script>
+
 </body>
 </html>

@@ -43,10 +43,10 @@ table tr th {
 	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
-			alert('党员信息修改成功');
+			alert('推文删除成功');
 		}
 		if (msg == "2") {
-			alert('党员信息修改失败');
+			alert('推文删除失败');
 		}
 	</script>
 	<div class="page">
@@ -163,10 +163,10 @@ table tr th {
 												</div>
 											</td>
 											<th width="12%">所在栏目：</th>
-											<td width="21%"><select name="study_type_input"
-												id="study_type_input">
-													<c:forEach var="stm" items="${stm}">
-														<option>${stm.means }</option>
+											<td width="21%"><select name="study_status_input"
+												id="study_status_input">
+													<c:forEach var="study_status_map" items="${study_status_map}">
+														<option>${study_status_map.means }</option>
 													</c:forEach>
 											</select></td>
 										</tr>
@@ -186,24 +186,20 @@ table tr th {
 							data-side-pagination="client">
 							<thead>
 								<tr>
+								    <th>编号</th>
 									<th>推文题目</th>
 									<th>上线日期</th>
-									<th>所在栏目</th>
-									<th>已读人数</th>
+									<th>所在栏目</th>		
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${pageInfo.list}" var="study_list">
 									<tr style="height: auto;">
+						                <td>${study_list.study_id }</td>
 										<td>${study_list.study_title }</td>
 										<td>${study_list.study_date}</td>
-										<td>${study_list.study_type}</td>
-										<td>${study_list.study_num}</td>
-										<td>${member_list.student_status}</td>
-										<td>${member_list.branch_name}</td>
-										<td>${member_list.student_tel}</td>
-										<td>${member_list.student_email}</td>
+										<td>${study_list.means}</td>
 										<td>
 											<button class="btn btn-info btn-sm"
 												onclick="checkStudyModal(this)" data-toggle="modal">查看推文</button>
@@ -252,8 +248,6 @@ table tr th {
 					</div>
 				</div>
 
-
-
 			</div>
 		</div>
 	</div>
@@ -269,8 +263,12 @@ table tr th {
 					</button>
 				</div>
 				<form name="checkStudyForm" id="checkStudyForm"
-					action="checkStudyPage" target="_blank" method="post"
+					action="/mis/admin/checkStudyPage" target="_blank" method="post"
 					class="form-validate">
+										<div class="modal-body">
+						推文编号：<input id="study_id_check" style="border: none;"
+							type="text" name="study_id_check" readonly>
+					</div>
 					<div class="modal-body">
 						推文题目：<input id="study_title_check" style="border: none;"
 							type="text" name="study_title_check" readonly>
@@ -280,11 +278,9 @@ table tr th {
 							type="text" name="study_date_check" readonly>
 					</div>
 					<div class="modal-body">
-						所在栏目： <input id="study_type_check" style="border: none;"
-							type="text" name="study_type_check" readonly>
+						所在栏目： <input id="study_status_check" style="border: none;"
+							type="text" name="study_status_check" readonly>
 					</div>
-
-					<div class="modal-footer"></div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">确 定</button>
 					</div>
@@ -304,21 +300,23 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateStudyForm" id="updateStudyForm" target="_blank"
-					action="updateStudyPage" method="post" class="form-validate">
-					<div class="modal-body">
-						推文题目：<input id="study_title_check" style="border: none;"
-							type="text" name="study_title_check" readonly>
+					action="/mis/admin/updateStudyPage" method="post" class="form-validate">
+															<div class="modal-body">
+						推文编号：<input id="study_id_update" style="border: none;"
+							type="text" name="study_id_update" readonly>
 					</div>
 					<div class="modal-body">
-						上线日期： <input id="study_date_check" style="border: none;"
-							type="text" name="study_date_check" readonly>
+						推文题目：<input id="study_title_update" style="border: none;"
+							type="text" name="study_title_update" readonly>
 					</div>
 					<div class="modal-body">
-						所在栏目： <input id="study_type_check" style="border: none;"
-							type="text" name="study_type_check" readonly>
+						上线日期： <input id="study_date_update" style="border: none;"
+							type="text" name="study_date_update" readonly>
 					</div>
-
-					<div class="modal-footer"></div>
+					<div class="modal-body">
+						所在栏目： <input id="study_status_update" style="border: none;"
+							type="text" name="study_status_update" readonly>
+					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-warning">确 定</button>
 					</div>
@@ -338,24 +336,29 @@ table tr th {
 					</button>
 				</div>
 				<form name="deleteStudyForm" id="deleteStudyForm"
-					action="deleteStudy" method="post" class="form-validate">
-					<div class="modal-body">
-						推文题目：<input id="study_title_check" style="border: none;"
-							type="text" name="study_title_check" readonly>
+					action="/mis/admin/deleteStudy" method="post" class="form-validate">
+															<div class="modal-body">
+						推文编号：<input id="study_id_del" style="border: none;"
+							type="text" name="study_id_del" readonly>
 					</div>
 					<div class="modal-body">
-						上线日期： <input id="study_date_check" style="border: none;"
-							type="text" name="study_date_check" readonly>
+						推文题目：<input id="study_title_del" style="border: none;"
+							type="text" name="study_title_del" readonly>
 					</div>
 					<div class="modal-body">
-						所在栏目： <input id="study_type_check" style="border: none;"
-							type="text" name="study_type_check" readonly>
+						上线日期： <input id="study_date_del" style="border: none;"
+							type="text" name="study_date_del" readonly>
+					</div>
+					<div class="modal-body">
+						所在栏目： <input id="study_status_del" style="border: none;"
+							type="text" name="study_status_del" readonly>
+					</div>
+					<div class="modal-footer">
+					
+						<button type="submit" class="btn btn-danger">删 除</button>
+						
 					</div>
 
-					<div class="modal-footer"></div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger">删 除</button>
-					</div>
 				</form>
 			</div>
 		</div>
@@ -377,36 +380,42 @@ table tr th {
 		function updateStudyModal(obj) {
 			$("#updateStudyModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var study_title_check = $td.eq(0).text();
-			var study_date_check = $td.eq(1).text();
-			var study_type_check = $td.eq(2).text();
-			$("#study_title_check").val(study_title_check);
-			$("#study_date_check").val(study_date_check);
-			$("#study_type_check").val(study_type_check);
+			var study_id_check = $td.eq(0).text();
+			var study_title_check = $td.eq(1).text();
+			var study_date_check = $td.eq(2).text();
+			var study_status_check = $td.eq(3).text();
+			$("#study_id_update").val(study_id_check);
+			$("#study_title_update").val(study_title_check);
+			$("#study_date_update").val(study_date_check);
+			$("#study_status_update").val(study_status_check);
 		}
 	</script>
 	<script>
 		function checkStudyModal(obj) {
 			$("#checkStudyModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var study_title_check = $td.eq(0).text();
-			var study_date_check = $td.eq(1).text();
-			var study_type_check = $td.eq(2).text();
+			var study_id_check = $td.eq(0).text();
+			var study_title_check = $td.eq(1).text();
+			var study_date_check = $td.eq(2).text();
+			var study_status_check = $td.eq(3).text();
+			$("#study_id_check").val(study_id_check);
 			$("#study_title_check").val(study_title_check);
 			$("#study_date_check").val(study_date_check);
-			$("#study_type_check").val(study_type_check);
+			$("#study_status_check").val(study_status_check);
 		}
 	</script>
 	<script>
 		function deleteStudyModal(obj) {
 			$("#deleteStudyModal").modal('show');
 			var $td = $(obj).parents('tr').children('td');
-			var study_title_check = $td.eq(0).text();
-			var study_date_check = $td.eq(1).text();
-			var study_type_check = $td.eq(2).text();
-			$("#study_title_check").val(study_title_check);
-			$("#study_date_check").val(study_date_check);
-			$("#study_type_check").val(study_type_check);
+			var study_id_check = $td.eq(0).text();
+			var study_title_check = $td.eq(1).text();
+			var study_date_check = $td.eq(2).text();
+			var study_status_check = $td.eq(3).text();
+			$("#study_id_del").val(study_id_check);
+			$("#study_title_del").val(study_title_check);
+			$("#study_date_del").val(study_date_check);
+			$("#study_status_del").val(study_status_check);
 		}
 	</script>
 

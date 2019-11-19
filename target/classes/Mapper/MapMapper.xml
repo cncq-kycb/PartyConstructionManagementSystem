@@ -13,4 +13,8 @@
 		select * from student_permission_map
 	</select>
 
+	<select id="select_study_status_map"
+		resultType="cn.edu.cqu.Model.StudyStatusMap">
+		select * from study_status_map
+	</select>
 </mapper>

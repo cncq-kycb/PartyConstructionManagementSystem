@@ -10,6 +10,7 @@ import cn.edu.cqu.Dao.ApplyMapper;
 import cn.edu.cqu.Dao.AttendanceMapper;
 import cn.edu.cqu.Dao.BranchMapper;
 import cn.edu.cqu.Dao.MapMapper;
+import cn.edu.cqu.Dao.StudyMapper;
 import cn.edu.cqu.Dao.StudentMapper;
 import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
@@ -17,9 +18,12 @@ import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
+import cn.edu.cqu.Model.Study;
+import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.AdminService;
 
 @Service
@@ -37,6 +41,8 @@ public class AdminServiceImpl implements AdminService {
 	ActivityMapper activityMapper;
 	@Autowired
 	AttendanceMapper attendanceMapper;
+	@Autowired
+	StudyMapper studyMapper;
 
 	@Override
 	public ArrayList<Student> select(String student_num, String student_name, String branch_name, int student_status) {
@@ -112,6 +118,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public ArrayList<StudyStatusMap> select_study_status_map() {
+		// TODO Auto-generated method stub
+		return mapMapper.select_study_status_map();
+	}
+
+	
+	@Override
 	public ArrayList<StudentPermissionMap> select_student_permission_map() {
 		// TODO Auto-generated method stub
 		return mapMapper.select_student_permission_map();
@@ -162,6 +175,12 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<Branch> select_all_branch() {
 		return branchMapper.select_all();
 	}
+	
+	@Override
+	public ArrayList<Study> select_all_study(){
+		return studyMapper.select_all_study();
+	}
+
 
 	@Override
 	public boolean add_member_to_branch(String student_num, String branch_id) {
@@ -225,6 +244,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return activityMapper.select_vactivity(activity_name, activity_status, activity_date, activity_location);
 	}
+	
+	@Override
+	public ArrayList<vStudy> select_study_list(String study_title, String study_status){
+		return studyMapper.select_study_list(study_title, study_status);
+	};
+
 
 	@Override
 	public ArrayList<vAttendance> select_vAttendance_by_activity_id(String activity_id) {
@@ -270,10 +295,53 @@ public class AdminServiceImpl implements AdminService {
 		}
 	};
 	
+	@Override
+	public boolean insert_study(String study_title, String study_status, String study_content){
+		// TODO Auto-generated method stub
+		try {
+			studyMapper.insert_study(study_title, study_status, study_content);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	};
+
+	
 	//根据ID获取活动
 	@Override
 	public vActivity select_activity_by_id(String activity_id) {
 		return activityMapper.select_activity_by_id(activity_id);
 	};
+	
+	//根据ID获取推文
+	@Override
+	public vStudy select_study_by_id(String study_id){
+		return studyMapper.select_study_by_id(study_id);
+	};
+	
+	@Override
+	public boolean update_study(String study_id, String study_title, String study_status, String study_content) {
+		// TODO Auto-generated method stub
+				try {
+					studyMapper.update_study(study_id, study_title, study_status, study_content);
+					return true;
+				} catch (Exception e) {
+					// TODO: handle exception
+					return false;
+				}
+			};
+			
+			@Override
+			public boolean delete_study(String study_id) {
+				try {
+					studyMapper.delete_study(study_id);
+					return true;
+				} catch (Exception e) {
+					// TODO: handle exception
+					return false;
+				}
+			};
+
 
 }

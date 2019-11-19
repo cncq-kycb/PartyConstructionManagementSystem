@@ -146,15 +146,14 @@
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm"
-								action="mis/admin/insertStudy" onsubmit="return validateForm()"
+								action="/mis/admin/insertStudy"
 								method="post">
 								<div class="layui-form-item">
 									<label class="layui-form-label">&ensp;&ensp;选择栏目:&ensp;&ensp;<select
-										name="study_type" id="study_type">
-												
-												<option>十九大讲话</option>
-												<option>历史学习资料</option>
-												<option>党员必读</option>
+										name="study_status" id="study_status">
+												<c:forEach var="study_status_map" items="${study_status_map}">
+										<option>${study_status_map.means}</option>
+										</c:forEach>
 									</select></label>
 								</div>
 								<div class="layui-form-item">

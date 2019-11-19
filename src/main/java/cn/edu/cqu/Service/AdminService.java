@@ -2,6 +2,8 @@ package cn.edu.cqu.Service;
 
 import java.util.ArrayList;
 
+import cn.edu.cqu.Model.Study;
+import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
@@ -11,6 +13,7 @@ import cn.edu.cqu.Model.StudentStatusMap;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudy;
 
 public interface AdminService {
 
@@ -70,6 +73,20 @@ public interface AdminService {
 			String activity_item,String activity_duration);
 
 	vActivity select_activity_by_id(String activity_id);
+
+	ArrayList<Study> select_all_study();
+
+	boolean insert_study(String study_title, String study_status, String study_content);
+
+	ArrayList<StudyStatusMap> select_study_status_map();
+
+	ArrayList<vStudy> select_study_list(String study_title, String study_status);
+
+	vStudy select_study_by_id(String study_id);
+
+	boolean update_study(String study_id, String study_title, String study_status, String study_content);
+
+	boolean delete_study(String study_id);
 
 
 }
