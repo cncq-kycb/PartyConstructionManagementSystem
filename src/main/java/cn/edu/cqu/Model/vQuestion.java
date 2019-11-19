@@ -1,17 +1,35 @@
 package cn.edu.cqu.Model;
 
 public class vQuestion {
+	private String test_id;
 	private String test_name;
 	private String test_date_start;
 	private String test_date_end;
+	private String question_id;
 	private String question_problem;
 	private String question_option_a;
 	private String question_option_b;
 	private String question_option_c;
 	private String question_option_d;
 
+	public String getTest_id() {
+		return test_id;
+	}
+
+	public void setTest_id(String test_id) {
+		this.test_id = test_id;
+	}
+
 	public String getTest_name() {
 		return test_name;
+	}
+
+	public String getQuestion_id() {
+		return question_id;
+	}
+
+	public void setQuestion_id(String question_id) {
+		this.question_id = question_id;
 	}
 
 	public void setTest_name(String test_name) {

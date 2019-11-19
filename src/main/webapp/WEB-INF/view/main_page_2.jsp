@@ -26,6 +26,15 @@
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
 </head>
 <body>
+	<script type="text/javascript">
+		var msg = "${message}";
+		if (msg == "1") {
+			alert('近日已答题');
+		}
+		if (msg == "2") {
+			alert('答题提交成功');
+		}
+	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">

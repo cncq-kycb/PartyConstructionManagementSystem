@@ -253,10 +253,25 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public ArrayList<vQuestion> select_exam() {
+	public ArrayList<vQuestion> select_exam(String student_id) {
 		// TODO Auto-generated method stub
 		String test_id = testMapper.select_test_id_now();
+		if (testMapper.answer_result(test_id, student_id) != 0) {
+			return null;
+		}
 		return testMapper.select_exam(test_id);
+	}
+
+	@Override
+	public boolean answer_question(String test_id, String question_id, String student_id, String answer_option) {
+		// TODO Auto-generated method stub
+		try {
+			testMapper.answer_question(test_id, question_id, student_id, answer_option);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
 	}
 
 }

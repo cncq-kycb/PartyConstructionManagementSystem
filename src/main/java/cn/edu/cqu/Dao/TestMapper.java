@@ -34,4 +34,9 @@ public interface TestMapper {
 
 	ArrayList<vQuestion> select_exam(String test_id);
 
+	void answer_question(@Param("test_id") String test_id, @Param("question_id") String question_id,
+			@Param("student_id") String student_id, @Param("answer_option") String answer_option);
+
+	int answer_result(@Param("test_id") String test_id, @Param("student_id") String student_id);
+
 }

@@ -54,6 +54,8 @@ public interface StudentService {
 
 	vStudy select_study_by_study_id(String study_id);
 
-	ArrayList<vQuestion> select_exam();
+	ArrayList<vQuestion> select_exam(String student_id);
+
+	boolean answer_question(String test_id, String question_id, String student_id, String answer_option);
 
 }

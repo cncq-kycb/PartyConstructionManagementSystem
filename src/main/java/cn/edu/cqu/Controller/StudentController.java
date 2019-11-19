@@ -2,9 +2,11 @@ package cn.edu.cqu.Controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.cqu.Model.Student;
-import cn.edu.cqu.Model.Study;
-import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.StudentService;
+import cn.edu.cqu.Utils.Utils;
 
 @Controller
 @RequestMapping(value = "/stu")
@@ -32,7 +33,8 @@ public class StudentController {
 
 	// 主页
 	@RequestMapping(value = "/mainPage")
-	public String mainPage() {
+	public String mainPage(HttpSession session) {
+		session.setAttribute("message", "");
 		return "main_page_2";
 	}
 
@@ -95,11 +97,64 @@ public class StudentController {
 	// 每日竞答
 	@RequestMapping(value = "/test_page")
 	public String test_page(HttpSession session) {
-		ArrayList<vQuestion> question_list = studentService.select_exam();
-		for (vQuestion v : question_list)
-			System.out.println(v.toString());
+		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		ArrayList<vQuestion> question_list = studentService.select_exam(student_id);
+		if (question_list == null) {
+			session.setAttribute("message", "1");
+			return "main_page_2";
+		}
+		String temp = "";
+		for (int i = 0; i < question_list.size(); i++) {
+			int j = i + 1;
+			temp += "<li id=\"qu_0_" + i + "]\"><div class=\"test_content_nr_tt\"><i>" + j
+					+ "</i><span>(10分)</span><font>" + question_list.get(i).getQuestion_problem()
+					+ "（  ）</font></div><div class=\"test_content_nr_main\"><ul><li class=\"option\"><input type=\"radio\" value=\"A\" class=\"radioOrCheck\" name=\"answer"
+					+ j + "\"id=\"0_answer_" + j + "_option_1\" /><label for=\"0_answer_" + j
+					+ "_option_1\"><p class=\"ue\" style=\"display: inline;\">"
+					+ question_list.get(i).getQuestion_option_a()
+					+ "</p></label></li><li class=\"option\"><input type=\"radio\" class=\"radioOrCheck\" value=\"B\" name=\"answer"
+					+ j + "\"id=\"0_answer_" + j + "_option_2\" /><label for=\"0_answer_" + j
+					+ "_option_2\"><p class=\"ue\" style=\"display: inline;\">"
+					+ question_list.get(i).getQuestion_option_b()
+					+ "</p></label></li><li class=\"option\"><input type=\"radio\" class=\"radioOrCheck\" value=\"C\" name=\"answer"
+					+ j + "\"id=\"0_answer_" + j + "_option_3\" /><label for=\"0_answer_" + j
+					+ "_option_3\"><p class=\"ue\" style=\"display: inline;\"> "
+					+ question_list.get(i).getQuestion_option_c()
+					+ "</p></label></li><li class=\"option\"><input type=\"radio\" class=\"radioOrCheck\"  value=\"D\" name=\"answer"
+					+ j + "\"id=\"0_answer_" + j + "_option_4\" /><label for=\"0_answer_" + j
+					+ "_option_4\"><p class=\"ue\" style=\"display: inline;\"> "
+					+ question_list.get(i).getQuestion_option_d() + "</p></label></li></ul></div></li>";
+		}
+		session.setAttribute("test_name", question_list.get(0).getTest_name());
+		session.setAttribute("test_start_time", question_list.get(0).getTest_date_start());
+		session.setAttribute("test_length", question_list.size());
+		session.setAttribute("test_total_score", 10 * question_list.size());
 		session.setAttribute("question_list", question_list);
+		session.setAttribute("content", temp);
 		return "stu/test_page";
+	}
+
+	// 每日竞答提交答案
+	@RequestMapping(value = "/postAnswer")
+	public String postAnswer(String answer_list, HttpSession session) {
+		List<String> answer = Utils.splitByComma(answer_list);
+		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		ArrayList<vQuestion> question_list = studentService.select_exam(student_id);
+		for (int i = 0; i < answer.size(); i++) {
+			String answer_option = answer.get(i);
+			String question_id = question_list.get(i).getQuestion_id();
+			String test_id = question_list.get(i).getTest_id();
+			if (answer_option.equals("0")) {
+				answer_option = null;
+			}
+			if (studentService.answer_question(test_id, question_id, student_id, answer_option)) {
+				session.setAttribute("message", "2");
+			} else {
+				session.setAttribute("message", "2");
+				return "stu/test_page";
+			}
+		}
+		return "main_page_2";
 	}
 
 	// 活动签到页面
