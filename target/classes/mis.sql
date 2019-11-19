@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 20/11/2019 03:44:57
+ Date: 20/11/2019 06:01:50
 */
 
 SET NAMES utf8mb4;
@@ -104,8 +104,8 @@ CREATE TABLE `answer`  (
 -- ----------------------------
 -- Records of answer
 -- ----------------------------
-INSERT INTO `answer` VALUES (1, 1, 1, 1);
-INSERT INTO `answer` VALUES (1, 2, 1, 1);
+INSERT INTO `answer` VALUES (1, 1, 1, 2);
+INSERT INTO `answer` VALUES (1, 2, 1, 2);
 
 -- ----------------------------
 -- Table structure for apply
@@ -427,7 +427,7 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `att
 -- View structure for examination_view
 -- ----------------------------
 DROP VIEW IF EXISTS `examination_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `examination_view` AS select `question`.`question_problem` AS `question_problem`,`question`.`question_option_a` AS `question_option_a`,`question`.`question_option_b` AS `question_option_b`,`question`.`question_option_c` AS `question_option_c`,`question`.`question_option_d` AS `question_option_d`,`test`.`test_name` AS `test_name`,`test`.`test_date_start` AS `test_date_start`,`test`.`test_date_end` AS `test_date_end`,`test`.`test_id` AS `test_id` from ((`question` join `examination` on((`examination`.`question_id` = `question`.`question_id`))) join `test` on((`examination`.`test_id` = `test`.`test_id`)));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `examination_view` AS select `question`.`question_problem` AS `question_problem`,`question`.`question_option_a` AS `question_option_a`,`question`.`question_option_b` AS `question_option_b`,`question`.`question_option_c` AS `question_option_c`,`question`.`question_option_d` AS `question_option_d`,`test`.`test_name` AS `test_name`,`test`.`test_date_start` AS `test_date_start`,`test`.`test_date_end` AS `test_date_end`,`test`.`test_id` AS `test_id`,`question`.`question_id` AS `question_id` from ((`question` join `examination` on((`examination`.`question_id` = `question`.`question_id`))) join `test` on((`examination`.`test_id` = `test`.`test_id`)));
 
 -- ----------------------------
 -- View structure for student_view
