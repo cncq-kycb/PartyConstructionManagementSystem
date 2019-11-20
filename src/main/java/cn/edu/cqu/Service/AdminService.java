@@ -69,7 +69,7 @@ public interface AdminService {
 
 	boolean update_activity_status(String activity_id, String activity_status);
 
-	boolean insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
+	int insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
 			String activity_item, String activity_duration);
 
 	vActivity select_activity_by_id(String activity_id);
@@ -101,5 +101,7 @@ public interface AdminService {
 	String insert_test(String test_name, String test_date_start, String test_date_end);
 
 	boolean produceExam(String test_id, String question_id);
+
+	boolean insert_attendance_for_all_student(int activity_id, String branch_id);
 
 }

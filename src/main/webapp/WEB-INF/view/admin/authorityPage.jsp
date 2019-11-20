@@ -330,8 +330,8 @@ table tr th {
 			var student_num_check = $td.eq(0).text();
 			var student_name_check = $td.eq(1).text();
 			var student_gender_check = $td.eq(2).text();
-			var branch_name_check = $td.eq(3).text();
-			var student_status_check = $td.eq(4).text();
+			var branch_name_check = $td.eq(4).text();
+			var student_status_check = $td.eq(3).text();
 
 			$("#student_num_check").val(student_num_check);
 			$("#student_name_check").val(student_name_check);

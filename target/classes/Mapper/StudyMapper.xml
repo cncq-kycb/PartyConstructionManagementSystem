@@ -3,31 +3,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.cqu.Dao.StudyMapper">
 
-	<select id="select_all_study" resultType="cn.edu.cqu.Model.Study">
+	<select id="select_all_study"
+		resultType="cn.edu.cqu.Model.Study">
 		select *
 		from
 		study
 	</select>
-	
-		<select id="select_study_by_id" resultType="cn.edu.cqu.Model.vStudy">
+
+	<select id="select_study_by_id"
+		resultType="cn.edu.cqu.Model.vStudy">
 		select *
 		from
 		study_view
 		where
 		study_id = ${study_id}
 	</select>
-	
+
 	<!-- 生成study -->
 	<insert id="insert_study">
 		insert into study(study_title, study_status,
-		study_date, 
+		study_date,
 		study_content)
 		values(#{study_title}, #{study_status},
 		now(),
 		#{study_content})
 	</insert>
-	
-		<!-- 编辑study -->
+
+	<!-- 编辑study -->
 	<update id="update_study">
 		update study
 		set study_title =
@@ -36,14 +38,14 @@
 		#{study_content}
 		where study_id = #{study_id}
 	</update>
-	
+
 	<delete id="delete_study">
-	delete from
-	study
-	where
-	study_id = #{study_id}
+		delete from
+		study
+		where
+		study_id = #{study_id}
 	</delete>
-	
+
 	<select id="select_study_list"
 		resultType="cn.edu.cqu.Model.vStudy">
 		select *
@@ -60,5 +62,4 @@
 		</where>
 	</select>
 
-	
 </mapper>

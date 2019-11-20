@@ -52,8 +52,8 @@
 		<ul id="slide-out" class="collapsible side-nav">
 			<li class="list-top">
 				<div class="user-view">
-					<h4>${student_name}</h4>
-					<span>${branch_name}</span>
+					<h4>您好，请注册后登录</h4>
+					<span></span>
 				</div>
 			</li>
 			<li><a href="/mis/stu/main_page_2"><i class="fas fa-home"></i>主页</a></li>
@@ -62,76 +62,32 @@
 			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>		
 			<li><a href="/mis/login"><i class="fas fa-sign-in-alt"></i>登    录</a></li>
 			<li><a href="/mis/register"><i class="fas fa-user-plus"></i>注    册</a></li>
-			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
 		</ul>
 	</div>
-	<!-- end sidebar left -->
-	
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<center>
-							<div class="wrap-info">
-				<ul>
-				<h3>${vstudent.student_name }</h3>
-				<li>${vstudent.student_num }</li>
-				<li>${vstudent.student_permission }</li>
-					<li>${vstudent.branch_name }&ensp;&ensp;&ensp;&ensp;${vstudent.student_status }</li>
-					
-					<h4>&ensp;</h4>
-					<li><i class="fas fa-phone"></i>&ensp;${vstudent.student_tel }</li>
-					<li><i class="fas fa-envelope"></i>&ensp;${vstudent.student_email}</li>
-				</ul>
-			</div>
-			</center>
-	<div class="features segments-page">
-		<div class="container">
-			<div class="row">
-			<a href="/mis/stu/update_psw_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-sync-alt bg-orange"></i>
-						<h5>修改密码</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/update_info_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-phone bg-red"></i>
-						<h5>联系方式</h5>
-					</div>
-				</div>
-				</a>
-			</div>
 
-			<div class="row">
-			<a href="/mis/stu/apply_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-check bg-blue"></i>
-						<h5>申请党员</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/activity_record_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-chart-area bg-blue2"></i>
-						<h5>活动记录</h5>
-					</div>
-				</div>
-				</a>
-				</div>
-				
-				</div>
+	<!-- register -->
+	<div class="register segments-page">
+		<div class="container">
+			<div class="contact-title">
+				<h3>申请认证</h3>
+			</div>
+			<div class="wrap-form">
+				<form>
+					<input type="text" placeholder="学号">
+					<input type="text" placeholder="姓名">
+					<input type="text" placeholder="用户名">
+					<input type="text" placeholder="手机号码">
+					<input type="Email" placeholder="电子邮箱">
+					<input type="password" placeholder="输入密码">
+					<input type="password" placeholder="重复密码">
+				</form>
+				<button class="button">申请认证</button>
+			</div>
+			<div class="info">
+				<p>已有账户?<span><a href="/mis/login">登 录</a></span></p>
+			</div>
 		</div>
 	</div>
-	<!-- end features -->
-	<h5>&ensp;</h5>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-	
 	
 	
 

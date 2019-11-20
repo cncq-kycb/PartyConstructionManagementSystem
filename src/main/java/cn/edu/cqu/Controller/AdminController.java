@@ -435,9 +435,15 @@ public class AdminController {
 				break;
 			}
 		}
-		if (adminService.insert_activity(activity_name, branch_id, activity_date, activity_location, activity_item,
-				activity_duration)) {
-			session.setAttribute("message", "1");
+		int activity_id = adminService.insert_activity(activity_name, branch_id, activity_date, activity_location,
+				activity_item, activity_duration);
+		if (activity_id != -1) {
+			if (adminService.insert_attendance_for_all_student(activity_id, branch_id)) {
+				session.setAttribute("message", "1");
+			} else {
+				session.setAttribute("message", "2");
+				return "admin/addActivityPage";
+			}
 		} else {
 			session.setAttribute("message", "2");
 		}

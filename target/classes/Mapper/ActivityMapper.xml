@@ -42,19 +42,29 @@
 
 	<!-- 生成活动 -->
 	<insert id="insert_activity">
-		insert into activity(activity_name, branch_id,
+		insert into activity(activity_id,activity_name,
+		branch_id,
 		activity_date, activity_location,
 		activity_item,activity_status,activity_duration)
-		values(#{activity_name}, #{branch_id},
+		values(#{activity_id},#{activity_name}, #{branch_id},
 		#{activity_date},
-		#{activity_location}, #{activity_item}, 1, #{activity_duration})
+		#{activity_location}, #{activity_item}, 1,
+		#{activity_duration})
 	</insert>
-	
+
 	<!-- 根据ID获取活动 -->
-		<select id="select_activity_by_id"
+	<select id="select_activity_by_id"
 		resultType="cn.edu.cqu.Model.vActivity">
 		select *
 		from activity_view
-		where activity_id = #{activity_id}
+		where activity_id =
+		#{activity_id}
+	</select>
+
+	<!-- 获取目前最大activity_id -->
+	<select id="select_curr_activity_id" resultType="int">
+		select
+		max(activity_id)
+		from activity
 	</select>
 </mapper>

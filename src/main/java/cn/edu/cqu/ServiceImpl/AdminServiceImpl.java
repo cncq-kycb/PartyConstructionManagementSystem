@@ -282,16 +282,17 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public boolean insert_activity(String activity_name, String branch_id, String activity_date,
-			String activity_location, String activity_item, String activity_duration) {
+	public int insert_activity(String activity_name, String branch_id, String activity_date, String activity_location,
+			String activity_item, String activity_duration) {
 		// TODO Auto-generated method stub
 		try {
-			activityMapper.insert_activity(activity_name, branch_id, activity_date, activity_location, activity_item,
-					activity_duration);
-			return true;
+			int curr_activity_id = activityMapper.select_curr_activity_id();
+			activityMapper.insert_activity(curr_activity_id + 1, activity_name, branch_id, activity_date,
+					activity_location, activity_item, activity_duration);
+			return curr_activity_id + 1;
 		} catch (Exception e) {
 			// TODO: handle exception
-			return false;
+			return -1;
 		}
 	};
 
@@ -411,6 +412,22 @@ public class AdminServiceImpl implements AdminService {
 			// TODO: handle exception
 			return false;
 		}
+	}
+
+	@Override
+	public boolean insert_attendance_for_all_student(int activity_id, String branch_id) {
+		// TODO Auto-generated method stub
+		ArrayList<Student> students = studentMapper.select_student_by_branch_id(branch_id);
+		for (Student student : students) {
+			String student_id = student.getStudent_id();
+			try {
+				attendanceMapper.insert_attendance(activity_id, student_id);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

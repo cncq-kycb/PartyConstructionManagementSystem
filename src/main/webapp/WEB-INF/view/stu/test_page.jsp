@@ -104,7 +104,7 @@
 					<span>${branch_name}</span>
 				</div>
 			</li>
-			<li><a href="/mis/main_page_2"><i class="fas fa-home"></i>主页</a></li>
+			<li><a href="/mis/stu/main_page_2"><i class="fas fa-home"></i>主页</a></li>
 			<li><a href="/mis/stu/test_page"><i
 					class="fas fa-graduation-cap"></i>每日竞答</a></li>
 			<li>

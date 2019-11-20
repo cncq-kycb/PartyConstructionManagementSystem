@@ -15,7 +15,15 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.theme.default.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/style.css">
+<style>
+input{
+font-size:50px;
+}
+label{
+font-size:14px;
+}
 
+</style> 
 </head>
 <body>
 	<!-- preloader -->
@@ -67,74 +75,74 @@
 	</div>
 	<!-- end sidebar left -->
 	
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<center>
-							<div class="wrap-info">
-				<ul>
-				<h3>${vstudent.student_name }</h3>
-				<li>${vstudent.student_num }</li>
-				<li>${vstudent.student_permission }</li>
-					<li>${vstudent.branch_name }&ensp;&ensp;&ensp;&ensp;${vstudent.student_status }</li>
-					
-					<h4>&ensp;</h4>
-					<li><i class="fas fa-phone"></i>&ensp;${vstudent.student_tel }</li>
-					<li><i class="fas fa-envelope"></i>&ensp;${vstudent.student_email}</li>
-				</ul>
-			</div>
-			</center>
-	<div class="features segments-page">
-		<div class="container">
-			<div class="row">
-			<a href="/mis/stu/update_psw_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-sync-alt bg-orange"></i>
-						<h5>修改密码</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/update_info_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-phone bg-red"></i>
-						<h5>联系方式</h5>
-					</div>
-				</div>
-				</a>
-			</div>
 
-			<div class="row">
-			<a href="/mis/stu/apply_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-check bg-blue"></i>
-						<h5>申请党员</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/activity_record_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-chart-area bg-blue2"></i>
-						<h5>活动记录</h5>
-					</div>
-				</div>
-				</a>
-				</div>
 				
-				</div>
-		</div>
-	</div>
-	<!-- end features -->
-	<h5>&ensp;</h5>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
+	<!-- slider -->
 	
+		<div>&ensp;&ensp;</div>
+	<div>&ensp;&ensp;</div>
+<div>&ensp;&ensp;</div>
 	
-	
+		<div>&ensp;&ensp;</div>
+	<div>&ensp;&ensp;</div>
+<div>&ensp;&ensp;</div>
+	<form class="form-horizontal" name="inputForm"
+								action="/mis/stu/updatePsw" 
+								method="post">
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;学&ensp;&ensp;号：&ensp;&ensp;${vstudent.student_num }</label>
 
+								
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;姓&ensp;&ensp;名：&ensp;&ensp;${vstudent.student_name }</label>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;所属支部：${vstudent.branch_name }</label>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;当前状态：${vstudent.student_status } </label>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;当前权限：${vstudent.student_permission }</label>
+					
+								</div>
+								<div class="line"></div>
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;原密码：</label>
+									
+										<input type="password" name="psw_old" id="psw_old"
+											placeholder="请输入原密码" class="form-control">
+								
+								</div>
+								<div class="line"></div>
+								<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;新密码：</label>
+									
+										<input type="text" name="psw_new" id="psw_new"
+											placeholder="请输入新密码" class="form-control">
+									
+								</div>
+								<div class="line"></div>
+																<div class="form-group row">
+									<label class="col-sm-3 form-control-label">&ensp;&ensp;重复新密码：</label>
+									
+										<input type="text"name="psw_re" id="psw_re"
+											placeholder="请再次输入新密码" class="form-control">
+									
+								</div>
+								<div class="form-group row">
+								<center>
+									<div >
+										<button type="submit" class="btn btn-primary">提交</button>
+									</div></center>
+								</div>
+							</form>
+	
+	
+		<div>&ensp;&ensp;</div>
+	<div>&ensp;&ensp;</div>
+<div>&ensp;&ensp;</div>
 
 
 	<!-- footer -->
@@ -153,11 +161,13 @@
 		</div>
 	</footer>
 	<!-- end footer -->
+	
 
 	<script src="<%=request.getContextPath()%>/Edugo/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/Edugo/js/materialize.min.js"></script>
 	<script src="<%=request.getContextPath()%>/Edugo/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/Edugo/js/main.js"></script>
+
 
 </body>
 </html>

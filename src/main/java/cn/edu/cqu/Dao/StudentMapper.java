@@ -48,4 +48,6 @@ public interface StudentMapper {
 
 	String select_student_id_by_student_num(@Param("student_num") String student_num);
 
+	ArrayList<Student> select_student_by_branch_id(String branch_id);
+
 }

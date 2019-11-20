@@ -18,6 +18,7 @@
 
 </head>
 <body>
+
 	<!-- preloader -->
 	<div class="loader-wrapper">
 		<div class="loader-cube"></div>
@@ -67,75 +68,43 @@
 	</div>
 	<!-- end sidebar left -->
 	
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<center>
-							<div class="wrap-info">
-				<ul>
-				<h3>${vstudent.student_name }</h3>
-				<li>${vstudent.student_num }</li>
-				<li>${vstudent.student_permission }</li>
-					<li>${vstudent.branch_name }&ensp;&ensp;&ensp;&ensp;${vstudent.student_status }</li>
-					
-					<h4>&ensp;</h4>
-					<li><i class="fas fa-phone"></i>&ensp;${vstudent.student_tel }</li>
-					<li><i class="fas fa-envelope"></i>&ensp;${vstudent.student_email}</li>
-				</ul>
-			</div>
-			</center>
-	<div class="features segments-page">
-		<div class="container">
-			<div class="row">
-			<a href="/mis/stu/update_psw_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-sync-alt bg-orange"></i>
-						<h5>修改密码</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/update_info_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-phone bg-red"></i>
-						<h5>联系方式</h5>
-					</div>
-				</div>
-				</a>
-			</div>
 
-			<div class="row">
-			<a href="/mis/stu/apply_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-check bg-blue"></i>
-						<h5>申请党员</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/activity_record_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-chart-area bg-blue2"></i>
-						<h5>活动记录</h5>
-					</div>
-				</div>
-				</a>
-				</div>
 				
+	<!-- slider -->
+	
+	<div class="container">
+		<div class="slide">
+			<div class="slider-slide owl-carousel owl-theme">
+
+               	<a href="/mis/stu/attendence_page">
+				<div class="content">
+					<div class="mask-red"></div>
+					<div class="slider-caption">
+						<h2>活动签到/请假</h2>
+					<p><点击进入></p>
+					</div>
 				</div>
+               </a>
+			</div>
 		</div>
 	</div>
-	<!-- end features -->
-	<h5>&ensp;</h5>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-	
-	
-	
+		<div class="container">
+		<div class="slide">
+			<div class="slider-slide owl-carousel owl-theme">
 
-
+               	<a href="/mis/stu/life_record_page">
+				<div class="content">
+					<div class="mask-purple"></div>
+					<div class="slider-caption">
+						<h2>组织生活记录</h2>
+					<p><点击进入></p>
+					</div>
+				</div>
+               </a>
+			</div>
+		</div>
+	</div>
+	<div>&ensp;</div>
 
 	<!-- footer -->
 	<footer>

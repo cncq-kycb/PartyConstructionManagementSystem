@@ -153,4 +153,12 @@
 		set student_status = student_status + 1
 		where student_num = #{student_num}
 	</update>
+
+	<!-- 根据支部id选择学生 -->
+	<select id="select_student_by_branch_id"
+		resultType="cn.edu.cqu.Model.Student">
+		select *
+		from student
+		where branch_id = #{branch_id}
+	</select>
 </mapper>

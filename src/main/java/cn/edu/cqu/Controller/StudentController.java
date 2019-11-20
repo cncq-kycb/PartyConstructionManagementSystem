@@ -16,12 +16,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 
+import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Student;
+import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
+import cn.edu.cqu.Service.AdminService;
 import cn.edu.cqu.Service.StudentService;
 import cn.edu.cqu.Utils.Utils;
 
@@ -30,35 +33,95 @@ import cn.edu.cqu.Utils.Utils;
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
+	@Autowired
+	private AdminService adminService;
 
 	// 主页
-	@RequestMapping(value = "/mainPage")
+	@RequestMapping(value = "/main_page_2")
 	public String mainPage(HttpSession session) {
 		session.setAttribute("message", "");
 		return "main_page_2";
 	}
+	
+	// 学习中心页面
+	@RequestMapping(value = "/study_center_page")
+	public String study_center_page(HttpSession session) {
+		return "stu/study_center_page";
+	}
+	
+	// read_study页面跳转
+	@RequestMapping(value = "/choose_page")
+	public String choosePage(HttpSession session) {
+		String study_status = (String) session.getAttribute("study_status");
+		if("1".equals(study_status)) {
+			return "stu/NCCPC_page";
+		}
+		else if("2".equals(study_status)) {
+			return "stu/material_page";
+		}
+		else if("3".equals(study_status)){
+			return "stu/member_read_page";
+		}
+		return "stu/study_center_page";
+	}
+	
+	// 组织生活页面
+	@RequestMapping(value = "/party_life_page")
+	public String party_life_page(HttpSession session) {
+		return "stu/party_life_page";
+	}
+	
+	// 推文学习页面
+	@RequestMapping(value = "/readStudy")
+	public String read_study_page(HttpSession session,String study_id) {
+		vStudy study = adminService.select_study_by_id(study_id);
+		session.setAttribute("study_title", study.getStudy_title());
+		session.setAttribute("study_date", study.getStudy_date());
+		session.setAttribute("study_content", study.getStudy_content());
+		session.setAttribute("means", study.getMeans());
+		session.setAttribute("study_status", study.getStudy_status());
+		return "stu/read_study_page";
+	}
 
 	// 十九大讲话
 	@RequestMapping(value = "/NCCPC_page")
-	public String NCCPC_page(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-			HttpSession session) {
-		studentService.jump_study_page(study_title_input, session, "十九大讲话");
+	public String NCCPC_page(HttpSession session) {
+		
+		ArrayList<vStudy> study_list = studentService.select_study_list("", "1");
+		String temp = "";
+		for(int i=0;i<study_list.size();i++) {
+			temp+="<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="+study_list.get(i).getStudy_id()+"\"><h5>&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_title()+"</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_date()+"<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+		}
+		session.setAttribute("study_list", study_list);
+		session.setAttribute("content", temp);
+
+		
 		return "stu/NCCPC_page";
 	}
 
 	// 历史学习资料
 	@RequestMapping(value = "/material_page")
-	public String material_page(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-			HttpSession session) {
-		studentService.jump_study_page(study_title_input, session, "历史学习资料");
+	public String material_page(HttpSession session) {
+		ArrayList<vStudy> study_list = studentService.select_study_list("", "2");
+		String temp = "";
+		for(int i=0;i<study_list.size();i++) {
+			temp+="<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="+study_list.get(i).getStudy_id()+"\"><h5>&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_title()+"</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_date()+"<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+		}
+		session.setAttribute("study_list", study_list);
+		session.setAttribute("content", temp);
 		return "stu/material_page";
 	}
 
 	// 党员必读
 	@RequestMapping(value = "/member_read_page")
-	public String member_read_page(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-			HttpSession session) {
-		studentService.jump_study_page(study_title_input, session, "党员必读");
+	public String member_read_page(HttpSession session) {
+		ArrayList<vStudy> study_list = studentService.select_study_list("", "3");
+		String temp = "";
+		for(int i=0;i<study_list.size();i++) {
+			temp+="<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="+study_list.get(i).getStudy_id()+"\"><h5>&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_title()+"</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_date()+"<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+		}
+		session.setAttribute("study_list", study_list);
+		session.setAttribute("content", temp);
 		return "stu/member_read_page";
 	}
 
@@ -215,6 +278,8 @@ public class StudentController {
 		return "stu/attendence_page";
 	}
 
+	
+	
 	// 组织生活记录页面
 	@RequestMapping(value = "/life_record_page")
 	public String life_record_page(HttpSession session) {
@@ -227,22 +292,89 @@ public class StudentController {
 		String total_duration = studentService.attendance_total_duration_by_branch(branch_id);
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
 		ArrayList<vAttendance> vattendances = studentService.select_attendance_by_branch_id(branch_id);
-		PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
+		
+		String temp = "";
+		String start = "<div class=\"row\">";
+		String end = "</div>";
+	
+		for(int i=0;i<vattendances.size();i++){
+		String color = "";
+		if("1".equals(vattendances.get(i).getAttendance_status_id())||"2".equals(vattendances.get(i).getAttendance_status_id())||"4".equals(vattendances.get(i).getAttendance_status_id())){
+		color += "purple";
+		}
+		else if("3".equals(vattendances.get(i).getAttendance_status_id())){
+			color += "blue";
+			}
+		else if("5".equals(vattendances.get(i).getAttendance_status_id())){
+			color += "red";
+			}
+		else if("6".equals(vattendances.get(i).getAttendance_status_id())){
+			color += "orange";
+			}
+		String delta="<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"+vattendances.get(i).getActivity_date()+"</h4></div><div class=\"wrap-price bg-"+color+"\"><h4>"+vattendances.get(i).getAttendance_status()+"</h4></div><div class=\"wrap-list\"><ul><li>"+vattendances.get(i).getActivity_name()+"</li><li>"+ vattendances.get(i).getActivity_duration()+"H</li></ul></div><a href=\"/mis/stu/check_activity_page?activity_id="+vattendances.get(i).getActivity_id()+"\"><button class=\"button\">查看活动</button></a></div></div>";
+		if(i%2==0){
+			if(i!=0) {
+			temp+=end;
+			}
+			temp+=start;
+		    temp+=delta;
+			if(i==vattendances.size()-1) {
+			temp+=end;
+		}
+		}
+		else { 	
+			temp+=delta;
+			if(i==vattendances.size()-1) {
+				temp+=end;
+			}
+		}
+	}
+		System.out.println(temp);
+		session.setAttribute("content", temp);
 		session.setAttribute("total_time", total_time);
 		session.setAttribute("total_duration", total_duration);
 		session.setAttribute("branch_name", branch_name);
-		session.setAttribute("pageInfo", pageInfo);
 		return "stu/life_record_page";
+	}
+	
+	// 查看活动详情页面
+	@RequestMapping(value = "/check_activity_page")
+	public String check_activity_page(HttpSession session,String activity_id) {
+		vActivity activity = adminService.select_activity_by_id(activity_id);
+		String branch_name = null;
+
+		ArrayList<Branch> branch = adminService.select_all_branch();
+		for (Branch b : branch) {
+			if (b.getBranch_id().equals(activity.getBranch_id())) {
+				branch_name = b.getBranch_name();
+				break;
+			}
+		}
+
+		session.setAttribute("activity_item", activity.getActivity_item());
+		session.setAttribute("activity_name", activity.getActivity_name());
+		session.setAttribute("activity_date", activity.getActivity_date());
+		session.setAttribute("activity_location", activity.getActivity_location());
+		session.setAttribute("means", activity.getMeans());
+		session.setAttribute("activity_duration", activity.getActivity_duration());
+		session.setAttribute("branch_name", branch_name);
+		return "stu/check_activity_page";
 	}
 
 	// 个人信息页面
 	@RequestMapping(value = "/info_page")
 	public String info_page(HttpSession session) {
-		session.setAttribute("message", "");
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		vStudent vStudent = studentService.select_vstudent_by_student_id(student_id);
 		session.setAttribute("vstudent", vStudent);
 		return "stu/info_page";
+	}
+	
+	// 个人信息页面
+	@RequestMapping(value = "/update_info_page")
+	public String update_info_page(HttpSession session) {
+		session.setAttribute("message", "");
+		return "stu/update_info_page";
 	}
 
 	// 修改个人信息

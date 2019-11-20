@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>党员管理系统</title>
+<title>CQU党建</title>
 <meta name="description" content="">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,7 +39,7 @@
 								<div class="logo">
 									<h1>Party Manager</h1>
 								</div>
-								<p>党员管理系统</p>
+								<p>CQU党建</p>
 							</div>
 						</div>
 					</div>

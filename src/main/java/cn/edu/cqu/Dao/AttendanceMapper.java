@@ -33,4 +33,6 @@ public interface AttendanceMapper {
 
 	int count_total_num_by_activity_id(String activity_id);
 
+	void insert_attendance(@Param("activity_id") int activity_id, @Param("student_id") String student_id);
+
 }

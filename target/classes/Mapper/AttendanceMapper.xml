@@ -112,4 +112,10 @@
 		and activity_id = #{activity_id}
 	</update>
 
+	<insert id="insert_attendance">
+		insert into attendance
+		(activity_id,student_id,attendance_status) values
+		(#{activity_id},#{student_id},2)
+	</insert>
+
 </mapper>

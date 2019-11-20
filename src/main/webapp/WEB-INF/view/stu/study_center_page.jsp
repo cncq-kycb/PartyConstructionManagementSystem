@@ -18,6 +18,7 @@
 
 </head>
 <body>
+
 	<!-- preloader -->
 	<div class="loader-wrapper">
 		<div class="loader-cube"></div>
@@ -67,71 +68,47 @@
 	</div>
 	<!-- end sidebar left -->
 	
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-<center>
-							<div class="wrap-info">
-				<ul>
-				<h3>${vstudent.student_name }</h3>
-				<li>${vstudent.student_num }</li>
-				<li>${vstudent.student_permission }</li>
-					<li>${vstudent.branch_name }&ensp;&ensp;&ensp;&ensp;${vstudent.student_status }</li>
-					
-					<h4>&ensp;</h4>
-					<li><i class="fas fa-phone"></i>&ensp;${vstudent.student_tel }</li>
-					<li><i class="fas fa-envelope"></i>&ensp;${vstudent.student_email}</li>
-				</ul>
-			</div>
-			</center>
-	<div class="features segments-page">
-		<div class="container">
-			<div class="row">
-			<a href="/mis/stu/update_psw_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-sync-alt bg-orange"></i>
-						<h5>修改密码</h5>
-					</div>
-				</div>
-				</a>
-				<a href="/mis/stu/update_info_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-phone bg-red"></i>
-						<h5>联系方式</h5>
-					</div>
-				</div>
-				</a>
-			</div>
 
-			<div class="row">
-			<a href="/mis/stu/apply_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-check bg-blue"></i>
-						<h5>申请党员</h5>
-					</div>
+		<div class="services segments-page">
+		<div class="container">
+			<div class="content bg-red">
+				<div class="services-caption">
+					<a href="/mis/stu/NCCPC_page"><h4>十九大讲话</h4></a>
 				</div>
-				</a>
-				<a href="/mis/stu/activity_record_page">
-				<div class="col s6">
-					<div class="content">
-						<i class="fas fa-chart-area bg-blue2"></i>
-						<h5>活动记录</h5>
-					</div>
+			</div>
+			</div>
+			<h1>&ensp;</h1>
+				<div class="container">
+			<div class="content bg-blue">
+				<div class="services-caption">
+					<a href="/mis/stu/member_read_page"><h4>党员必读</h4></a>
 				</div>
-				</a>
+			</div>
+			</div>
+			<h1>&ensp;</h1>
+					<div class="container">
+			<div class="content bg-purple">
+				<div class="services-caption">
+					<a href="/mis/stu/material_page"><h4>历史学习资料</h4></a>
 				</div>
+			</div>
+			</div>
+			
+	<h1>&ensp;</h1>
+		<div class="container">
+			<div class="content bg-orange">
+				<div class="services-caption">
+					<a href="/mis/stu/test_page"><h4>每日竞答</h4></a>
+				</div>
+			</div>
+			</div>
+			
+			
+			</div>
 				
-				</div>
-		</div>
-	</div>
-	<!-- end features -->
-	<h5>&ensp;</h5>
-<h1>&ensp;</h1>
-<h1>&ensp;</h1>
-	
+				
+
+		
 	
 	
 

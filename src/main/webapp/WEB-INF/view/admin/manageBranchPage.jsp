@@ -180,9 +180,9 @@ table tr th {
 								<button type="button" class="btn btn-warning" id="unpassBtn"
 									onclick="deleteButton('/mis/admin/unpassFromBranch')"
 									name="unpassBtn">取消管理</button>
-								<button type="button" class="btn btn-danger" id="deletesBtn"
+								<!--  <button type="button" class="btn btn-danger" id="deletesBtn"
 									name="deleteBtn"
-									onclick="deleteButton('/mis/admin/deleteFromBranch')">移出支部</button>
+									onclick="deleteButton('/mis/admin/deleteFromBranch')">移出支部</button>-->
 							</center>
 							<table class="table table-hover table-bordered" id="Table"
 								data-toggle="table" data-toggle="table" data-pagination="true"
