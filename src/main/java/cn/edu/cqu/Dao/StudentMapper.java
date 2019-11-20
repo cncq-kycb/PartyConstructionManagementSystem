@@ -50,4 +50,6 @@ public interface StudentMapper {
 
 	ArrayList<Student> select_student_by_branch_id(String branch_id);
 
+	vStudent select_vStudent_by_student_num(String student_num);
+
 }

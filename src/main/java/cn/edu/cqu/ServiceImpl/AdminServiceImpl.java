@@ -25,6 +25,7 @@ import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
+import cn.edu.cqu.Model.vTest;
 import cn.edu.cqu.Service.AdminService;
 
 @Service
@@ -428,6 +429,18 @@ public class AdminServiceImpl implements AdminService {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public ArrayList<vTest> select_vTest(String student_num) {
+		// TODO Auto-generated method stub
+		return testMapper.select_vTest(student_num);
+	}
+
+	@Override
+	public vStudent select_vStudent_by_student_num(String student_num) {
+		// TODO Auto-generated method stub
+		return studentMapper.select_vStudent_by_student_num(student_num);
 	}
 
 }

@@ -161,4 +161,12 @@
 		from student
 		where branch_id = #{branch_id}
 	</select>
+
+	<!-- 根据学号选择学生视图 -->
+	<select id="select_vStudent_by_student_num"
+		resultType="cn.edu.cqu.Model.vStudent">
+		select *
+		from student_view
+		where student_num = #{student_num}
+	</select>
 </mapper>

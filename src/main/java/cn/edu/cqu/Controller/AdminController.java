@@ -29,6 +29,7 @@ import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
+import cn.edu.cqu.Model.vTest;
 import cn.edu.cqu.Service.AdminService;
 import cn.edu.cqu.Service.UserService;
 import cn.edu.cqu.Utils.Utils;
@@ -807,9 +808,16 @@ public class AdminController {
 		return "admin/editCompetitionPage";
 	}
 
-	// 知识竞答结果
+	// 知识竞答结果页面
 	@RequestMapping(value = "/resultByTestPage")
 	public String resultByTestPage(HttpSession session) {
+		session.setAttribute("list", "");
+		session.setAttribute("score_percent", "");
+		session.setAttribute("total_time", "");
+		session.setAttribute("student_name", "");
+		session.setAttribute("student_num", "");
+		session.setAttribute("branch_name", "");
+		session.setAttribute("student_status", "");
 		session.setAttribute("message", "");
 		return "admin/resultByTestPage";
 	}
@@ -817,6 +825,39 @@ public class AdminController {
 	// 按学生查询知识竞答结果
 	@RequestMapping(value = "/resultByStudentPage")
 	public String resultByStudentPage(HttpSession session) {
+		session.setAttribute("list", "");
+		session.setAttribute("score_percent", "");
+		session.setAttribute("total_time", "");
+		session.setAttribute("student_name", "");
+		session.setAttribute("student_num", "");
+		session.setAttribute("branch_name", "");
+		session.setAttribute("student_status", "");
+		session.setAttribute("message", "");
+		return "admin/resultByStudentPage";
+	}
+
+	// 知识竞答结果按学生查询
+	@RequestMapping(value = "/resultByStudentPageFinder")
+	public String resultByStudentPageFinder(String student_num_input, HttpSession session) {
+		if (student_num_input == null || student_num_input.equals("")) {
+			session.setAttribute("message", "2");
+			return "admin/resultByStudentPage";
+		}
+		ArrayList<vTest> vTests = adminService.select_vTest(student_num_input);
+		int correct_num = 0, total_num = 0;
+		for (vTest v : vTests) {
+			correct_num += v.getCorrect_num();
+			total_num += v.getTotal_num();
+		}
+		double score_percent = correct_num * 100 / total_num;
+		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_input);
+		session.setAttribute("list", vTests);
+		session.setAttribute("score_percent", score_percent);
+		session.setAttribute("total_time", vTests.size());
+		session.setAttribute("student_name", vstudent.getStudent_name());
+		session.setAttribute("student_num", student_num_input);
+		session.setAttribute("branch_name", vstudent.getBranch_name());
+		session.setAttribute("student_status", vstudent.getStudent_status());
 		session.setAttribute("message", "");
 		return "admin/resultByStudentPage";
 	}

@@ -14,6 +14,7 @@ import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudy;
+import cn.edu.cqu.Model.vTest;
 
 public interface AdminService {
 
@@ -103,5 +104,9 @@ public interface AdminService {
 	boolean produceExam(String test_id, String question_id);
 
 	boolean insert_attendance_for_all_student(int activity_id, String branch_id);
+
+	ArrayList<vTest> select_vTest(String student_num);
+
+	vStudent select_vStudent_by_student_num(String student_num);
 
 }

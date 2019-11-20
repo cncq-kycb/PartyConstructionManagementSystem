@@ -40,6 +40,12 @@ table tr th {
 
 </head>
 <body>
+	<script type="text/javascript">
+		var msg = "${message}";
+		if (msg == "2") {
+			alert('必须输入学生学号');
+		}
+	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
@@ -141,16 +147,11 @@ table tr th {
 										id="Table" data-toggle="table" data-toggle="table"
 										data-pagination="true" data-side-pagination="client">
 										<tr>
-											<th>姓名：</th>
-											<td><input type="text" placeholder="精确查找，完整的姓名"
-												value="${student_name_input}" class="form-control"
-												style="border-radius: 3px; height: 30px" id="student_name_input"
-												name="student_name_input"></td>
 											<th>学号：</th>
 											<td><input type="text" placeholder="精确查找，完整的学号"
 												value="${student_num_input}" class="form-control"
-												style="border-radius: 3px; height: 30px" id="student_num_input"
-												name="student_num_input"></td>
+												style="border-radius: 3px; height: 30px"
+												id="student_num_input" name="student_num_input"></td>
 										</tr>
 									</table>
 									<div class="cxbottom">
@@ -198,12 +199,11 @@ table tr th {
 								<tr>
 									<th>所在支部</th>
 									<td>${branch_name}</td>
-									<th>所属级别</th>
+									<th>政治面貌</th>
 									<td>${student_status}</td>
-									 
+
 								</tr>
 								<tr>
-									<th>日期</th>
 									<th>试卷名称</th>
 									<th>试卷总分</th>
 									<th>实际得分</th>
@@ -213,10 +213,9 @@ table tr th {
 							<tbody>
 								<c:forEach items="${list}" var="test_list">
 									<tr style="height: auto;">
-										<td>${test_list.test_date}</td>
 										<td>${test_list.test_name }</td>
-										<td>${test_list.total_score}</td>
-										<td>${test_list.get_score}</td>
+										<td>${test_list.total_num}</td>
+										<td>${test_list.correct_num}</td>
 									</tr>
 								</c:forEach>
 
@@ -224,11 +223,11 @@ table tr th {
 							<tr>
 								<th rowspan="2" colspan="2"></th>
 								<th>总答题次数</th>
-								<td>${test_list.length}</td>
+								<td>${total_time}</td>
 							</tr>
 							<tr>
 								<th>得分率</th>
-								<td>${score_percent}</td>
+								<td>${score_percent}%</td>
 							</tr>
 						</table>
 					</div>

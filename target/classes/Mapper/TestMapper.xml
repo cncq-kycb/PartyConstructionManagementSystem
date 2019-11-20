@@ -78,4 +78,10 @@
 		#{student_id} and test_id=#{test_id}
 	</select>
 
+	<select id="select_vTest" resultType="cn.edu.cqu.Model.vTest">
+		select *
+		from test_view
+		where student_num = #{student_num}
+	</select>
+
 </mapper>

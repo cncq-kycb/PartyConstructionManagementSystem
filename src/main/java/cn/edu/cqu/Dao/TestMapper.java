@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import cn.edu.cqu.Model.Question;
 import cn.edu.cqu.Model.vQuestion;
+import cn.edu.cqu.Model.vTest;
 
 public interface TestMapper {
 
@@ -38,5 +39,7 @@ public interface TestMapper {
 			@Param("student_id") String student_id, @Param("answer_option") String answer_option);
 
 	int answer_result(@Param("test_id") String test_id, @Param("student_id") String student_id);
+
+	ArrayList<vTest> select_vTest(@Param("student_num") String student_num);
 
 }

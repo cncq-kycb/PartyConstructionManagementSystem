@@ -114,7 +114,7 @@
 					</div>
 				</div>
 				</a>
-				<a href="/mis/stu/activity_record_page">
+				<a href="/mis/stu/life_record_page">
 				<div class="col s6">
 					<div class="content">
 						<i class="fas fa-chart-area bg-blue2"></i>

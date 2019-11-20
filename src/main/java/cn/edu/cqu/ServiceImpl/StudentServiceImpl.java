@@ -256,6 +256,9 @@ public class StudentServiceImpl implements StudentService {
 	public ArrayList<vQuestion> select_exam(String student_id) {
 		// TODO Auto-generated method stub
 		String test_id = testMapper.select_test_id_now();
+		if (test_id == null) {
+			return null;
+		}
 		if (testMapper.answer_result(test_id, student_id) != 0) {
 			return null;
 		}

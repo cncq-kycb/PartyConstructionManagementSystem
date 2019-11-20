@@ -42,38 +42,36 @@ public class StudentController {
 		session.setAttribute("message", "");
 		return "main_page_2";
 	}
-	
+
 	// 学习中心页面
 	@RequestMapping(value = "/study_center_page")
 	public String study_center_page(HttpSession session) {
 		return "stu/study_center_page";
 	}
-	
+
 	// read_study页面跳转
 	@RequestMapping(value = "/choose_page")
 	public String choosePage(HttpSession session) {
 		String study_status = (String) session.getAttribute("study_status");
-		if("1".equals(study_status)) {
+		if ("1".equals(study_status)) {
 			return "stu/NCCPC_page";
-		}
-		else if("2".equals(study_status)) {
+		} else if ("2".equals(study_status)) {
 			return "stu/material_page";
-		}
-		else if("3".equals(study_status)){
+		} else if ("3".equals(study_status)) {
 			return "stu/member_read_page";
 		}
 		return "stu/study_center_page";
 	}
-	
+
 	// 组织生活页面
 	@RequestMapping(value = "/party_life_page")
 	public String party_life_page(HttpSession session) {
 		return "stu/party_life_page";
 	}
-	
+
 	// 推文学习页面
 	@RequestMapping(value = "/readStudy")
-	public String read_study_page(HttpSession session,String study_id) {
+	public String read_study_page(HttpSession session, String study_id) {
 		vStudy study = adminService.select_study_by_id(study_id);
 		session.setAttribute("study_title", study.getStudy_title());
 		session.setAttribute("study_date", study.getStudy_date());
@@ -86,16 +84,19 @@ public class StudentController {
 	// 十九大讲话
 	@RequestMapping(value = "/NCCPC_page")
 	public String NCCPC_page(HttpSession session) {
-		
+
 		ArrayList<vStudy> study_list = studentService.select_study_list("", "1");
 		String temp = "";
-		for(int i=0;i<study_list.size();i++) {
-			temp+="<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="+study_list.get(i).getStudy_id()+"\"><h5>&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_title()+"</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_date()+"<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+		for (int i = 0; i < study_list.size(); i++) {
+			temp += "<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="
+					+ study_list.get(i).getStudy_id() + "\"><h5>&ensp;&ensp;&ensp;&ensp;"
+					+ study_list.get(i).getStudy_title() + "</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"
+					+ study_list.get(i).getStudy_date()
+					+ "<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
 		}
 		session.setAttribute("study_list", study_list);
 		session.setAttribute("content", temp);
 
-		
 		return "stu/NCCPC_page";
 	}
 
@@ -104,8 +105,12 @@ public class StudentController {
 	public String material_page(HttpSession session) {
 		ArrayList<vStudy> study_list = studentService.select_study_list("", "2");
 		String temp = "";
-		for(int i=0;i<study_list.size();i++) {
-			temp+="<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="+study_list.get(i).getStudy_id()+"\"><h5>&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_title()+"</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_date()+"<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+		for (int i = 0; i < study_list.size(); i++) {
+			temp += "<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="
+					+ study_list.get(i).getStudy_id() + "\"><h5>&ensp;&ensp;&ensp;&ensp;"
+					+ study_list.get(i).getStudy_title() + "</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"
+					+ study_list.get(i).getStudy_date()
+					+ "<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
 		}
 		session.setAttribute("study_list", study_list);
 		session.setAttribute("content", temp);
@@ -117,8 +122,12 @@ public class StudentController {
 	public String member_read_page(HttpSession session) {
 		ArrayList<vStudy> study_list = studentService.select_study_list("", "3");
 		String temp = "";
-		for(int i=0;i<study_list.size();i++) {
-			temp+="<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="+study_list.get(i).getStudy_id()+"\"><h5>&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_title()+"</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"+study_list.get(i).getStudy_date()+"<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+		for (int i = 0; i < study_list.size(); i++) {
+			temp += "<div class=\"row\"><div ><div class=\"content-text\"><a href=\"/mis/stu/readStudy?study_id="
+					+ study_list.get(i).getStudy_id() + "\"><h5>&ensp;&ensp;&ensp;&ensp;"
+					+ study_list.get(i).getStudy_title() + "</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"
+					+ study_list.get(i).getStudy_date()
+					+ "<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
 		}
 		session.setAttribute("study_list", study_list);
 		session.setAttribute("content", temp);
@@ -278,57 +287,58 @@ public class StudentController {
 		return "stu/attendence_page";
 	}
 
-	
-	
-	// 组织生活记录页面
+	// 个人组织生活记录页面
 	@RequestMapping(value = "/life_record_page")
 	public String life_record_page(HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		if (!studentService.is_member(student_id)) {
 			return "stu/no_permission";
 		}
-		String branch_id = studentService.select_branch_id_by_student_id(student_id);
-		String total_time = studentService.attendance_total_time_by_branch(branch_id);
-		String total_duration = studentService.attendance_total_duration_by_branch(branch_id);
+		String total_time = studentService.attendance_total_time(student_id);
+		String total_duration = studentService.attendance_total_duration(student_id);
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
-		ArrayList<vAttendance> vattendances = studentService.select_attendance_by_branch_id(branch_id);
-		
+		ArrayList<vAttendance> vattendances = studentService.select_attendance_by_student_id(student_id);
 		String temp = "";
 		String start = "<div class=\"row\">";
 		String end = "</div>";
-	
-		for(int i=0;i<vattendances.size();i++){
-		String color = "";
-		if("1".equals(vattendances.get(i).getAttendance_status_id())||"2".equals(vattendances.get(i).getAttendance_status_id())||"4".equals(vattendances.get(i).getAttendance_status_id())){
-		color += "purple";
+
+		for (int i = 0; i < vattendances.size(); i++) {
+			String color = "";
+			if ("1".equals(vattendances.get(i).getAttendance_status_id())
+					|| "2".equals(vattendances.get(i).getAttendance_status_id())
+					|| "4".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "purple";
+			} else if ("3".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "blue";
+			} else if ("5".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "red";
+			} else if ("6".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "orange";
+			}
+			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
+					+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-" + color
+					+ "\"><h4>" + vattendances.get(i).getAttendance_status()
+					+ "</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
+					+ "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ "H</li></ul></div><a href=\"/mis/stu/check_activity_page?activity_id="
+					+ vattendances.get(i).getActivity_id()
+					+ "\"><button class=\"button\">查看活动</button></a></div></div>";
+			if (i % 2 == 0) {
+				if (i != 0) {
+					temp += end;
+				}
+				temp += start;
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			} else {
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			}
 		}
-		else if("3".equals(vattendances.get(i).getAttendance_status_id())){
-			color += "blue";
-			}
-		else if("5".equals(vattendances.get(i).getAttendance_status_id())){
-			color += "red";
-			}
-		else if("6".equals(vattendances.get(i).getAttendance_status_id())){
-			color += "orange";
-			}
-		String delta="<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"+vattendances.get(i).getActivity_date()+"</h4></div><div class=\"wrap-price bg-"+color+"\"><h4>"+vattendances.get(i).getAttendance_status()+"</h4></div><div class=\"wrap-list\"><ul><li>"+vattendances.get(i).getActivity_name()+"</li><li>"+ vattendances.get(i).getActivity_duration()+"H</li></ul></div><a href=\"/mis/stu/check_activity_page?activity_id="+vattendances.get(i).getActivity_id()+"\"><button class=\"button\">查看活动</button></a></div></div>";
-		if(i%2==0){
-			if(i!=0) {
-			temp+=end;
-			}
-			temp+=start;
-		    temp+=delta;
-			if(i==vattendances.size()-1) {
-			temp+=end;
-		}
-		}
-		else { 	
-			temp+=delta;
-			if(i==vattendances.size()-1) {
-				temp+=end;
-			}
-		}
-	}
 		System.out.println(temp);
 		session.setAttribute("content", temp);
 		session.setAttribute("total_time", total_time);
@@ -336,10 +346,10 @@ public class StudentController {
 		session.setAttribute("branch_name", branch_name);
 		return "stu/life_record_page";
 	}
-	
+
 	// 查看活动详情页面
 	@RequestMapping(value = "/check_activity_page")
-	public String check_activity_page(HttpSession session,String activity_id) {
+	public String check_activity_page(HttpSession session, String activity_id) {
 		vActivity activity = adminService.select_activity_by_id(activity_id);
 		String branch_name = null;
 
@@ -369,7 +379,7 @@ public class StudentController {
 		session.setAttribute("vstudent", vStudent);
 		return "stu/info_page";
 	}
-	
+
 	// 个人信息页面
 	@RequestMapping(value = "/update_info_page")
 	public String update_info_page(HttpSession session) {
