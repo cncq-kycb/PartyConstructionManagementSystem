@@ -76,7 +76,7 @@
 		<div class="slide">
 			<div class="slider-slide owl-carousel owl-theme">
 
-               	<a href="/mis/stu/attendence_page">
+               	<a href="/mis/stu/view_activity_page">
 				<div class="content">
 					<div class="mask-red"></div>
 					<div class="slider-caption">

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -9,6 +10,8 @@
 	<link rel="icon" href="images/favicon.png">
 	<title>CQU党建</title>
 
+
+
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/materialize.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/loader.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/fontawesome.min.css">
@@ -16,8 +19,24 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.theme.default.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/style.css">
 
+
 </head>
 <body>
+	<script type="text/javascript">
+		var msg = "${message}";
+		if (msg == "1") {
+			alert('签到成功');
+		}
+		if (msg == "2") {
+			alert('签到失败');
+		}
+		if (msg == "3") {
+			alert('请假成功');
+		}
+		if (msg == "4") {
+			alert('请假失败');
+		}
+	</script>
 	<!-- preloader -->
 	<div class="loader-wrapper">
 		<div class="loader-cube"></div>
@@ -69,23 +88,17 @@
 	
 
 				
-<!-- blog single -->
-	<div class="blog-single segments-page">
-	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<a href="/mis/stu/party_life_page" style=" color:#666; font-size:12px;"><i>组织生活</i></a>&ensp;->&ensp;<a  style=" color:#666; font-size:12px;">活动详情</a>
+				<h1>&ensp;</h1>
+				<!-- counter -->
+
+	<!-- end counter -->
+				
+				<div class="pricing-table segments-page">
 		<div class="container">
-			<div class="content-head">
-				<div class="text">
-				<center>
-				<h3>&ensp;&ensp;&ensp;</h3>
-					<h4>${activity_name}</h4>
-					<p class="date">${branch_name}&ensp;&ensp;&ensp;&ensp;${activity_location}&ensp;&ensp;&ensp;&ensp;${activity_date}&ensp;&ensp;&ensp;&ensp;${activity_duration}H&ensp;&ensp;&ensp;&ensp;${means}</p>
-					</center>
-					${activity_item}
-				</div>
-			</div>
+			${content}
 		</div>
 	</div>
-	<!-- end blog single -->
+
 	
 	
 
@@ -108,6 +121,12 @@
 	</footer>
 	<!-- end footer -->
 
+
+
+
+
+
+	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
 	<script src="<%=request.getContextPath()%>/Edugo/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/Edugo/js/materialize.min.js"></script>
 	<script src="<%=request.getContextPath()%>/Edugo/js/owl.carousel.min.js"></script>

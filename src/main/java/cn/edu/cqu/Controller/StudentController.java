@@ -229,27 +229,35 @@ public class StudentController {
 		return "main_page_2";
 	}
 
+	
 	// 活动签到页面
-	@RequestMapping(value = "/attendence_page")
-	public String attendence_page(HttpSession session) {
+	@RequestMapping(value = "/attendance_page")
+	public String attendance_page(HttpSession session,String activity_id) {
+		vActivity activity = adminService.select_activity_by_id(activity_id);
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-		if (!studentService.is_member(student_id)) {
-			return "stu/no_permission";
-		}
+		String branch_name = studentService.select_branch_name_by_student_id(student_id);
 		session.setAttribute("message", "");
-		ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
-		PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
-		session.setAttribute("pageInfo", pageInfo);
-		return "stu/attendence_page";
+		session.setAttribute("activity_name", activity.getActivity_name());
+		session.setAttribute("activity_item", activity.getActivity_item());
+		session.setAttribute("activity_location", activity.getActivity_location());
+		session.setAttribute("activity_duration", activity.getActivity_duration());
+		session.setAttribute("activity_date", activity.getActivity_date());
+		session.setAttribute("activity_date", activity.getActivity_date());
+		session.setAttribute("branch_name", branch_name);
+		session.setAttribute("activity_id", activity_id);
+
+
+		return "stu/attendance_page";
 	}
 
 	// 提交照片
 	@RequestMapping(value = "/upload_file")
-	public String upload_file(String activity_id_submit, @RequestParam("file") MultipartFile file, HttpSession session,
+	public String upload_file( @RequestParam("file") MultipartFile file, HttpSession session,
 			HttpServletRequest request) {
+		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		try {
-			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-			String newFileName = student_id + "_" + activity_id_submit + ".jpg";
+			String activity_id = (String) session.getAttribute("activity_id");
+			String newFileName = student_id + "_" + activity_id + ".jpg";
 			String filePath = request.getSession().getServletContext().getRealPath("") + "\\upload_attendance_pic\\";
 			File dir = new File(filePath);
 			if (!dir.exists()) {
@@ -257,11 +265,8 @@ public class StudentController {
 			}
 			filePath = filePath + newFileName;
 			file.transferTo(new File(filePath));
-			if (studentService.add_pic_for_attendance(student_id, activity_id_submit, filePath)) {
+			if (studentService.add_pic_for_attendance(student_id, activity_id, filePath)) {
 				session.setAttribute("message", "1");
-				ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
-				PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
-				session.setAttribute("pageInfo", pageInfo);
 			} else {
 				session.setAttribute("message", "2");
 			}
@@ -269,22 +274,84 @@ public class StudentController {
 			e.printStackTrace();
 			session.setAttribute("message", "2");
 		}
-		return "stu/attendence_page";
+		ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
+		String temp = "";
+		String start = "<div class=\"row\">";
+		String end = "</div>";
+
+		for (int i = 0; i < vattendances.size(); i++) {
+
+			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
+					+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
+					+ "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
+					+ vattendances.get(i).getActivity_id()
+					+ "\"><button class=\"button\">查看详情</button></a></div></div>";
+			if (i % 2 == 0) {
+				if (i != 0) {
+					temp += end;
+				}
+				temp += start;
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			} else {
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			}
+		}
+		session.setAttribute("content", temp);
+		return "stu/view_activity_page";
 	}
 
 	// 提交缺席
 	@RequestMapping(value = "/absent_attendance")
-	public String absent_attendance(String activity_id_absent, HttpSession session) {
+	public String absent_attendance( HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-		if (studentService.absent_for_attendance(student_id, activity_id_absent)) {
+		String activity_id = (String) session.getAttribute("activity_id");
+		if (studentService.absent_for_attendance(student_id, activity_id)) {
 			session.setAttribute("message", "3");
-			ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
-			PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
-			session.setAttribute("pageInfo", pageInfo);
 		} else {
 			session.setAttribute("message", "4");
 		}
-		return "stu/attendence_page";
+		if (!studentService.is_member(student_id)) {
+			return "stu/no_permission";
+		}
+		session.setAttribute("message", "");
+		ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
+		String temp = "";
+		String start = "<div class=\"row\">";
+		String end = "</div>";
+
+		for (int i = 0; i < vattendances.size(); i++) {
+
+			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
+					+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
+					+ "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
+					+ vattendances.get(i).getActivity_id()
+					+ "\"><button class=\"button\">查看详情</button></a></div></div>";
+			if (i % 2 == 0) {
+				if (i != 0) {
+					temp += end;
+				}
+				temp += start;
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			} else {
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			}
+		}
+		session.setAttribute("content", temp);
+		return "stu/view_activity_page";
 	}
 
 	// 个人组织生活记录页面
@@ -346,6 +413,49 @@ public class StudentController {
 		session.setAttribute("branch_name", branch_name);
 		return "stu/life_record_page";
 	}
+	
+	// 活动签到主页面
+		@RequestMapping(value = "/view_activity_page")
+		public String view_activity_page(HttpSession session) {
+			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+			if (!studentService.is_member(student_id)) {
+				return "stu/no_permission";
+			}
+			session.setAttribute("message", "");
+			ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
+			String branch_name = studentService.select_branch_name_by_student_id(student_id);
+			String temp = "";
+			String start = "<div class=\"row\">";
+			String end = "</div>";
+
+			for (int i = 0; i < vattendances.size(); i++) {
+
+				String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
+						+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
+						+ "</li><li>" + vattendances.get(i).getActivity_duration()
+						+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
+						+ vattendances.get(i).getActivity_id()
+						+ "\"><button class=\"button\">查看详情</button></a></div></div>";
+				if (i % 2 == 0) {
+					if (i != 0) {
+						temp += end;
+					}
+					temp += start;
+					temp += delta;
+					if (i == vattendances.size() - 1) {
+						temp += end;
+					}
+				} else {
+					temp += delta;
+					if (i == vattendances.size() - 1) {
+						temp += end;
+					}
+				}
+			}
+			System.out.println(temp);
+			session.setAttribute("content", temp);
+			return "stu/view_activity_page";
+		}
 
 	// 查看活动详情页面
 	@RequestMapping(value = "/check_activity_page")
@@ -450,6 +560,13 @@ public class StudentController {
 		session.setAttribute("total_duration", total_duration);
 		session.setAttribute("pageInfo", pageInfo);
 		return "stu/activity_record_page";
+	}
+
+	// 相关资料上传
+	@RequestMapping(value = "/material_upload_page")
+	public String material_upload_page(HttpSession session) {
+		
+		return "stu/material_upload_page";
 	}
 
 }

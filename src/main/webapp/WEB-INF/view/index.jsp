@@ -36,10 +36,12 @@
 					<div class="col-lg-6">
 						<div class="info d-flex align-items-center">
 							<div class="content">
-								<div class="logo">
-									<h1>重庆大学党建系统</h1>
-								</div>
-								<p>Party Building System of CQU</p>
+								<center>
+									<div class="logo">
+										<h1>&ensp;&ensp;&ensp;重庆大学计算机学院</h1>
+									</div>
+									<h1>&ensp;&ensp;&ensp;党员管理系统</h1>
+								</center>
 							</div>
 						</div>
 					</div>

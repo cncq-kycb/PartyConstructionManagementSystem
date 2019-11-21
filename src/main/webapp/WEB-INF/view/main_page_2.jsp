@@ -138,7 +138,7 @@
 			</div>
 			<div class="row">
 				<div class="col s6">
-					<a href="/mis/stu/attendence_page">
+					<a href="/mis/stu/view_activity_page">
 					<div class="content">
 						<i class="fas fa-check bg-blue"></i>
 						<h5>活动签到/请假</h5>
