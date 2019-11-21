@@ -179,7 +179,7 @@ table tr th {
 									<th>学号</th>
 									<th>姓名</th>
 									<th>性别</th>
-									<th>所属级别</th>
+									<th>政治面貌</th>
 									<th>手机号码</th>
 									<th>电子邮箱</th>
 									<th>操作</th>

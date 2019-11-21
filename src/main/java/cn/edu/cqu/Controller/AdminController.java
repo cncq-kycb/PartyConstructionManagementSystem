@@ -844,12 +844,21 @@ public class AdminController {
 			return "admin/resultByStudentPage";
 		}
 		ArrayList<vTest> vTests = adminService.select_vTest(student_num_input);
+		if (vTests == null) {
+			session.setAttribute("message", "1");
+			return "admin/resultByStudentPage";
+		}
 		int correct_num = 0, total_num = 0;
 		for (vTest v : vTests) {
 			correct_num += v.getCorrect_num();
 			total_num += v.getTotal_num();
 		}
-		double score_percent = correct_num * 100 / total_num;
+		double score_percent;
+		if (total_num == 0) {
+			score_percent = 0;
+		} else {
+			score_percent = correct_num * 100 / total_num;
+		}
 		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_input);
 		session.setAttribute("list", vTests);
 		session.setAttribute("score_percent", score_percent);

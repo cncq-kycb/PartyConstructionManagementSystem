@@ -77,7 +77,7 @@ table tr th {
 								<th>学号</th>
 								<th>姓名</th>
 								<th>所在支部</th>
-								<th>所属级别</th>
+								<th>政治面貌</th>
 								<th>签到情况</th>
 							</tr>
 

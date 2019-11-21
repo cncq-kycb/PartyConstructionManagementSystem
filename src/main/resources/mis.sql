@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 21/11/2019 00:41:45
+ Date: 21/11/2019 20:27:10
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `activity`  (
   INDEX `FK_Reference_19`(`activity_status`) USING BTREE,
   CONSTRAINT `FK_Reference_19` FOREIGN KEY (`activity_status`) REFERENCES `activity_status_map` (`activity_status`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_6` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity
@@ -156,7 +156,7 @@ CREATE TABLE `attendance`  (
   CONSTRAINT `FK_Reference_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`activity_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_attendance_status` FOREIGN KEY (`attendance_status`) REFERENCES `attendance_status_map` (`attendance_status`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attendance
@@ -213,13 +213,29 @@ CREATE TABLE `examination`  (
   INDEX `FK_Reference_question_id`(`question_id`) USING BTREE,
   CONSTRAINT `FK_Reference_question_id` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_test_id` FOREIGN KEY (`test_id`) REFERENCES `test` (`test_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of examination
 -- ----------------------------
 INSERT INTO `examination` VALUES (1, 2, 1);
 INSERT INTO `examination` VALUES (2, 2, 2);
+
+-- ----------------------------
+-- Table structure for material_type_map
+-- ----------------------------
+DROP TABLE IF EXISTS `material_type_map`;
+CREATE TABLE `material_type_map`  (
+  `material_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `material_type_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`material_type_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of material_type_map
+-- ----------------------------
+INSERT INTO `material_type_map` VALUES (1, '入党申请书');
+INSERT INTO `material_type_map` VALUES (2, '思想汇报');
 
 -- ----------------------------
 -- Table structure for question
@@ -234,7 +250,7 @@ CREATE TABLE `question`  (
   `question_option_d` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `question_answer` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`question_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of question
@@ -312,6 +328,28 @@ INSERT INTO `student_status_map` VALUES (4, '预备党员');
 INSERT INTO `student_status_map` VALUES (5, '正式党员');
 
 -- ----------------------------
+-- Table structure for student_status_material
+-- ----------------------------
+DROP TABLE IF EXISTS `student_status_material`;
+CREATE TABLE `student_status_material`  (
+  `material_id` int(11) NOT NULL AUTO_INCREMENT,
+  `material_type_id` int(11) NULL DEFAULT NULL,
+  `material_date` date NULL DEFAULT NULL,
+  `student_id` int(11) NULL DEFAULT NULL,
+  `material_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`material_id`) USING BTREE,
+  INDEX `student_status_material_Reference_material_type_id`(`material_type_id`) USING BTREE,
+  INDEX `student_status_material_Reference_student_id`(`student_id`) USING BTREE,
+  CONSTRAINT `student_status_material_Reference_material_type_id` FOREIGN KEY (`material_type_id`) REFERENCES `material_type_map` (`material_type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `student_status_material_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of student_status_material
+-- ----------------------------
+INSERT INTO `student_status_material` VALUES (1, 1, '2019-11-21', 1, NULL);
+
+-- ----------------------------
 -- Table structure for student_status_record
 -- ----------------------------
 DROP TABLE IF EXISTS `student_status_record`;
@@ -382,7 +420,7 @@ CREATE TABLE `test`  (
   `test_date_start` datetime(0) NULL DEFAULT NULL,
   `test_date_end` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`test_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of test
@@ -440,6 +478,12 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `att
 -- ----------------------------
 DROP VIEW IF EXISTS `examination_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `examination_view` AS select `question`.`question_problem` AS `question_problem`,`question`.`question_option_a` AS `question_option_a`,`question`.`question_option_b` AS `question_option_b`,`question`.`question_option_c` AS `question_option_c`,`question`.`question_option_d` AS `question_option_d`,`test`.`test_name` AS `test_name`,`test`.`test_date_start` AS `test_date_start`,`test`.`test_date_end` AS `test_date_end`,`test`.`test_id` AS `test_id`,`question`.`question_id` AS `question_id` from ((`question` join `examination` on((`examination`.`question_id` = `question`.`question_id`))) join `test` on((`examination`.`test_id` = `test`.`test_id`)));
+
+-- ----------------------------
+-- View structure for student_status_material_view
+-- ----------------------------
+DROP VIEW IF EXISTS `student_status_material_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `student_status_material_view` AS select `student`.`student_num` AS `student_num`,`student`.`branch_id` AS `branch_id`,`student`.`student_name` AS `student_name`,`student_status_map`.`means` AS `means`,`material_type_map`.`material_type_name` AS `material_type_name`,`student_status_material`.`material_date` AS `material_date`,`student_status_material`.`material_url` AS `material_url`,`branch`.`branch_name` AS `branch_name` from ((((`student` join `student_status_material` on((`student_status_material`.`student_id` = `student`.`student_id`))) join `student_status_map` on((`student`.`student_status` = `student_status_map`.`student_status`))) join `material_type_map` on((`student_status_material`.`material_type_id` = `material_type_map`.`material_type_id`))) join `branch` on((`student`.`branch_id` = `branch`.`branch_id`)));
 
 -- ----------------------------
 -- View structure for student_view

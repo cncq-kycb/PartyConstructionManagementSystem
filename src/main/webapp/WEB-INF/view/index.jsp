@@ -37,9 +37,9 @@
 						<div class="info d-flex align-items-center">
 							<div class="content">
 								<div class="logo">
-									<h1>Party Manager</h1>
+									<h1>重庆大学党建系统</h1>
 								</div>
-								<p>CQU党建</p>
+								<p>Party Building System of CQU</p>
 							</div>
 						</div>
 					</div>

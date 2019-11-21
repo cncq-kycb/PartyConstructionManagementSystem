@@ -42,6 +42,9 @@ table tr th {
 <body>
 	<script type="text/javascript">
 		var msg = "${message}";
+		if (msg == "1") {
+			alert('无此学生任何答题信息');
+		}
 		if (msg == "2") {
 			alert('必须输入学生学号');
 		}

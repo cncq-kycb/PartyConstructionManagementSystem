@@ -164,7 +164,7 @@ table tr th {
 													</div>
 												</div>
 											</td>
-											<th width="12%">成员等级：</th>
+											<th width="12%">政治面貌：</th>
 											<td width="21%"><select name="student_status_input"
 												id="student_status_input">
 													<c:forEach var="ssm" items="${ssm}">
@@ -202,7 +202,7 @@ table tr th {
 									<th>学号</th>
 									<th>姓名</th>
 									<th>性别</th>
-									<th>所属级别</th>
+									<th>政治面貌</th>
 									<th>所在支部</th>
 									<th>手机号码</th>
 									<th>电子邮箱</th>
