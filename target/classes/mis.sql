@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 21/11/2019 20:27:10
+ Date: 23/11/2019 01:08:07
 */
 
 SET NAMES utf8mb4;
@@ -41,7 +41,7 @@ CREATE TABLE `activity`  (
 -- Records of activity
 -- ----------------------------
 INSERT INTO `activity` VALUES (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `activity` VALUES (2, 2, '这是个活动名称', '2019-11-21', '<p>阿斯顿<br/></p>', 1.0, 1, '主教1811');
+INSERT INTO `activity` VALUES (2, 2, '这是个活动名称', '2019-11-21', '<p>阿斯顿<br/></p>', 1.0, 2, '主教1811');
 
 -- ----------------------------
 -- Table structure for activity_status_map
@@ -90,6 +90,7 @@ CREATE TABLE `answer`  (
   `question_id` int(11) NULL DEFAULT NULL,
   `answer_option` int(11) NULL DEFAULT NULL,
   `test_id` int(11) NULL DEFAULT NULL,
+  `answer_date` date NULL DEFAULT NULL,
   INDEX `FK_Reference_10`(`student_id`) USING BTREE,
   INDEX `FK_Reference_11`(`question_id`) USING BTREE,
   INDEX `FK_Reference_test`(`test_id`) USING BTREE,
@@ -97,6 +98,14 @@ CREATE TABLE `answer`  (
   CONSTRAINT `FK_Reference_11` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_test` FOREIGN KEY (`test_id`) REFERENCES `test` (`test_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of answer
+-- ----------------------------
+INSERT INTO `answer` VALUES (2, 1, 1, 4, '2019-11-22');
+INSERT INTO `answer` VALUES (2, 2, 1, 4, '2019-11-22');
+INSERT INTO `answer` VALUES (3, 1, 3, 4, '2019-11-23');
+INSERT INTO `answer` VALUES (3, 2, 3, 4, '2019-11-23');
 
 -- ----------------------------
 -- Table structure for apply
@@ -116,8 +125,9 @@ CREATE TABLE `apply`  (
 -- ----------------------------
 -- Records of apply
 -- ----------------------------
-INSERT INTO `apply` VALUES (1, 1, 3);
-INSERT INTO `apply` VALUES (7, 2, 3);
+INSERT INTO `apply` VALUES (9, 3, 3);
+INSERT INTO `apply` VALUES (10, 3, 3);
+INSERT INTO `apply` VALUES (11, 1, 3);
 
 -- ----------------------------
 -- Table structure for apply_status_map
@@ -161,7 +171,7 @@ CREATE TABLE `attendance`  (
 -- ----------------------------
 -- Records of attendance
 -- ----------------------------
-INSERT INTO `attendance` VALUES (3, 2, 1, 2, NULL);
+INSERT INTO `attendance` VALUES (3, 2, 1, 4, 'E:\\ProgramStation\\eclipse\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\mis\\\\upload_attendance_pic\\1_2.jpg');
 INSERT INTO `attendance` VALUES (4, 2, 2, 2, NULL);
 
 -- ----------------------------
@@ -220,6 +230,8 @@ CREATE TABLE `examination`  (
 -- ----------------------------
 INSERT INTO `examination` VALUES (1, 2, 1);
 INSERT INTO `examination` VALUES (2, 2, 2);
+INSERT INTO `examination` VALUES (3, 4, 1);
+INSERT INTO `examination` VALUES (4, 4, 2);
 
 -- ----------------------------
 -- Table structure for material_type_map
@@ -228,14 +240,36 @@ DROP TABLE IF EXISTS `material_type_map`;
 CREATE TABLE `material_type_map`  (
   `material_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `material_type_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`material_type_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  `material_type_from` int(255) NULL DEFAULT NULL,
+  `student_status` int(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`material_type_id`) USING BTREE,
+  INDEX `student_status`(`student_status`) USING BTREE,
+  CONSTRAINT `student_status` FOREIGN KEY (`student_status`) REFERENCES `student_status_map` (`student_status`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of material_type_map
 -- ----------------------------
-INSERT INTO `material_type_map` VALUES (1, '入党申请书');
-INSERT INTO `material_type_map` VALUES (2, '思想汇报');
+INSERT INTO `material_type_map` VALUES (1, '入党申请书', 1, 2);
+INSERT INTO `material_type_map` VALUES (2, '个人自传', 1, 2);
+INSERT INTO `material_type_map` VALUES (3, '推荐表', 1, 2);
+INSERT INTO `material_type_map` VALUES (4, '入党积极分子结业证', 1, 2);
+INSERT INTO `material_type_map` VALUES (5, '积极分子思想汇报', 1, 2);
+INSERT INTO `material_type_map` VALUES (6, '入党积极分子公示表', 2, 2);
+INSERT INTO `material_type_map` VALUES (7, '入党前征求党内外群众意见记录表', 2, 3);
+INSERT INTO `material_type_map` VALUES (8, '发展对象票决情况汇总表', 2, 3);
+INSERT INTO `material_type_map` VALUES (9, '课程成绩证明', 2, 3);
+INSERT INTO `material_type_map` VALUES (10, '本人政审材料', 2, 3);
+INSERT INTO `material_type_map` VALUES (11, '家庭主要成员政治审查材料', 2, 3);
+INSERT INTO `material_type_map` VALUES (12, '入党前公示表', 2, 3);
+INSERT INTO `material_type_map` VALUES (13, '入党积极分子培养教育考察登记簿', 2, 3);
+INSERT INTO `material_type_map` VALUES (14, '入党志愿书', 2, 4);
+INSERT INTO `material_type_map` VALUES (15, '接收预备党员票决情况汇总表', 2, 4);
+INSERT INTO `material_type_map` VALUES (16, '预备党员教育考察登记簿', 2, 5);
+INSERT INTO `material_type_map` VALUES (17, '预备党员思想汇报', 1, 5);
+INSERT INTO `material_type_map` VALUES (18, '转正申请书', 1, 5);
+INSERT INTO `material_type_map` VALUES (19, '预备党员拟转正公示表', 2, 5);
+INSERT INTO `material_type_map` VALUES (20, '转正票决汇总', 2, 5);
 
 -- ----------------------------
 -- Table structure for question
@@ -288,9 +322,9 @@ CREATE TABLE `student`  (
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES (1, '1', 2, 2, 2, 'stu', 5, 'student', '男', 18002337921, '664037252@qq.com');
+INSERT INTO `student` VALUES (1, '1', 1, 1, 2, 'stu', 2, 'student', '男', 18002337921, '664037252@qq.com');
 INSERT INTO `student` VALUES (2, '2', 2, 1, 3, 'stu2', 5, '学生2', '男', 123456789, '邮箱');
-INSERT INTO `student` VALUES (3, '3', 1, 1, NULL, NULL, 2, 'xx3', '女', 465, 'asd');
+INSERT INTO `student` VALUES (3, '3', 2, 1, 4, 'stu3', 6, 'wbt', '女', 465, 'asd');
 
 -- ----------------------------
 -- Table structure for student_permission_map
@@ -324,8 +358,9 @@ CREATE TABLE `student_status_map`  (
 INSERT INTO `student_status_map` VALUES (1, ' ');
 INSERT INTO `student_status_map` VALUES (2, '非党员');
 INSERT INTO `student_status_map` VALUES (3, '入党积极分子');
-INSERT INTO `student_status_map` VALUES (4, '预备党员');
-INSERT INTO `student_status_map` VALUES (5, '正式党员');
+INSERT INTO `student_status_map` VALUES (4, '拟发展对象');
+INSERT INTO `student_status_map` VALUES (5, '预备党员');
+INSERT INTO `student_status_map` VALUES (6, '正式党员');
 
 -- ----------------------------
 -- Table structure for student_status_material
@@ -342,12 +377,31 @@ CREATE TABLE `student_status_material`  (
   INDEX `student_status_material_Reference_student_id`(`student_id`) USING BTREE,
   CONSTRAINT `student_status_material_Reference_material_type_id` FOREIGN KEY (`material_type_id`) REFERENCES `material_type_map` (`material_type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `student_status_material_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_status_material
 -- ----------------------------
-INSERT INTO `student_status_material` VALUES (1, 1, '2019-11-21', 1, NULL);
+INSERT INTO `student_status_material` VALUES (102, 1, '2019-11-22', 1, 'E:\\ProgramStation\\eclipse\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\mis\\upload_join_material\\1_1.pdf');
+INSERT INTO `student_status_material` VALUES (103, 2, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (104, 3, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (105, 4, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (106, 5, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (107, 6, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (108, 7, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (109, 8, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (110, 9, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (111, 10, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (112, 11, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (113, 12, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (114, 13, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (115, 14, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (116, 15, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (117, 16, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (118, 17, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (119, 18, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (120, 19, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (121, 20, NULL, 1, NULL);
 
 -- ----------------------------
 -- Table structure for student_status_record
@@ -363,7 +417,7 @@ CREATE TABLE `student_status_record`  (
   INDEX `student_status_record_Reference_student_status`(`student_status`) USING BTREE,
   CONSTRAINT `student_status_record_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `student_status_record_Reference_student_status` FOREIGN KEY (`student_status`) REFERENCES `student_status_map` (`student_status`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_status_record
@@ -426,8 +480,9 @@ CREATE TABLE `test`  (
 -- Records of test
 -- ----------------------------
 INSERT INTO `test` VALUES (1, '测验1', '2019-11-04 00:57:46', '2019-11-06 00:57:48');
-INSERT INTO `test` VALUES (2, '试卷', '2019-11-19 00:00:00', '2019-11-21 00:00:00');
+INSERT INTO `test` VALUES (2, '试卷', '2019-11-19 00:00:00', '2019-11-23 00:00:00');
 INSERT INTO `test` VALUES (3, '试卷1111', '2019-11-03 00:00:00', '2019-11-09 00:00:00');
+INSERT INTO `test` VALUES (4, 'asd', '2019-11-23 00:00:00', '2019-11-26 00:00:00');
 
 -- ----------------------------
 -- Table structure for user
@@ -446,8 +501,9 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'admin', 'YWRtaW4=', 'admin', 1);
-INSERT INTO `user` VALUES (2, 'stu', 'c3R1', 'stu', 2);
+INSERT INTO `user` VALUES (2, 'stu', 'MTIz', 'stu', 2);
 INSERT INTO `user` VALUES (3, 'stu2', 'c3R1', 'asd', 2);
+INSERT INTO `user` VALUES (4, 'stu3', 'c3R1', 'wbt', 2);
 
 -- ----------------------------
 -- View structure for activity_view
@@ -459,7 +515,7 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `act
 -- View structure for answer_view
 -- ----------------------------
 DROP VIEW IF EXISTS `answer_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `answer_view` AS select `student`.`student_num` AS `student_num`,`student`.`student_name` AS `student_name`,`test`.`test_id` AS `test_id`,`test`.`test_name` AS `test_name`,`question`.`question_id` AS `question_id`,`question`.`question_answer` AS `question_answer`,`answer`.`answer_option` AS `answer_option` from (((`student` join `answer` on((`answer`.`student_id` = `student`.`student_id`))) join `test` on((`answer`.`test_id` = `test`.`test_id`))) join `question` on((`answer`.`question_id` = `question`.`question_id`)));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `answer_view` AS select `student`.`student_num` AS `student_num`,`student`.`student_name` AS `student_name`,`test`.`test_id` AS `test_id`,`test`.`test_name` AS `test_name`,`question`.`question_id` AS `question_id`,`question`.`question_answer` AS `question_answer`,`answer`.`answer_option` AS `answer_option`,`answer`.`answer_date` AS `answer_date` from (((`student` join `answer` on((`answer`.`student_id` = `student`.`student_id`))) join `test` on((`answer`.`test_id` = `test`.`test_id`))) join `question` on((`answer`.`question_id` = `question`.`question_id`)));
 
 -- ----------------------------
 -- View structure for apply_view
@@ -483,7 +539,7 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `exa
 -- View structure for student_status_material_view
 -- ----------------------------
 DROP VIEW IF EXISTS `student_status_material_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `student_status_material_view` AS select `student`.`student_num` AS `student_num`,`student`.`branch_id` AS `branch_id`,`student`.`student_name` AS `student_name`,`student_status_map`.`means` AS `means`,`material_type_map`.`material_type_name` AS `material_type_name`,`student_status_material`.`material_date` AS `material_date`,`student_status_material`.`material_url` AS `material_url`,`branch`.`branch_name` AS `branch_name` from ((((`student` join `student_status_material` on((`student_status_material`.`student_id` = `student`.`student_id`))) join `student_status_map` on((`student`.`student_status` = `student_status_map`.`student_status`))) join `material_type_map` on((`student_status_material`.`material_type_id` = `material_type_map`.`material_type_id`))) join `branch` on((`student`.`branch_id` = `branch`.`branch_id`)));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `student_status_material_view` AS select `student`.`student_num` AS `student_num`,`student`.`branch_id` AS `branch_id`,`student`.`student_name` AS `student_name`,`student_status_map`.`means` AS `means`,`material_type_map`.`material_type_name` AS `material_type_name`,ifnull(`student_status_material`.`material_date`,'无') AS `material_date`,ifnull(`student_status_material`.`material_url`,'无') AS `material_url`,`branch`.`branch_name` AS `branch_name`,`student`.`student_status` AS `student_status`,`material_type_map`.`material_type_id` AS `material_type_id`,`student`.`student_id` AS `student_id`,`material_type_map`.`material_type_from` AS `material_type_from` from ((((`student` join `student_status_material` on((`student_status_material`.`student_id` = `student`.`student_id`))) join `student_status_map` on((`student`.`student_status` = `student_status_map`.`student_status`))) join `material_type_map` on((`student_status_material`.`material_type_id` = `material_type_map`.`material_type_id`))) join `branch` on((`student`.`branch_id` = `branch`.`branch_id`)));
 
 -- ----------------------------
 -- View structure for student_view
@@ -501,6 +557,6 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `stu
 -- View structure for test_view
 -- ----------------------------
 DROP VIEW IF EXISTS `test_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `test_view` AS select `total_table`.`total_num` AS `total_num`,`correct_table`.`correct_num` AS `correct_num`,`correct_table`.`test_id` AS `test_id`,`correct_table`.`student_num` AS `student_num`,`correct_table`.`student_name` AS `student_name`,`correct_table`.`test_name` AS `test_name` from ((select count(0) AS `correct_num`,`answer_view`.`test_id` AS `test_id`,`answer_view`.`student_num` AS `student_num`,`answer_view`.`test_name` AS `test_name`,`answer_view`.`student_name` AS `student_name` from `answer_view` where (`answer_view`.`question_answer` = `answer_view`.`answer_option`) group by `answer_view`.`test_id`,`answer_view`.`student_num`,`answer_view`.`student_name`) `correct_table` join (select count(0) AS `total_num`,`answer_view`.`test_id` AS `test_id`,`answer_view`.`student_num` AS `student_num`,`answer_view`.`student_name` AS `student_name` from `answer_view` group by `answer_view`.`test_id`,`answer_view`.`student_num`,`answer_view`.`student_name`) `total_table`) where ((`correct_table`.`test_id` = `total_table`.`test_id`) and (`correct_table`.`student_num` = `total_table`.`student_num`) and (`correct_table`.`student_name` = `total_table`.`student_name`));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `test_view` AS select count(0) AS `total_num`,`answer_view`.`test_id` AS `test_id`,`answer_view`.`student_num` AS `student_num`,`answer_view`.`test_name` AS `test_name`,`answer_view`.`student_name` AS `student_name`,`answer_view`.`answer_date` AS `answer_date` from `answer_view` group by `answer_view`.`test_id`,`answer_view`.`student_num`,`answer_view`.`student_name`,`answer_view`.`test_name`,`answer_view`.`answer_date`;
 
 SET FOREIGN_KEY_CHECKS = 1;
