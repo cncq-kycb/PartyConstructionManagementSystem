@@ -18,15 +18,7 @@
 
 </head>
 <body>
-	<script type="text/javascript">
-		var msg = "${message}";
-		if (msg == "1") {
-			alert('暂无可参与竞答');
-		}
-		if (msg == "2") {
-			alert('答题提交成功');
-		}
-	</script>
+
 	<!-- preloader -->
 	<div class="loader-wrapper">
 		<div class="loader-cube"></div>

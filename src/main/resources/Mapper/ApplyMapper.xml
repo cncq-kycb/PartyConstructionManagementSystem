@@ -11,10 +11,8 @@
 	</select>
 
 	<insert id="insert_apply">
-		update apply
-		set apply_status = 2
-		where student_id =
-		#{student_id}
+		insert into apply(apply_status,student_id) values
+		(3,#{student_id})
 	</insert>
 
 	<update id="update_apply_status">
@@ -23,6 +21,32 @@
 		where
 		student_id =
 		#{student_id}
+	</update>
+
+	<select id="stu_select_vStudentMaterial_by_student_id"
+		resultType="cn.edu.cqu.Model.vStudentMaterial">
+		select *
+		from student_status_material_view
+		where
+		student_id =
+		#{student_id} and material_type_from = 1
+		order by
+		material_type_id
+	</select>
+
+	<insert id="insert_material">
+		insert into
+		student_status_material(student_id,material_type_id) values
+		(#{student_id},#{material_type_id})
+	</insert>
+
+	<update id="update_student_status_material">
+		update student_status_material
+		set material_date =
+		now(),
+		material_url = #{material_url}
+		where student_id = #{student_id}
+		and material_type_id = #{material_type_id}
 	</update>
 
 </mapper>

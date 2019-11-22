@@ -43,13 +43,13 @@ table tr th {
 	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
-			alert('升级成功');
+			alert('该同志已升至下一阶段！');
 		}
 		if (msg == "2") {
-			alert('升级失败');
+			alert('操作失败！');
 		}
 		if (msg == "3") {
-			alert('正式党员无法升级');
+			alert('该生已是正式党员');
 		}
 	</script>
 	<div class="page">
@@ -96,7 +96,7 @@ table tr th {
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li class="active"><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
+						<li class="active"><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-list"></i>支部管理
@@ -201,11 +201,8 @@ table tr th {
 								<tr>
 									<th>学号</th>
 									<th>姓名</th>
-									<th>性别</th>
 									<th>政治面貌</th>
 									<th>所在支部</th>
-									<th>手机号码</th>
-									<th>电子邮箱</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -214,15 +211,21 @@ table tr th {
 									<tr style="height: auto;">
 										<td>${member_list.student_num }</td>
 										<td>${member_list.student_name}</td>
-										<td>${member_list.student_gender}</td>
 										<td>${member_list.student_status}</td>
-										<td>${member_list.branch_name}</td>
-										<td>${member_list.student_tel}</td>
-										<td>${member_list.student_email}</td>
-										<td>
+										<td>${member_list.branh_name}</td>
+
+										<td><button id="checkButton" type="button"
+												onclick="checkModal(this)" class="btn btn-info btn-sm"
+												data-toggle="modal">查看材料</button>
+											<button id="activityButton" type="button"
+												onclick="activityModal(this)" class="btn btn-warning btn-sm"
+												data-toggle="modal">查看活动记录</button>
+											<button id="resultButton" type="button"
+												onclick="resultModal(this)" class="btn btn-danger btn-sm"
+												data-toggle="modal">查看竞答记录</button>
 											<button id="updateBranchButton" type="button"
 												onclick="updateLevelModal(this)"
-												class="btn btn-success btn-sm" data-toggle="modal">提升进度等级</button>
+												class="btn btn-success btn-sm" data-toggle="modal">同意进入下一阶段</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -234,7 +237,7 @@ table tr th {
 							<ul class="pagination">
 								<c:if test="${pageInfo.hasPreviousPage}">
 									<li class="page-item"><a class="page-link"
-										href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum -1}"
+										href="/mis/stu/updateStatusPage?pn=${pageInfo.pageNum -1}"
 										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 									</a></li>
 								</c:if>
@@ -244,12 +247,12 @@ table tr th {
 									</c:if>
 									<c:if test="${pageNum != pageInfo.pageNum }">
 										<li class="page-item"><a class="page-link"
-											href="/mis/stu/activity_record_page?pn=${pageNum }">${pageNum }</a></li>
+											href="/mis/stu/updateStatusPage?pn=${pageNum }">${pageNum }</a></li>
 									</c:if>
 								</c:forEach>
 								<c:if test="${pageInfo.hasNextPage}">
 									<li class="page-item"><a class="page-link"
-										href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum +1}"
+										href="/mis/stu/updateStatusPage?pn=${pageInfo.pageNum +1}"
 										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 									</a></li>
 								</c:if>
@@ -272,7 +275,7 @@ table tr th {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">提升级别</h4>
+					<h4 class="modal-title" id="myModalLabel">成员政治面貌管理</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -300,12 +303,132 @@ table tr th {
 					</div>
 					<div class="modal-footer"></div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">确定升级</button>
+						<button type="submit" class="btn btn-success">同意升至下一阶段</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="checkModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">确定查看该生材料吗？</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="checkForm" id="checkForm" target="_blank"
+					action="checkMaterialPage" method="post" class="form-validate">
+					<div class="modal-body">
+						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_ensure"
+							style="border: none;" type="text" name="student_num_ensure"
+							readonly>
+					</div>
+					<div class="modal-body">
+						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_ensure"
+							style="border: none;" type="text" name="student_name_ensure"
+							readonly>
+					</div>
+					<div class="modal-body">
+						政治面貌： <input id="student_status_ensure" style="border: none;"
+							type="text" name="student_status_ensure" readonly>
+					</div>
+					<div class="modal-body">
+						所在支部： <input id="branch_name_ensure" style="border: none;"
+							type="text" name="branch_name_ensure" readonly>
+					</div>
+					<div class="modal-footer"></div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="checkModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">确定查看该生活动记录吗？</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="activityForm" id="activityForm" target="_blank"
+					action="stuActivityPage" method="post" class="form-validate">
+					<div class="modal-body">
+						学&ensp;&ensp;&ensp;&ensp;号：<input
+							id="student_num_activity
+							style=" border:
+							none;" type="text" name="student_num_activity" readonly>
+					</div>
+					<div class="modal-body">
+						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_activity"
+							style="border: none;" type="text" name="student_name_activity"
+							readonly>
+					</div>
+					<div class="modal-body">
+						政治面貌： <input id="student_status_activity" style="border: none;"
+							type="text" name="student_status_activity" readonly>
+					</div>
+					<div class="modal-body">
+						所在支部： <input id="branch_name_activity" style="border: none;"
+							type="text" name="branch_name_activity" readonly>
+					</div>
+					<div class="modal-footer"></div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="resultModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">确定查看该生竞答记录吗？</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="resultForm" id="resultForm" target="_blank"
+					action="resultPage" method="post" class="form-validate">
+					<div class="modal-body">
+						学&ensp;&ensp;&ensp;&ensp;号：<input
+							id="student_num_activity
+							style=" border:
+							none;" type="text" name="student_num_activity" readonly>
+					</div>
+					<div class="modal-body">
+						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_activity"
+							style="border: none;" type="text" name="student_name_activity"
+							readonly>
+					</div>
+					<div class="modal-body">
+						政治面貌： <input id="student_status_activity" style="border: none;"
+							type="text" name="student_status_activity" readonly>
+					</div>
+					<div class="modal-body">
+						所在支部： <input id="branch_name_activity" style="border: none;"
+							type="text" name="branch_name_activity" readonly>
+					</div>
+					<div class="modal-footer"></div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery/jquery.min.js"></script>
 	<script
@@ -326,12 +449,55 @@ table tr th {
 			var $td = $(obj).parents('tr').children('td');
 			var stuID_check = $td.eq(0).text();
 			var name_check = $td.eq(1).text();
-			var status_check = $td.eq(3).text();
-			var branch_check = $td.eq(4).text();
+			var status_check = $td.eq(2).text();
+			var branch_check = $td.eq(3).text();
 			$("#student_num_check").val(stuID_check);
 			$("#student_name_check").val(name_check);
 			$("#branch_name_check").val(branch_check);
 			$("#student_status_check").val(status_check);
+		}
+	</script>
+	<script>
+		function checkModal(obj) {
+			$("#checkModal").modal('show');
+			var $td = $(obj).parents('tr').children('td');
+			var stuID_check = $td.eq(0).text();
+			var name_check = $td.eq(1).text();
+			var status_check = $td.eq(2).text();
+			var branch_check = $td.eq(3).text();
+			$("#student_num_ensure").val(stuID_check);
+			$("#student_name_ensure").val(name_check);
+			$("#branch_name_ensure").val(branch_check);
+			$("#student_status_ensure").val(status_check);
+		}
+	</script>
+	<script>
+		function activityModal(obj) {
+			$("#activityModal").modal('show');
+			var $td = $(obj).parents('tr').children('td');
+			var stuID_check = $td.eq(0).text();
+			var name_check = $td.eq(1).text();
+			var status_check = $td.eq(2).text();
+			var branch_check = $td.eq(3).text();
+			$("#student_num_activity").val(stuID_check);
+			$("#student_name_activity").val(name_check);
+			$("#branch_name_activity").val(branch_check);
+			$("#student_status_activity").val(status_check);
+		}
+	</script>
+	</script>
+	<script>
+		function resultModal(obj) {
+			$("#resultModal").modal('show');
+			var $td = $(obj).parents('tr').children('td');
+			var stuID_check = $td.eq(0).text();
+			var name_check = $td.eq(1).text();
+			var status_check = $td.eq(2).text();
+			var branch_check = $td.eq(3).text();
+			$("#student_num_result").val(stuID_check);
+			$("#student_name_result").val(name_check);
+			$("#branch_name_result").val(branch_check);
+			$("#student_status_result").val(status_check);
 		}
 	</script>
 

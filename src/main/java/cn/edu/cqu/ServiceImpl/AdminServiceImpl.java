@@ -443,4 +443,11 @@ public class AdminServiceImpl implements AdminService {
 		return studentMapper.select_vStudent_by_student_num(student_num);
 	}
 
+	@Override
+	public int select_correct_num_by_student_per_test(String student_num, String test_id) {
+		// TODO Auto-generated method stub
+		int correct_num =  testMapper.select_vTest_correct_num(student_num, test_id);
+		return correct_num;
+	}
+
 }

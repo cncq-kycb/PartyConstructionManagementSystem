@@ -844,6 +844,9 @@ public class AdminController {
 			return "admin/resultByStudentPage";
 		}
 		ArrayList<vTest> vTests = adminService.select_vTest(student_num_input);
+		for (vTest v : vTests) {
+			v.setCorrect_num(adminService.select_correct_num_by_student_per_test(student_num_input, v.getTest_id()));
+		}
 		if (vTests == null) {
 			session.setAttribute("message", "1");
 			return "admin/resultByStudentPage";

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import cn.edu.cqu.Model.MaterialTypeMap;
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
 
 public interface StudentService {
@@ -57,5 +59,15 @@ public interface StudentService {
 	ArrayList<vQuestion> select_exam(String student_id);
 
 	boolean answer_question(String test_id, String question_id, String student_id, String answer_option);
+
+	ArrayList<vStudentMaterial> stu_select_vStudentMaterial_by_student_id(String student_id);
+
+	boolean insert_material(String student_id);
+
+	ArrayList<MaterialTypeMap> select_material_type_map();
+
+	ArrayList<MaterialTypeMap> select_material_type_map_to_upload(String student_id);
+
+	boolean add_material_for_join(String student_id, String material_type_id, String material_url);
 
 }

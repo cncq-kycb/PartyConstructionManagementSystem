@@ -39,7 +39,12 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
 </head>
 <body>
-
+	<script type="text/javascript">
+	var user = "<%=session.getAttribute("user")%>";
+	for(var i in user){
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+	</script>
 <div class="page">
 		<header class="header"> </header>
 		<div class="page-content d-flex align-items-stretch">

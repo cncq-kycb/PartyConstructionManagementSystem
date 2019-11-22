@@ -40,6 +40,7 @@ table tr th {
 
 </head>
 <body>
+
 	<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
@@ -83,7 +84,7 @@ table tr th {
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
+						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-list"></i>支部管理
@@ -200,9 +201,10 @@ table tr th {
 								<tr>
 									<th>学号</th>
 									<th>姓名</th>
-									<th>性别</th>
+									
 									<th>所在支部</th>
-									<th>所属级别</th>
+									<th>政治面貌</th>
+									<th>答题日期</th>
 									<th>实际得分</th>
 								</tr>
 
@@ -212,9 +214,9 @@ table tr th {
 									<tr style="height: auto;">
 										<td style="mso-number-format: '\@';">${member_list.student_num }</td>
 										<td>${member_list.student_name}</td>
-										<td>${member_list.student_gender}</td>
 										<td>${member_list.branch_name}</td>
 										<td>${member_list.student_status}</td>
+								       <td>${member_list.test_date_end}</td>					
 										<td>${member_list.get_score}</td>
 									</tr>
 								</c:forEach>

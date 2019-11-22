@@ -42,4 +42,6 @@ public interface TestMapper {
 
 	ArrayList<vTest> select_vTest(@Param("student_num") String student_num);
 
+	Integer select_vTest_correct_num(@Param("student_num") String student_num, @Param("test_id") String test_id);
+
 }

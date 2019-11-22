@@ -40,7 +40,12 @@ table tr th {
 
 </head>
 <body>
-	<script type="text/javascript">
+		<script type="text/javascript">
+	var user = "<%=session.getAttribute("user")%>";
+	for(var i in user){
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+	
 		var msg = "${message}";
 		if (msg == "3") {
 			alert('设置管理员成功');
@@ -104,7 +109,7 @@ table tr th {
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
+						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li class="active"><a href="#branchManager"
 					aria-expanded="false" data-toggle="collapse"> <i

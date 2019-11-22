@@ -7,7 +7,7 @@ public class Student {
 	private String student_permission;
 	private String user_id;
 	private String user_account;
-	private String student_status;
+	private int student_status;
 	private String student_name;
 	private String student_gender;
 	private String student_tel;
@@ -61,11 +61,11 @@ public class Student {
 		this.user_account = user_account;
 	}
 
-	public String getStudent_status() {
+	public int getStudent_status() {
 		return student_status;
 	}
 
-	public void setStudent_status(String student_status) {
+	public void setStudent_status(int student_status) {
 		this.student_status = student_status;
 	}
 

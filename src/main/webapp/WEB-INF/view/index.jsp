@@ -26,6 +26,18 @@
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
 </head>
 <body>
+	<script type="text/javascript">
+		var msg = "${message}";
+		if (msg == "2") {
+			alert('密码错误，请重新登陆');
+		}
+		if (msg == "1") {
+			alert('密码修改成功，请重新登陆');
+		}
+		if (msg == "3") {
+			alert('密码修改失败，请重新登陆');
+		}
+	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
 		type="text/javascript"></script>

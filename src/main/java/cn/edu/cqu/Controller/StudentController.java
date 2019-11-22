@@ -2,6 +2,7 @@ package cn.edu.cqu.Controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,15 +18,19 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.cqu.Model.Branch;
+import cn.edu.cqu.Model.MaterialTypeMap;
 import cn.edu.cqu.Model.Student;
+import cn.edu.cqu.Model.User;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.AdminService;
 import cn.edu.cqu.Service.StudentService;
+import cn.edu.cqu.Service.UserService;
 import cn.edu.cqu.Utils.Utils;
 
 @Controller
@@ -173,7 +178,7 @@ public class StudentController {
 		ArrayList<vQuestion> question_list = studentService.select_exam(student_id);
 		if (question_list == null) {
 			session.setAttribute("message", "1");
-			return "main_page_2";
+			return "stu/main_page_2_1";
 		}
 		String temp = "";
 		for (int i = 0; i < question_list.size(); i++) {
@@ -229,10 +234,9 @@ public class StudentController {
 		return "main_page_2";
 	}
 
-	
 	// 活动签到页面
 	@RequestMapping(value = "/attendance_page")
-	public String attendance_page(HttpSession session,String activity_id) {
+	public String attendance_page(HttpSession session, String activity_id) {
 		vActivity activity = adminService.select_activity_by_id(activity_id);
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
@@ -246,13 +250,12 @@ public class StudentController {
 		session.setAttribute("branch_name", branch_name);
 		session.setAttribute("activity_id", activity_id);
 
-
 		return "stu/attendance_page";
 	}
 
 	// 提交照片
 	@RequestMapping(value = "/upload_file")
-	public String upload_file( @RequestParam("file") MultipartFile file, HttpSession session,
+	public String upload_file(@RequestParam("file") MultipartFile file, HttpSession session,
 			HttpServletRequest request) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		try {
@@ -282,8 +285,9 @@ public class StudentController {
 		for (int i = 0; i < vattendances.size(); i++) {
 
 			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
-					+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
-					+ "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ vattendances.get(i).getActivity_date()
+					+ "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>"
+					+ vattendances.get(i).getActivity_name() + "</li><li>" + vattendances.get(i).getActivity_duration()
 					+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
 					+ vattendances.get(i).getActivity_id()
 					+ "\"><button class=\"button\">查看详情</button></a></div></div>";
@@ -309,7 +313,7 @@ public class StudentController {
 
 	// 提交缺席
 	@RequestMapping(value = "/absent_attendance")
-	public String absent_attendance( HttpSession session) {
+	public String absent_attendance(HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		String activity_id = (String) session.getAttribute("activity_id");
 		if (studentService.absent_for_attendance(student_id, activity_id)) {
@@ -329,8 +333,9 @@ public class StudentController {
 		for (int i = 0; i < vattendances.size(); i++) {
 
 			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
-					+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
-					+ "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ vattendances.get(i).getActivity_date()
+					+ "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>"
+					+ vattendances.get(i).getActivity_name() + "</li><li>" + vattendances.get(i).getActivity_duration()
 					+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
 					+ vattendances.get(i).getActivity_id()
 					+ "\"><button class=\"button\">查看详情</button></a></div></div>";
@@ -359,7 +364,8 @@ public class StudentController {
 	public String life_record_page(HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 		if (!studentService.is_member(student_id)) {
-			return "stu/no_permission";
+			session.setAttribute("message", "2");
+			return "stu/info_page";
 		}
 		String total_time = studentService.attendance_total_time(student_id);
 		String total_duration = studentService.attendance_total_duration(student_id);
@@ -413,49 +419,50 @@ public class StudentController {
 		session.setAttribute("branch_name", branch_name);
 		return "stu/life_record_page";
 	}
-	
+
 	// 活动签到主页面
-		@RequestMapping(value = "/view_activity_page")
-		public String view_activity_page(HttpSession session) {
-			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-			if (!studentService.is_member(student_id)) {
-				return "stu/no_permission";
-			}
-			session.setAttribute("message", "");
-			ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
-			String branch_name = studentService.select_branch_name_by_student_id(student_id);
-			String temp = "";
-			String start = "<div class=\"row\">";
-			String end = "</div>";
+	@RequestMapping(value = "/view_activity_page")
+	public String view_activity_page(HttpSession session) {
+		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		if (!studentService.is_member(student_id)) {
+			return "stu/no_permission";
+		}
+		session.setAttribute("message", "");
+		ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
+		String branch_name = studentService.select_branch_name_by_student_id(student_id);
+		String temp = "";
+		String start = "<div class=\"row\">";
+		String end = "</div>";
 
-			for (int i = 0; i < vattendances.size(); i++) {
+		for (int i = 0; i < vattendances.size(); i++) {
 
-				String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
-						+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
-						+ "</li><li>" + vattendances.get(i).getActivity_duration()
-						+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
-						+ vattendances.get(i).getActivity_id()
-						+ "\"><button class=\"button\">查看详情</button></a></div></div>";
-				if (i % 2 == 0) {
-					if (i != 0) {
-						temp += end;
-					}
-					temp += start;
-					temp += delta;
-					if (i == vattendances.size() - 1) {
-						temp += end;
-					}
-				} else {
-					temp += delta;
-					if (i == vattendances.size() - 1) {
-						temp += end;
-					}
+			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
+					+ vattendances.get(i).getActivity_date()
+					+ "</h4></div><div class=\"wrap-price bg-blue\"><h4>进行中</h4></div><div class=\"wrap-list\"><ul><li>"
+					+ vattendances.get(i).getActivity_name() + "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ "H</li></ul></div><a href=\"/mis/stu/attendance_page?activity_id="
+					+ vattendances.get(i).getActivity_id()
+					+ "\"><button class=\"button\">查看详情</button></a></div></div>";
+			if (i % 2 == 0) {
+				if (i != 0) {
+					temp += end;
+				}
+				temp += start;
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			} else {
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
 				}
 			}
-			System.out.println(temp);
-			session.setAttribute("content", temp);
-			return "stu/view_activity_page";
 		}
+		System.out.println(temp);
+		session.setAttribute("content", temp);
+		return "stu/view_activity_page";
+	}
 
 	// 查看活动详情页面
 	@RequestMapping(value = "/check_activity_page")
@@ -484,9 +491,16 @@ public class StudentController {
 	// 个人信息页面
 	@RequestMapping(value = "/info_page")
 	public String info_page(HttpSession session) {
-		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		session.setAttribute("message", "");
+		Student student = (Student) session.getAttribute("student");
+		String student_id = student.getStudent_id();
 		vStudent vStudent = studentService.select_vstudent_by_student_id(student_id);
 		session.setAttribute("vstudent", vStudent);
+		if (student.getStudent_status() == 6) {
+			session.setAttribute("message", "1");
+		} else {
+			session.setAttribute("message", "");
+		}
 		return "stu/info_page";
 	}
 
@@ -515,29 +529,114 @@ public class StudentController {
 	@RequestMapping(value = "/apply_page")
 	public String apply_page(HttpSession session) {
 		session.setAttribute("message", "");
-		if (!(((Student) session.getAttribute("student")).getStudent_status().equals("5"))) {
+		int student_status = ((Student) session.getAttribute("student")).getStudent_status();
+		if (!(student_status == 6)) {
 			String student_id = ((Student) session.getAttribute("student")).getStudent_id();
 			vApply vapply = studentService.select_vapply_by_student_id(student_id);
 			if (vapply != null) {
 				if (vapply.getPermission() == null || vapply.getPermission().equals("")) {
+					// 未申请入党
 					vapply.setPermission("1");
 					vapply.setStudent_status("非党员");
 					vapply.setApply_status("未提交");
+					return "stu/new_apply_page";
+				} else {
+					// 已申请入党
+					ArrayList<vStudentMaterial> vStudentMaterials = studentService
+							.stu_select_vStudentMaterial_by_student_id(student_id);
+					session.setAttribute("material_list", vStudentMaterials);
+					session.setAttribute("student_status",
+							studentService.select_vstudent_by_student_id(student_id).getStudent_status());
+					ArrayList<MaterialTypeMap> material_all = studentService
+							.select_material_type_map_to_upload(student_id);
+					// 提交材料查看
+					for (vStudentMaterial v : vStudentMaterials) {
+						if (v.getMaterial_url().equals("无")) {
+							v.setMaterial_url(null);
+						}
+					}
+					// 当前阶段可提交材料
+					Iterator<MaterialTypeMap> iterator = material_all.iterator();
+					while (iterator.hasNext()) {
+						MaterialTypeMap next = iterator.next();
+						if (next.getStudent_status() > (student_status + 1)) {
+							iterator.remove();
+						}
+					}
+					session.setAttribute("material_all", material_all);
 				}
 				session.setAttribute("vapply", vapply);
 				return "stu/apply_page";
 			}
-			return "stu/no_permission";
+			session.setAttribute("message", 1);
+			return "stu/info_page";
 		} else {
-			return "stu/no_permission";
+			session.setAttribute("message", 1);
+			return "stu/info_page";
 		}
+	}
+
+	// 提交入党相关材料
+	@RequestMapping(value = "/upload_material")
+	public String upload_material(@RequestParam("file") MultipartFile file, HttpServletRequest request,
+			String material_type_input, HttpSession session) {
+		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		try {
+			ArrayList<MaterialTypeMap> material_all = studentService.select_material_type_map_to_upload(student_id);
+			String material_type_id = null;
+			for (MaterialTypeMap v : material_all) {
+				if (v.getMaterial_type_name().equals(material_type_input)) {
+					material_type_id = v.getMaterial_type_id();
+					break;
+				}
+			}
+			String newFileName = student_id + "_" + material_type_id + ".pdf";
+			String filePath = request.getSession().getServletContext().getRealPath("") + "upload_join_material\\";
+			File dir = new File(filePath);
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			filePath = filePath + newFileName;
+			file.transferTo(new File(filePath));
+			if (studentService.add_material_for_join(student_id, material_type_id, filePath)) {
+				session.setAttribute("message", "1");
+				ArrayList<vStudentMaterial> vStudentMaterials = studentService
+						.stu_select_vStudentMaterial_by_student_id(student_id);
+				session.setAttribute("material_list", vStudentMaterials);
+				session.setAttribute("student_status",
+						studentService.select_vstudent_by_student_id(student_id).getStudent_status());
+				material_all = studentService.select_material_type_map_to_upload(student_id);
+				// 提交材料查看
+				for (vStudentMaterial v : vStudentMaterials) {
+					if (v.getMaterial_url().equals("无")) {
+						v.setMaterial_url(null);
+					}
+				}
+				// 当前阶段可提交材料
+				Iterator<MaterialTypeMap> iterator = material_all.iterator();
+				int student_status = ((Student) session.getAttribute("student")).getStudent_status();
+				while (iterator.hasNext()) {
+					MaterialTypeMap next = iterator.next();
+					if (next.getStudent_status() > (student_status + 1)) {
+						iterator.remove();
+					}
+				}
+				session.setAttribute("material_all", material_all);
+			} else {
+				session.setAttribute("message", "2");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("message", "2");
+		}
+		return "stu/apply_page";
 	}
 
 	// 提交入党申请
 	@RequestMapping(value = "/applyJoin")
 	public String applyJoin(HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-		if (studentService.submit_apply(student_id)) {
+		if (studentService.submit_apply(student_id) && studentService.insert_material(student_id)) {
 			session.setAttribute("message", "1");
 			vApply vapply = studentService.select_vapply_by_student_id(student_id);
 			session.setAttribute("vapply", vapply);
@@ -565,8 +664,12 @@ public class StudentController {
 	// 相关资料上传
 	@RequestMapping(value = "/material_upload_page")
 	public String material_upload_page(HttpSession session) {
-		
 		return "stu/material_upload_page";
 	}
 
+	// 修改密码页面
+	@RequestMapping(value = "/update_psw_page")
+	public String update_psw_page(HttpSession session) {
+		return "stu/update_psw_page";
+	}
 }

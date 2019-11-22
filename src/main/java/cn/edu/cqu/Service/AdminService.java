@@ -109,4 +109,6 @@ public interface AdminService {
 
 	vStudent select_vStudent_by_student_num(String student_num);
 
+	int select_correct_num_by_student_per_test(String student_num, String test_id);
+
 }

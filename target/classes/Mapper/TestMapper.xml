@@ -67,8 +67,8 @@
 
 	<insert id="answer_question">
 		insert into answer
-		(test_id,question_id,student_id,answer_option) values
-		(#{test_id},#{question_id},#{student_id},#{answer_option})
+		(test_id,question_id,student_id,answer_option,answer_date) values
+		(#{test_id},#{question_id},#{student_id},#{answer_option},now())
 	</insert>
 
 	<select id="answer_result" resultType="int">
@@ -82,6 +82,17 @@
 		select *
 		from test_view
 		where student_num = #{student_num}
+	</select>
+
+	<select id="select_vTest_correct_num" resultType="Integer">
+		select count(*)
+		from answer_view
+		where student_num = #{student_num}
+		and
+		test_id =
+		#{test_id}
+		and question_answer
+		= answer_option
 	</select>
 
 </mapper>

@@ -40,7 +40,9 @@ table tr th {
 
 </head>
 <body>
-	<script type="text/javascript">
+		<script type="text/javascript">
+	
+	
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('无此学生任何答题信息');
@@ -92,7 +94,7 @@ table tr th {
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
+						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-list"></i>支部管理
@@ -208,6 +210,7 @@ table tr th {
 								</tr>
 								<tr>
 									<th>试卷名称</th>
+									<th>完成时间</th>
 									<th>试卷总分</th>
 									<th>实际得分</th>
 								</tr>
@@ -217,6 +220,7 @@ table tr th {
 								<c:forEach items="${list}" var="test_list">
 									<tr style="height: auto;">
 										<td>${test_list.test_name }</td>
+										<td>${test_list.answer_date}</td>
 										<td>${test_list.total_num}</td>
 										<td>${test_list.correct_num}</td>
 									</tr>

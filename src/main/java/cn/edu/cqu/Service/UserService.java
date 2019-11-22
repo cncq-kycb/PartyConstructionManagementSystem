@@ -12,6 +12,10 @@ public interface UserService {
 	// 用户登录
 	public int login(User user, HttpSession session);
 
+	public String select_psw(String user_account);
+
+	public boolean update_password(String user_account, String user_password);
+
 //	// 新增党支部
 //	public boolean branch_insert(Branch branch);
 //

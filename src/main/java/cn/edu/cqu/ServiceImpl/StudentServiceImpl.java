@@ -16,12 +16,14 @@ import cn.edu.cqu.Dao.MapMapper;
 import cn.edu.cqu.Dao.StudentMapper;
 import cn.edu.cqu.Dao.StudyMapper;
 import cn.edu.cqu.Dao.TestMapper;
+import cn.edu.cqu.Model.MaterialTypeMap;
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Service.StudentService;
 
@@ -270,6 +272,51 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 		try {
 			testMapper.answer_question(test_id, question_id, student_id, answer_option);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<vStudentMaterial> stu_select_vStudentMaterial_by_student_id(String student_id) {
+		// TODO Auto-generated method stub
+		return applyMapper.stu_select_vStudentMaterial_by_student_id(student_id);
+	}
+
+	@Override
+	public boolean insert_material(String student_id) {
+		// TODO Auto-generated method stub
+		try {
+			int length = mapMapper.select_material_type_map_length();
+			for (int i = 1; i <= length; i++) {
+				applyMapper.insert_material(student_id, i);
+			}
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<MaterialTypeMap> select_material_type_map() {
+		// TODO Auto-generated method stub
+		return mapMapper.select_material_type_map();
+	}
+
+	@Override
+	public ArrayList<MaterialTypeMap> select_material_type_map_to_upload(String student_id) {
+		// TODO Auto-generated method stub
+		return mapMapper.select_material_type_map_to_upload_stu(student_id);
+	}
+
+	@Override
+	public boolean add_material_for_join(String student_id, String material_type_id, String material_url) {
+		// TODO Auto-generated method stub
+		try {
+			applyMapper.update_student_status_material(student_id, material_type_id, material_url);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception

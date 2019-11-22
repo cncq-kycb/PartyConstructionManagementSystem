@@ -17,4 +17,48 @@
 		resultType="cn.edu.cqu.Model.StudyStatusMap">
 		select * from study_status_map
 	</select>
+
+	<select id="select_material_type_map"
+		resultType="cn.edu.cqu.Model.MaterialTypeMap">
+		select * from material_type_map
+	</select>
+
+	<select id="select_material_type_map_length" resultType="int">
+		select
+		count(*) from material_type_map
+	</select>
+
+	<select id="select_material_type_map_to_upload_stu"
+		resultType="cn.edu.cqu.Model.MaterialTypeMap">
+		SELECT
+		material_type_map.material_type_id,
+		material_type_map.material_type_name,
+		material_type_map.material_type_from,
+		material_type_map.student_status
+		FROM
+		student_status_material
+		INNER
+		JOIN material_type_map ON student_status_material.material_type_id =
+		material_type_map.material_type_id
+		where student_id = #{student_id} and
+		material_url is null and
+		material_type_map.material_type_from = 1
+	</select>
+
+	<select id="select_material_type_map_to_upload_admin"
+		resultType="cn.edu.cqu.Model.MaterialTypeMap">
+		SELECT
+		material_type_map.material_type_id,
+		material_type_map.material_type_name,
+		material_type_map.material_type_from,
+		material_type_map.student_status
+		FROM
+		student_status_material
+		INNER
+		JOIN material_type_map ON student_status_material.material_type_id =
+		material_type_map.material_type_id
+		where student_id = #{student_id} and
+		material_url is null and
+		material_type_map.material_type_from = 2
+	</select>
 </mapper>

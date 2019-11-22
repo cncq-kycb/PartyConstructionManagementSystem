@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
 	// 用户登录
 	@Override
 	public int login(User user, HttpSession session) {
-		System.out.println("login");
 		String password = userMapper.select_password_by_account(user.getUser_account());
 		if (password.equals(Utils.security_coding(user.getUser_password()))) {
 			session.setAttribute("user", user);
@@ -38,14 +37,32 @@ public class UserServiceImpl implements UserService {
 				session.setAttribute("student_name", student.getStudent_name());
 				session.setAttribute("student", student);
 				return 2;
+//			case 3:
+//				Student admin_student = userMapper.select_student_by_account(user.getUser_account());
+//				session.setAttribute("student_name", admin_student.getStudent_name());
+//				session.setAttribute("student", admin_student);
+//				return 3;
 			default:
 				return 0;
 			}
 		}
 		return 0;
 	}
-	
 
+	@Override
+	public String select_psw(String user_account) {
+		return userMapper.select_password_by_account(user_account);
+	}
 
+	@Override
+	public boolean update_password(String user_account, String user_password) {
+		try {
+			userMapper.update_password(user_account, user_password);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
 
 }

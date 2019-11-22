@@ -1,8 +1,11 @@
 package cn.edu.cqu.Dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
 import cn.edu.cqu.Model.vApply;
+import cn.edu.cqu.Model.vStudentMaterial;
 
 public interface ApplyMapper {
 
@@ -11,5 +14,12 @@ public interface ApplyMapper {
 	void insert_apply(String student_id);
 
 	void update_apply_status(@Param("student_id") String student_id, @Param("apply_status") String apply_status);
+
+	ArrayList<vStudentMaterial> stu_select_vStudentMaterial_by_student_id(String student_id);
+
+	void insert_material(@Param("student_id") String student_id, @Param("material_type_id") int material_type_id);
+
+	void update_student_status_material(@Param("student_id") String student_id,
+			@Param("material_type_id") String material_type_id, @Param("material_url") String material_url);
 
 }

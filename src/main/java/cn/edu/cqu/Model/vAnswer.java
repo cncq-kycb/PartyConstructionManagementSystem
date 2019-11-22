@@ -8,6 +8,7 @@ public class vAnswer {
 	private String student_name;
 	private String answer_option;
 	private String question_answer;
+	private String answer_date;
 
 	public String getTest_id() {
 		return test_id;
@@ -63,6 +64,14 @@ public class vAnswer {
 
 	public void setQuestion_answer(String question_answer) {
 		this.question_answer = question_answer;
+	}
+
+	public String getAnswer_date() {
+		return answer_date;
+	}
+
+	public void setAnswer_date(String answer_date) {
+		this.answer_date = answer_date;
 	}
 
 }

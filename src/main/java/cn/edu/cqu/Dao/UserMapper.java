@@ -15,4 +15,6 @@ public interface UserMapper {
 
 	Student select_student_by_account(@Param("user_account") String user_account);
 
+	void update_password(@Param("user_account") String user_account, @Param("user_password") String user_password);
+
 }

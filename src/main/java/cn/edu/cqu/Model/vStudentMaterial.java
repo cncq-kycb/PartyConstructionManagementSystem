@@ -8,10 +8,11 @@ public class vStudentMaterial {
 	private String mean;
 	private String branch_id;
 	private String branch_name;
-	private String material_type_id;
+	private int material_type_id;
 	private String material_type_name;
 	private String material_date;
 	private String material_url;
+	private String material_type_from;
 
 	public String getStudent_num() {
 		return student_num;
@@ -61,11 +62,11 @@ public class vStudentMaterial {
 		this.branch_name = branch_name;
 	}
 
-	public String getMaterial_type_id() {
+	public int getMaterial_type_id() {
 		return material_type_id;
 	}
 
-	public void setMaterial_type_id(String material_type_id) {
+	public void setMaterial_type_id(int material_type_id) {
 		this.material_type_id = material_type_id;
 	}
 
@@ -91,5 +92,13 @@ public class vStudentMaterial {
 
 	public void setMaterial_url(String material_url) {
 		this.material_url = material_url;
+	}
+
+	public String getMaterial_type_from() {
+		return material_type_from;
+	}
+
+	public void setMaterial_type_from(String material_type_from) {
+		this.material_type_from = material_type_from;
 	}
 }

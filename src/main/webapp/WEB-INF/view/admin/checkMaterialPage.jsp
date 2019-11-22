@@ -44,6 +44,7 @@ table tr th {
 		window.location.href='<%=request.getContextPath()%>/';
 	};
 	</script>
+
 	<div >
 		<header class="header"></header>
 		<div class="content-inner">
@@ -59,7 +60,7 @@ table tr th {
 					<div class="panel-body" style="padding-bottom: 0px;">
 
 						<center>
-							<h2>${activity_date}${activity_name}-${branch_name}签到表</h2>
+							<h2>${branch_name}-${student_id}-${student_name}-${student_status}材料表</h2>
 
 							<h3>&ensp;</h3>
 							<div class="cxbottom">
@@ -76,39 +77,27 @@ table tr th {
 					<table class="table table-hover table-bordered" id="tables"
 						data-toggle="table" data-toggle="table" data-pagination="true"
 						data-side-pagination="client" style="border: 1px solid black">
-						<caption>${activity_date}${activity_name}-${branch_name}签到表</caption>
+						<caption>${branch_name}-${student_id}-${student_name}-${student_status}材料表</caption>
 						<thead>
 							<tr>
-								<th>学号</th>
-								<th>姓名</th>
-								<th>所在支部</th>
-								<th>政治面貌</th>
-								<th>签到情况</th>
+								<th>材料</th>
+								<th>提交日期</th>
+								<th>提交状态</th>
 							</tr>
 
 						</thead>
 						<tbody>
-							<c:forEach items="${list}" var="member_list">
+							<c:forEach items="${material_list}" var="material_list">
 								<tr style="height: auto;">
-									<td style="mso-number-format: '\@';">${member_list.student_num }</td>
-									<td>${member_list.student_name }</td>
-									<td>${member_list.branch_name }</td>
-									<td>${member_list.student_status}</td>
-									<td>${member_list.attendance_status}</td>
+									<td><a href="${material_list.material_url}">${material_list.material_type_name }</a>></td>
+									<td>${material_list.material_date }</td>
+									<td>${material_list.material_type_from}</td>
 								</tr>
 
 							</c:forEach>
 
 						</tbody>
-						<tr>
-							<th rowspan="2" colspan="3"></th>
-							<th>实到人数</th>
-							<td>${signInNum}</td>
-						</tr>
-						<tr>
-							<th>应到人数</th>
-							<td>${totalMemberNum}</td>
-						</tr>
+				
 					</table>
 				
 				</div>
@@ -150,16 +139,14 @@ table tr th {
             document.getElementById("dlink").click();
         }
     });
-    var disName = "<%=session.getAttribute("activity_date")%>";
-    var avtivytiName = "<%=session.getAttribute("activity_name")%>";
+    var disName = "<%=session.getAttribute("student_id")%>";
+    var avtivytiName = "<%=session.getAttribute("student_name")%>";
     var branchName = "<%=session.getAttribute("branch_name")%>";
-		var disLength = disName.length;
-		var year = disName.substring(0, 4);
-		var month = disName.substring(5, 7);
-		var day = disName.substring(8, 10);
-		var id = "tables", worksheetName = 'sheet', workName = year + "年"
-				+ month + "月" + day + "日-" + avtivytiName + "-" + branchName
-				+ "签到表.xls";
+    var status = "<%=session.getAttribute("student_status")%>";
+
+		var id = "tables", worksheetName = 'sheet', workName = branch_name + "-"
+				+ student_id + "-" + branch_name + "-" + status + "-" 
+				+ "材料表.xls";
 		document.getElementById('button').onclick = function() {
 			var download = tableToExcel();
 			download(id, worksheetName, workName)

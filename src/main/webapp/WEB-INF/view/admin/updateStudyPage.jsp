@@ -44,6 +44,11 @@
 </head>
 <body>
 	<script type="text/javascript">
+	var user = "<%=session.getAttribute("user")%>";
+	for(var i in user){
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('推文编辑成功');
@@ -95,7 +100,7 @@
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
+						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-list"></i>支部管理
