@@ -139,19 +139,19 @@ public class StudentController {
 		return "stu/member_read_page";
 	}
 
-	// 十九大学习内容查询结果
-	@RequestMapping(value = "/NCCPC_pageFinder")
-	public String NCCPC_pageFinder(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
-			HttpSession session) {
-		studentService.jump_study_page(study_title_input, session, "十九大讲话");
-		return "stu/NCCPC_page";
-	}
+//	// 十九大学习内容查询结果
+//	@RequestMapping(value = "/NCCPC_pageFinder")
+//	public String NCCPC_pageFinder(String study_title_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn,
+//			HttpSession session) {
+//		studentService.jump_study_page(study_title_input, session, "十九大讲话");
+//		return "stu/NCCPC_page";
+//	}
 
-	// 历史学习资料查询结果
+	// 新闻共享查询结果
 	@RequestMapping(value = "/material_pageFinder")
 	public String material_pageFinder(String study_title_input,
 			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
-		studentService.jump_study_page(study_title_input, session, "历史学习资料");
+		studentService.jump_study_page(study_title_input, session, "新闻共享");
 		return "stu/material_page";
 	}
 
@@ -261,7 +261,7 @@ public class StudentController {
 		try {
 			String activity_id = (String) session.getAttribute("activity_id");
 			String newFileName = student_id + "_" + activity_id + ".jpg";
-			String filePath = request.getSession().getServletContext().getRealPath("") + "\\upload_attendance_pic\\";
+			String filePath = "C:\\mis\\data" + "\\upload_attendance_pic\\";
 			File dir = new File(filePath);
 			if (!dir.exists()) {
 				dir.mkdir();
@@ -569,10 +569,10 @@ public class StudentController {
 				return "stu/apply_page";
 			}
 			session.setAttribute("message", 1);
-			return "stu/info_page";
+			return "stu/info_page_1";
 		} else {
 			session.setAttribute("message", 1);
-			return "stu/info_page";
+			return "stu/info_page_1";
 		}
 	}
 
@@ -591,7 +591,7 @@ public class StudentController {
 				}
 			}
 			String newFileName = student_id + "_" + material_type_id + ".pdf";
-			String filePath = request.getSession().getServletContext().getRealPath("") + "upload_join_material\\";
+			String filePath = "C:\\mis\\data"  + "upload_join_material\\";
 			File dir = new File(filePath);
 			if (!dir.exists()) {
 				dir.mkdir();
@@ -650,14 +650,89 @@ public class StudentController {
 	@RequestMapping(value = "/activity_record_page")
 	public String activity_record_page(@RequestParam(value = "pn", defaultValue = "1") Integer pn,
 			HttpSession session) {
-		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
+		Student student = (Student) session.getAttribute("student");
+		String student_id = student.getStudent_id();
+		String student_num = student.getStudent_num();
+		if (!studentService.is_member(student_id)) {
+			session.setAttribute("message", "2");
+			return "stu/info_page";
+		}
 		String total_time = studentService.attendance_total_time(student_id);
 		String total_duration = studentService.attendance_total_duration(student_id);
+		String branch_name = studentService.select_branch_name_by_student_id(student_id);
 		ArrayList<vAttendance> vattendances = studentService.select_attendance_by_student_id(student_id);
-		PageInfo<vAttendance> pageInfo = new PageInfo<vAttendance>(vattendances, 5);
+		int total_attendance_time = studentService.select_total_attendance_time(student_id);
+		int total_activity_time_all = studentService.select_total_activity_time_all(student_num);
+		double absent_percent = 0;
+		if (total_activity_time_all == 0) {
+			absent_percent = 0;
+		} else {
+			absent_percent = total_attendance_time / total_activity_time_all * 100;
+		}
+		int test_total_time = studentService.select_test_total_time(student_num);
+		int test_total_time_all = studentService.select_test_total_time_all(student_num);
+		int test_total_correct = studentService.select_test_total_correct(student_num);
+		double test_percent = 0;
+		double score_percent = 0;
+		if (test_total_time_all == 0) {
+			test_percent = 0;
+		} else {
+			test_percent = test_total_time / test_total_time_all * 100;
+		}
+		if (test_total_time == 0) {
+			score_percent = 0;
+		} else {
+			score_percent = test_total_correct / test_total_time * 100;
+		}
+		String temp = "";
+		String start = "<div class=\"row\">";
+		String end = "</div>";
+
+		for (int i = 0; i < vattendances.size(); i++) {
+			String color = "";
+			if ("1".equals(vattendances.get(i).getAttendance_status_id())
+					|| "2".equals(vattendances.get(i).getAttendance_status_id())
+					|| "4".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "purple";
+			} else if ("3".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "blue";
+			} else if ("5".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "red";
+			} else if ("6".equals(vattendances.get(i).getAttendance_status_id())) {
+				color += "orange";
+			}
+			String delta = "<div class=\"col s6\"><div class=\"content\"><div class=\"wrap-head\"><h4>"
+					+ vattendances.get(i).getActivity_date() + "</h4></div><div class=\"wrap-price bg-" + color
+					+ "\"><h4>" + vattendances.get(i).getAttendance_status()
+					+ "</h4></div><div class=\"wrap-list\"><ul><li>" + vattendances.get(i).getActivity_name()
+					+ "</li><li>" + vattendances.get(i).getActivity_duration()
+					+ "H</li></ul></div><a href=\"/mis/stu/check_activity_page?activity_id="
+					+ vattendances.get(i).getActivity_id()
+					+ "\"><button class=\"button\">查看活动</button></a></div></div>";
+			if (i % 2 == 0) {
+				if (i != 0) {
+					temp += end;
+				}
+				temp += start;
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			} else {
+				temp += delta;
+				if (i == vattendances.size() - 1) {
+					temp += end;
+				}
+			}
+		}
+		session.setAttribute("content", temp);
+		session.setAttribute("absent_percent", absent_percent);
+		session.setAttribute("test_total_time", test_total_time);
+		session.setAttribute("test_percent", test_percent);
+		session.setAttribute("score_percent", score_percent);
 		session.setAttribute("total_time", total_time);
 		session.setAttribute("total_duration", total_duration);
-		session.setAttribute("pageInfo", pageInfo);
+		session.setAttribute("branch_name", branch_name);
 		return "stu/activity_record_page";
 	}
 

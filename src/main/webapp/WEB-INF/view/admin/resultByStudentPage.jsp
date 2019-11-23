@@ -40,9 +40,13 @@ table tr th {
 
 </head>
 <body>
-		<script type="text/javascript">
-	
-	
+			<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('无此学生任何答题信息');

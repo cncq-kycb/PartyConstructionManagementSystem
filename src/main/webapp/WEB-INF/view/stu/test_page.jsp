@@ -56,6 +56,12 @@
 </head>
 <body>
 	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('提交成功');
@@ -75,7 +81,7 @@
 			<div class="row">
 				<div class="col s6">
 					<div class="content-left">
-						<a href="index.html">
+						<a href="/mis/stu/main_page_2">
 							<h1>
 								<span class="color-indigo1">C</span><span class="color-indigo2">Q</span><span
 									class="color-indigo3">U</span><span class="color-indigo4">党</span><span
@@ -105,50 +111,9 @@
 				</div>
 			</li>
 			<li><a href="/mis/stu/main_page_2"><i class="fas fa-home"></i>主页</a></li>
-			<li><a href="/mis/stu/test_page"><i
-					class="fas fa-graduation-cap"></i>每日竞答</a></li>
-			<li>
-				<div class="collapsible-header">
-					<i class="fas fa-clone"></i>学习中心<span><i
-						class="fas fa-angle-right right"></i></span>
-				</div>
-				<div class="collapsible-body">
-					<ul>
-						<li><a href="/mis/stu/material_page">十九大讲话</a></li>
-						<li><a href="/mis/stu/member_read_page">历史学习资料</a></li>
-						<li><a href="/mis/stu/test_page">党员必读</a></li>
-					</ul>
-				</div>
-			</li>
-			<li>
-				<div class="collapsible-header">
-					<i class="fas fa-calendar-alt"></i>组织生活<span><i
-						class="fas fa-angle-right right"></i></span>
-				</div>
-				<div class="collapsible-body">
-					<ul>
-						<li><a href="/mis/stu/attendence_page">活动签到/请假</a></li>
-						<li><a href="/mis/stu/life_record_page">组织生活记录</a></li>
-					</ul>
-				</div>
-			</li>
-			<li>
-				<div class="collapsible-header">
-					<i class="fas fa-user"></i>个人中心<span><i
-						class="fas fa-angle-right right"></i></span>
-				</div>
-				<div class="collapsible-body">
-					<ul>
-						<li><a href="/mis/stu/info_page">个人信息</a></li>
-						<li><a href="/mis/stu/life_record_page">活动记录</a></li>
-						<li><a href="/mis/stu/activity_record_page">申请入党</a></li>
-					</ul>
-				</div>
-			</li>
-			<li><a href="/mis/login"><i class="fas fa-sign-in-alt"></i>登
-					录</a></li>
-			<li><a href="/mis/register"><i class="fas fa-user-plus"></i>注
-					册</a></li>
+			<li><a href="/mis/stu/study_center_page"><i class="fas fa-graduation-cap"></i>学习中心</a></li>
+			<li><a href="/mis/stu/party_life_page"><i class="fas fa-calendar-alt"></i>组织生活</a></li>
+			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>		
 			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
 		</ul>
 	</div>

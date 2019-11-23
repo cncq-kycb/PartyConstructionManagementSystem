@@ -41,17 +41,11 @@ table tr th {
 </head>
 <body>
 	<script type="text/javascript">
-	var user = "<%=session.getAttribute("user")%>";
-	for(var i in user){
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
-		var msg = "${message}";
-		if (msg == "1") {
-			alert('设置权限成功');
-		}
-		if (msg == "2") {
-			alert('设置权限失败');
-		}
 	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">

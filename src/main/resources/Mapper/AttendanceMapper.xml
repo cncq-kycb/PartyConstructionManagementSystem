@@ -118,4 +118,29 @@
 		(#{activity_id},#{student_id},2)
 	</insert>
 
+	<select id="count_attendance_time" resultType="Integer">
+		select count(*)
+		from attendance_view
+		where student_id = #{student_id} and
+		attendance_status_id = 3
+	</select>
+
+	<select id="count_activity_time_all" resultType="Integer">
+		SELECT
+		count(activity.activity_id)
+		FROM
+		activity ,
+		student_status_record,
+		student
+		WHERE
+		activity.activity_date >
+		student_status_record.record_date
+		and
+		student_status_record.student_status = 6 and student.student_num =
+		#{student_num}
+		and student_status_record.student_id =
+		student.student_id
+
+	</select>
+
 </mapper>

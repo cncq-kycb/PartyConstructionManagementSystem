@@ -32,6 +32,7 @@ public class UserController {
 		User user = new User(user_account, user_password);
 		int type = userService.login(user, session);
 		if (type != 0) {
+			session.setAttribute("isLogin", "1");
 			return "main_page_" + type;
 		}
 		return "loginFail";
@@ -40,6 +41,7 @@ public class UserController {
 	// 用户退出
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
+		session.setAttribute("isLogin", null);
 		session.invalidate();
 		return "index";
 	}
@@ -105,7 +107,7 @@ public class UserController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "index";
+		return "psw_changed_page";
 	}
 
 }

@@ -44,4 +44,10 @@ public interface TestMapper {
 
 	Integer select_vTest_correct_num(@Param("student_num") String student_num, @Param("test_id") String test_id);
 
+	Integer select_test_total_time_all(String student_num);
+
+	Integer select_test_total_correct(String student_num);
+
+	Integer select_test_total_time(String student_num);
+
 }

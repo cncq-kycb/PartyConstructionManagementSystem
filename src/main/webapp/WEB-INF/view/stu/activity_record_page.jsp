@@ -4,205 +4,233 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>党员组织生活（学生端）</title>
-<meta name="description" content="">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="all,follow">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/css/style.default.css"
-	id="theme-stylesheet">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/css/custom.css">
-<link rel="shortcut icon"
-	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="images/favicon.png">
+	<title>CQU党建</title>
+
+
+
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/materialize.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/loader.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/fontawesome.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/style.css">
+<style>
+/* Red border */
+hr.new1 {
+  border-top: 1px solid red;
+}
+ 
+/* Dashed red border */
+hr.new2 {
+  border-top: 1px dashed red;
+}
+ 
+/* Dotted red border */
+hr.new3 {
+  border-top: 1px dotted red;
+}
+ 
+/* Thick red border */
+hr.new4 {
+  border: 1px solid red;
+}
+ 
+/* Large rounded green border */
+hr.new5 {
+  border: 10px solid green;
+  border-radius: 5px;
+}
+</style>
+
 </head>
 <body>
-	<div class="page">
-		<header class="header"> <nav class="navbar">
-		<div class="container-fluid">
-			<div
-				class="navbar-holder d-flex align-items-center justify-content-between">
-				<div class="navbar-header">
-					<a href="/mis/stu/mainPage"
-						class="navbar-brand d-none d-sm-inline-block">
-						<div class="brand-text d-none d-lg-inline-block">党员组织生活（学生端）</div>
-						<div class="brand-text d-none d-sm-inline-block d-lg-none">
-							<strong>党员组织生活（学生端）</strong>
-						</div>
-					</a> <a id="toggle-btn" href="#" class="menu-btn active"> <span></span><span></span><span></span>
-					</a>
-				</div>
-				<ul
-					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-					<li class="nav-item"><a href="/mis/logout"
-						class="nav-link logout"> <span class="d-none d-sm-inline">退出登录</span><i
-							class="fa fa-sign-out"></i>
-					</a></li>
-				</ul>
-			</div>
-		</div>
-		</nav> </header>
-		<div class="page-content d-flex align-items-stretch">
-			<nav class="side-navbar">
-			<div class="sidebar-header d-flex align-items-center">
-				<div class="title">
-					<p>欢迎您：</p>
-					<h1 class="h4">${student_name}</h1>
-				</div>
-			</div>
-			<ul class="list-unstyled">
-				<li><a href="#studyCenter" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-list"></i>学习中心
-				</a>
-					<ul id="studyCenter" class="collapse list-unstyled ">
-						<li><a href="/mis/stu/NCCPC_page">十九大讲话</a></li>
-						<li><a href="/mis/stu/material_page">历史学习资料</a></li>
-						<li><a href="/mis/stu/member_read_page">党员必读</a></li>
-						<li><a href="/mis/stu/test_page">每日竞答</a></li>
-					</ul></li>
-				<li><a href="#lifeCenter" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-interface-windows"></i>组织生活
-				</a>
-					<ul id="lifeCenter" class="collapse list-unstyled ">
-						<li><a href="/mis/stu/attendence_page">活动签到/请假</a></li>
-						<li><a href="/mis/stu/life_record_page">组织生活记录</a></li>
-					</ul></li>
-				<li><a href="#selfCenter" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>个人中心
-				</a>
-					<ul id="selfCenter" class="collapse list-unstyled ">
-						<li><a href="/mis/stu/info_page">个人信息</a></li>
-						<li><a href="/mis/stu/apply_page">申请党员</a></li>
-						<li class="active"><a href="/mis/stu/activity_record_page">活动记录</a></li>
-					</ul></li>
-			</ul>
-			</nav>
-			<div class="content-inner">
-				<section class="dashboard-counts no-padding-bottom">
-				<div class="container-fluid">
-					<div class="row bg-white has-shadow">
-						<div class="col-xl-3 col-sm-6">
-							<div class="item d-flex align-items-center">
-								<div class="icon bg-blue"></div>
-								<div class="title">
-									<span>组织生活次数</span>
-									<div class="progress">
-										<div role="progressbar" style="width: 70%; height: 4px;"
-											aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-											class="progress-bar bg-blue"></div>
-									</div>
-								</div>
-								<div class="title">
-									<strong>${total_time}</strong>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6">
-							<div class="item d-flex align-items-center">
-								<div class="icon bg-green"></div>
-								<div class="title">
-									<span>总计时长</span>
-									<div class="progress">
-										<div role="progressbar" style="width: 70%; height: 4px;"
-											aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-											class="progress-bar bg-green"></div>
-									</div>
-								</div>
-								<div class="title">
-									<strong>${total_duration}</strong>小时
-								</div>
-							</div>
-						</div>
+	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+	</script>
+	<!-- preloader -->
+	<div class="loader-wrapper">
+		<div class="loader-cube"></div>
+	</div>
+	<!-- end preloader -->
+
+	<!-- navbar -->
+	<div class="navbar">
+		<div class="container">
+			<div class="row">
+				<div class="col s6">
+					<div class="content-left">
+						<a href="/mis/stu/main_page_2">
+							<h1>
+								<span class="color-indigo1">C</span><span class="color-indigo2">Q</span><span class="color-indigo3">U</span><span class="color-indigo4">党</span><span class="color-indigo5">建</span>
+							</h1>
+						</a>
 					</div>
 				</div>
-				</section>
-				<section class="dashboard-counts no-padding-bottom">
-				<div class="container-fluid">
-					<form action="/mis/stu/activity_record_page" method="POST">
-						<div>
-							<div>
-								<div style="width: 100%; heigth: 100%">
-									<div class="card">
-										<table class="table table-hover table-bordered"
-											data-toggle="table" data-toggle="table"
-											data-pagination="true" data-side-pagination="client"
-											id="attendanceTable">
-											<thead>
-												<tr>
-													<th>活动名称</th>
-													<th>活动内容</th>
-													<th>活动时长(小时)</th>
-													<th>活动日期</th>
-													<th>参与情况</th>
-												</tr>
-											</thead>
-											<c:forEach var="records" items="${pageInfo.list}">
-												<tr>
-													<td>${records.activity_name }</td>
-													<td>${records.activity_item }</td>
-													<td>${records.activity_duration }</td>
-													<td>${records.activity_date }</td>
-													<td>${records.attendance_status }</td>
-												</tr>
-											</c:forEach>
-											</tbody>
-										</table>
-									</div>
-									<div class="col-sm-4 offset-sm-5">
-										<ul class="pagination">
-											<c:if test="${pageInfo.hasPreviousPage}">
-												<li class="page-item"><a class="page-link"
-													href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum -1}"
-													aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-												</a></li>
-											</c:if>
-											<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
-												<c:if test="${pageNum == pageInfo.pageNum }">
-													<li class="active page-item"><a class="page-link">${pageNum }</a></li>
-												</c:if>
-												<c:if test="${pageNum != pageInfo.pageNum }">
-													<li class="page-item"><a class="page-link"
-														href="/mis/stu/activity_record_page?pn=${pageNum }">${pageNum }</a></li>
-												</c:if>
-											</c:forEach>
-											<c:if test="${pageInfo.hasNextPage}">
-												<li class="page-item"><a class="page-link"
-													href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum +1}"
-													aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-												</a></li>
-											</c:if>
-										</ul>
-									</div>
-								</div>
-							</div>
-					</form>
+				<div class="col s6">
+					<div class="content-right">
+						<a href="#slide-out" data-activates="slide-out" class="sidebar"><i class="fas fa-bars"></i></a>
+					</div>
 				</div>
-				</section>
 			</div>
 		</div>
 	</div>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/popper.js/umd/popper.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/chart.js/Chart.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
+	<!-- end navbar -->
+
+	<!-- sidebar left -->
+	<div class="sidebar-panel">
+		<ul id="slide-out" class="collapsible side-nav">
+			<li class="list-top">
+				<div class="user-view">
+					<h4>${student_name}</h4>
+					<span>${branch_name}</span>
+				</div>
+			</li>
+			<li><a href="/mis/stu/main_page_2"><i class="fas fa-home"></i>主页</a></li>
+			<li><a href="/mis/stu/study_center_page"><i class="fas fa-graduation-cap"></i>学习中心</a></li>
+			<li><a href="/mis/stu/party_life_page"><i class="fas fa-calendar-alt"></i>组织生活</a></li>
+			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>		
+			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
+		</ul>
+	</div>
+	<!-- end sidebar left -->
+	
+
+				
+				<h1>&ensp;</h1>
+				<!-- counter -->
+	<div class="counter segments">
+		<div class="container">
+			<div class="row">
+				<div class="col s4">
+					<div class="content">
+						<h3 class="numscroller" data-min="1" data-max="1030" data-delay="10" data-increment="2">${total_time}</h3>
+						<h4>活动总次数</h4>
+					</div>
+				</div>
+				<div class="col s4">
+					<div class="content">
+						<h3 class="numscroller" data-min="1" data-max="1030" data-delay="10" data-increment="2">${absent_percent}%</h3>
+						<h4>活动参与率</h4>
+					</div>
+				</div>
+				<div class="col s4">
+					<div class="content">
+						<h3 class="numscroller" data-min="1" data-max="154" data-delay="10" data-increment="2">${total_duration}</h3>
+						<h4>活动总时长</h4>
+					</div>
+				</div>
+
+			</div>
+			<h2>&ensp;</h2>
+						<div class="row">
+				<div class="col s4">
+					<div class="content">
+						<h3 class="numscroller" data-min="1" data-max="1030" data-delay="10" data-increment="2">${test_total_time}</h3>
+						<h4>竞答次数</h4>
+					</div>
+				</div>
+				<div class="col s4">
+					<div class="content">
+						<h3 class="numscroller" data-min="1" data-max="1030" data-delay="10" data-increment="2">${test_percent}%</h3>
+						<h4>竞答参与率</h4>
+					</div>
+				</div>
+				<div class="col s4">
+					<div class="content">
+						<h3 class="numscroller" data-min="1" data-max="154" data-delay="10" data-increment="2">${score_percent}%</h3>
+						<h4>竞答正确率	</h4>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- end counter -->
+				
+				<div class="pricing-table segments-page">
+				<h4>&ensp;&ensp;&ensp;活动参与情况</h4>
+
+<hr class="new4">
+
+				<h4>&ensp;&ensp;</h4>
+		<div class="container">
+			${content}
+		</div>
+				<h4>&ensp;&ensp;&ensp;</h4>
+		
+		<h4>&ensp;&ensp;&ensp;竞答详情</h4>
+
+<hr class="new4">
+
+				<h4>&ensp;&ensp;</h4>
+		<div class="container">
+			<table class="table table-hover table-bordered" id="tables"
+							data-toggle="table" data-toggle="table" data-pagination="true"
+							data-side-pagination="client" style="border: 0px solid black">
+							<thead>
+								<tr>
+									<th>试卷名称</th>
+									<th>完成时间</th>
+									<th>试卷总分</th>
+									<th>实际得分</th>
+								</tr>
+
+							</thead>
+							<tbody>
+								<c:forEach items="${test_list}" var="test_list">
+									<tr style="height: auto;">
+										<td>${test_list.test_name }</td>
+										<td>${test_list.answer_date}</td>
+										<td>${test_list.total_num}</td>
+										<td>${test_list.correct_num}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+
+						</table>
+		</div>
+	</div>
+				
+	
+	
+
+
+
+	<!-- footer -->
+	<footer>
+		<div class="container">
+			<div class="wrap-logo">
+				<h3>CQU党建</h3>
+			</div>
+			<div class="wrap-desc">
+				<p>研究学术 造就人才 佑启乡邦 振导社会</p>
+			</div>
+	
+			<div class="footer-text">
+				<p>Copyright ©重庆大学 All Right Reserved</p>
+			</div>
+		</div>
+	</footer>
+	<!-- end footer -->
+
+
+
+
+
+
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/materialize.min.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/Edugo/js/main.js"></script>
+
 </body>
 </html>

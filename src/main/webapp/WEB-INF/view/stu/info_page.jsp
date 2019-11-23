@@ -25,10 +25,13 @@
 </head>
 <body>
 	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
-		if (msg == "1") {
-			alert('你已是党员');
-		}
 		if (msg == "2") {
 			alert('无权限');
 		}
@@ -80,10 +83,7 @@
 			<li><a href="/mis/stu/party_life_page"><i
 					class="fas fa-calendar-alt"></i>组织生活</a></li>
 			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>
-			<li><a href="/mis/login"><i class="fas fa-sign-in-alt"></i>登
-					录</a></li>
-			<li><a href="/mis/register"><i class="fas fa-user-plus"></i>注
-					册</a></li>
+
 			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
 		</ul>
 	</div>
@@ -130,11 +130,11 @@
 				<a href="/mis/stu/apply_page">
 					<div class="col s6">
 						<div class="content">
-							<i class="fas fa-check bg-blue"></i>
+							<i class="fas fa-globe-europe bg-purple"></i>
 							<h5>入党进度</h5>
 						</div>
 					</div>
-				</a> <a href="/mis/stu/life_record_page">
+				</a> <a href="/mis/stu/activity_record_page">
 					<div class="col s6">
 						<div class="content">
 							<i class="fas fa-chart-area bg-blue2"></i>

@@ -40,8 +40,9 @@ table tr th {
 </head>
 <body>
 	<script type="text/javascript">
-	var user = "<%=session.getAttribute("user")%>";
-	for(var i in user){
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
 	</script>

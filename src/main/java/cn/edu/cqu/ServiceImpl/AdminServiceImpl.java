@@ -24,6 +24,7 @@ import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Model.vTest;
 import cn.edu.cqu.Service.AdminService;
@@ -446,8 +447,33 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int select_correct_num_by_student_per_test(String student_num, String test_id) {
 		// TODO Auto-generated method stub
-		int correct_num =  testMapper.select_vTest_correct_num(student_num, test_id);
+		int correct_num = testMapper.select_vTest_correct_num(student_num, test_id);
 		return correct_num;
+	}
+
+	@Override
+	public ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num(String student_id) {
+		// TODO Auto-generated method stub
+		return applyMapper.stu_select_vStudentMaterial_by_student_id(student_id);
+	}
+
+	@Override
+	public ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num_all(String student_id) {
+		// TODO Auto-generated method stub
+		return applyMapper.stu_select_vStudentMaterial_by_student_id_all(student_id);
+	}
+
+	@Override
+	public boolean update_student_status_material_offline(String material_type_id, String student_id) {
+		// TODO Auto-generated method stub
+		try {
+			System.out.println("material_type_id:"+material_type_id + " student_id:" + student_id);
+			applyMapper.update_student_status_material_offline(material_type_id, student_id);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
 	}
 
 }

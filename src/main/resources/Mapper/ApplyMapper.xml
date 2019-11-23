@@ -34,6 +34,17 @@
 		material_type_id
 	</select>
 
+	<select id="stu_select_vStudentMaterial_by_student_id_all"
+		resultType="cn.edu.cqu.Model.vStudentMaterial">
+		select *
+		from student_status_material_view
+		where
+		student_id =
+		#{student_id}
+		order by
+		material_type_id
+	</select>
+
 	<insert id="insert_material">
 		insert into
 		student_status_material(student_id,material_type_id) values
@@ -47,6 +58,16 @@
 		material_url = #{material_url}
 		where student_id = #{student_id}
 		and material_type_id = #{material_type_id}
+	</update>
+
+	<update id="update_student_status_material_offline">
+		update student_status_material
+		set material_date =
+		now(),
+		material_url = '已提交'
+		where student_id = #{student_id}
+		and
+		material_type_id = #{material_type_id}
 	</update>
 
 </mapper>

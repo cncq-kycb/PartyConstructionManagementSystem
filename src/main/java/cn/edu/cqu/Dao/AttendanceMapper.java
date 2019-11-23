@@ -35,4 +35,7 @@ public interface AttendanceMapper {
 
 	void insert_attendance(@Param("activity_id") int activity_id, @Param("student_id") String student_id);
 
+	Integer count_attendance_time(String student_id);
+	
+	Integer count_activity_time_all(String student_num);
 }

@@ -39,11 +39,13 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
 </head>
 <body>
-	<script type="text/javascript">
-	var user = "<%=session.getAttribute("user")%>";
-	for(var i in user){
+		<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
+	
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('更改活动状态成功');

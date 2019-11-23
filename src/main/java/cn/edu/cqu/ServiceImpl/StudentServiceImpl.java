@@ -324,4 +324,54 @@ public class StudentServiceImpl implements StudentService {
 		}
 	}
 
+	@Override
+	public int select_test_total_time_all(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_total_time_all(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_test_total_correct(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_total_correct(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_test_total_time(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_total_time(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_total_attendance_time(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.count_attendance_time(student_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_total_activity_time_all(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.count_activity_time_all(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
 }

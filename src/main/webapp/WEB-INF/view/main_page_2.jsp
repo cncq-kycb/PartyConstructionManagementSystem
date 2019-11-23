@@ -18,7 +18,13 @@
 
 </head>
 <body>
-
+	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+	</script>
 	<!-- preloader -->
 	<div class="loader-wrapper">
 		<div class="loader-cube"></div>
@@ -31,7 +37,7 @@
 			<div class="row">
 				<div class="col s6">
 					<div class="content-left">
-						<a href="index.html">
+						<a href="/mis/stu/main_page_2">
 							<h1>
 								<span class="color-indigo1">C</span><span class="color-indigo2">Q</span><span class="color-indigo3">U</span><span class="color-indigo4">党</span><span class="color-indigo5">建</span>
 							</h1>
@@ -61,8 +67,6 @@
 			<li><a href="/mis/stu/study_center_page"><i class="fas fa-graduation-cap"></i>学习中心</a></li>
 			<li><a href="/mis/stu/party_life_page"><i class="fas fa-calendar-alt"></i>组织生活</a></li>
 			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>		
-			<li><a href="/mis/login"><i class="fas fa-sign-in-alt"></i>登    录</a></li>
-			<li><a href="/mis/register"><i class="fas fa-user-plus"></i>注    册</a></li>
 			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
 		</ul>
 	</div>
@@ -75,11 +79,11 @@
 	<div class="container">
 		<div class="slide">
 			<div class="slider-slide owl-carousel owl-theme">
-			<a href="/mis/stu/NCCPC_page">
+			<a href="/mis/stu/test_page">
 				<div class="content">
 					<div class="mask-red"></div>
 					<div class="slider-caption">
-						<h2>十九大讲话</h2>
+						<h2>每日竞答</h2>
 						<p>富强  民主  文明  和谐</p>
 					</div>
 				</div>
@@ -97,7 +101,7 @@
 				<div class="content">
 					<div class="mask-purple"></div>
 					<div class="slider-caption">
-						<h2>历史学习资料</h2>
+						<h2>新闻共享</h2>
 						<p>爱国 敬业 诚信 友善</p>
 					</div>
 				</div>
@@ -106,7 +110,7 @@
 		</div>
 	</div>
 	<!-- end slider -->
-	
+
 	<!-- features -->
 	<div class="features segments">
 		<div class="container">
@@ -120,10 +124,10 @@
 					</a>
 				</div>
 				<div class="col s6">
-				<a href="/mis/stu/test_page">
+				<a href="/mis/stu/apply_page">
 					<div class="content">
 						<i class="fas fa-globe-europe bg-purple"></i>
-						<h5>每日竞答</h5>
+						<h5>入党进度</h5>
 					</div>
 					</a>
 				</div>
@@ -138,10 +142,10 @@
 					</a>
 				</div>
 				<div class="col s6">
-				<a href="/mis/stu/life_record_page">
+				<a href="/mis/stu/activity_record_page">
 					<div class="content">
 						<i class="fas fa-chart-area bg-blue2"></i>
-						<h5>组织生活记录</h5>
+						<h5>活动记录</h5>
 					</div></a>
 				</div>
 			</div>
@@ -149,7 +153,7 @@
 	</div>
 	<!-- end features -->
 		<div>&ensp;&ensp;</div>
-
+<div>&ensp;&ensp;</div>
 
 	<!-- footer -->
 	<footer>

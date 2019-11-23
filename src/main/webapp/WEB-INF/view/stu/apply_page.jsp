@@ -76,6 +76,12 @@
 
 <body>
 	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('提交成功');
@@ -119,25 +125,26 @@
 			<table id="tables" style="border: 0px solid; margin: auto">
 				<thead>
 					<tr>
-						<th>材料名(如已提交可点击查看)</th>
+						<th>材料名</th>
 						<th>提交日期</th>
 						<th>操作</th>
 
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${material_list}" var="material_list">
+					<c:forEach items="${material_list}" var="material_list" varStatus="st">
 						<tr style="height: auto;">
 							<td>${material_list.material_type_name}</td>
 							<td>${material_list.material_date}</td>
 							<td>
-								<form action="/mis/download">
+								<form action="/mis/download" id="thisForm${st.index }">
 									<input type="hidden" name="filename"
 										value="${material_list.material_type_name}"> <input
 										type="hidden" name="url" value="${material_list.material_url}">
 									<c:choose>
 										<c:when test="${not empty material_list.material_url}">
-											<button type="submit">下载</button>
+											<button type="button" id="downloadButton"
+														name="downloadButton" onclick="download(${st.index});">下载</button>
 										</c:when>
 									</c:choose>
 								</form>
@@ -190,6 +197,7 @@
 			</div>
 		</div>
 	</form>
+	
 	<script>
 		function ok(id) {
 			syalert.syhide(id);
@@ -209,10 +217,13 @@
 			}
 			returntrue;
 		}
-	
-									
-
-
 </script>
-	</ body>
+<script type="text/javascript">
+		function download(st) {
+			document.getElementById("thisForm"+st).submit();
+
+		}
+	</script>
+	</body>
+	
 </html>

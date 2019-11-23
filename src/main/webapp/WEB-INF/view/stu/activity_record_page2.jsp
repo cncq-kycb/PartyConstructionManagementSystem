@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,14 +33,6 @@
 		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
-
-		var msg = "${message}";
-		if (msg == "1") {
-			alert('提交成功');
-		}
-		if (msg == "2") {
-			alert('提交失败');
-		}
 	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">
@@ -97,46 +89,112 @@
 				</a>
 					<ul id="selfCenter" class="collapse list-unstyled ">
 						<li><a href="/mis/stu/info_page">个人信息</a></li>
-						<li class="active"><a href="/mis/stu/apply_page">申请党员</a></li>
-						<li><a href="/mis/stu/activity_record_page">活动记录</a></li>
+						<li><a href="/mis/stu/apply_page">申请党员</a></li>
+						<li class="active"><a href="/mis/stu/activity_record_page">活动记录</a></li>
 					</ul></li>
 			</ul>
 			</nav>
 			<div class="content-inner">
-				<div style="width: 100%; heigth: 100%">
-					<div class="card">
-						<div class="card-body">
-							<form class="form-horizontal" name="inputForm"
-								action="/mis/stu/applyJoin" method="post">
-								<div class="form-group row">
-									<label class="col-sm-3 form-control-label">当前状态</label>
-									<div class="col-sm-9">
-										<input type="text" disabled=""
-											placeholder=${vapply.student_status } class="form-control">
+				<section class="dashboard-counts no-padding-bottom">
+				<div class="container-fluid">
+					<div class="row bg-white has-shadow">
+						<div class="col-xl-3 col-sm-6">
+							<div class="item d-flex align-items-center">
+								<div class="icon bg-blue"></div>
+								<div class="title">
+									<span>组织生活次数</span>
+									<div class="progress">
+										<div role="progressbar" style="width: 70%; height: 4px;"
+											aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+											class="progress-bar bg-blue"></div>
 									</div>
 								</div>
-								<div class="line"></div>
-								<c:if test="${vapply.permission > 2}">
-									<div class="form-group row">
-										<label class="col-sm-3 form-control-label">当前进度</label>
-										<div class="col-sm-9">
-											<input type="text" disabled=""
-												placeholder=${vapply.apply_status } class="form-control">
-										</div>
+								<div class="title">
+									<strong>${total_time}</strong>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-sm-6">
+							<div class="item d-flex align-items-center">
+								<div class="icon bg-green"></div>
+								<div class="title">
+									<span>总计时长</span>
+									<div class="progress">
+										<div role="progressbar" style="width: 70%; height: 4px;"
+											aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+											class="progress-bar bg-green"></div>
 									</div>
-								</c:if>
-								<div class="line"></div>
-								<c:if test="${vapply.apply_status == '未提交申请'}">
-									<div class="form-group row">
-										<div class="col-sm-4 offset-sm-3">
-											<button type="submit" class="btn btn-primary">提交入党申请</button>
-										</div>
-									</div>
-								</c:if>
-							</form>
+								</div>
+								<div class="title">
+									<strong>${total_duration}</strong>小时
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+				</section>
+				<section class="dashboard-counts no-padding-bottom">
+				<div class="container-fluid">
+					<form action="/mis/stu/activity_record_page" method="POST">
+						<div>
+							<div>
+								<div style="width: 100%; heigth: 100%">
+									<div class="card">
+										<table class="table table-hover table-bordered"
+											data-toggle="table" data-toggle="table"
+											data-pagination="true" data-side-pagination="client"
+											id="attendanceTable">
+											<thead>
+												<tr>
+													<th>活动名称</th>
+													<th>活动内容</th>
+													<th>活动时长(小时)</th>
+													<th>活动日期</th>
+													<th>参与情况</th>
+												</tr>
+											</thead>
+											<c:forEach var="records" items="${pageInfo.list}">
+												<tr>
+													<td>${records.activity_name }</td>
+													<td>${records.activity_item }</td>
+													<td>${records.activity_duration }</td>
+													<td>${records.activity_date }</td>
+													<td>${records.attendance_status }</td>
+												</tr>
+											</c:forEach>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-sm-4 offset-sm-5">
+										<ul class="pagination">
+											<c:if test="${pageInfo.hasPreviousPage}">
+												<li class="page-item"><a class="page-link"
+													href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum -1}"
+													aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+												</a></li>
+											</c:if>
+											<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
+												<c:if test="${pageNum == pageInfo.pageNum }">
+													<li class="active page-item"><a class="page-link">${pageNum }</a></li>
+												</c:if>
+												<c:if test="${pageNum != pageInfo.pageNum }">
+													<li class="page-item"><a class="page-link"
+														href="/mis/stu/activity_record_page?pn=${pageNum }">${pageNum }</a></li>
+												</c:if>
+											</c:forEach>
+											<c:if test="${pageInfo.hasNextPage}">
+												<li class="page-item"><a class="page-link"
+													href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum +1}"
+													aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+												</a></li>
+											</c:if>
+										</ul>
+									</div>
+								</div>
+							</div>
+					</form>
+				</div>
+				</section>
 			</div>
 		</div>
 	</div>

@@ -13,6 +13,7 @@ import cn.edu.cqu.Model.StudentStatusMap;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Model.vTest;
 
@@ -110,5 +111,11 @@ public interface AdminService {
 	vStudent select_vStudent_by_student_num(String student_num);
 
 	int select_correct_num_by_student_per_test(String student_num, String test_id);
+
+	ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num(String student_id);
+
+	ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num_all(String student_id);
+
+	boolean update_student_status_material_offline(String material_type_id, String student_id);
 
 }

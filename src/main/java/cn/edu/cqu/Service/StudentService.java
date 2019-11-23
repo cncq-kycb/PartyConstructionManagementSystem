@@ -70,4 +70,14 @@ public interface StudentService {
 
 	boolean add_material_for_join(String student_id, String material_type_id, String material_url);
 
+	int select_test_total_time_all(String student_num);
+
+	int select_test_total_correct(String student_num);
+
+	int select_test_total_time(String student_num);
+
+	int select_total_attendance_time(String student_id);
+
+	int select_total_activity_time_all(String student_num);
+
 }

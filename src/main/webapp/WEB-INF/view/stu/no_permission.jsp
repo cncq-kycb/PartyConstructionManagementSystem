@@ -18,7 +18,13 @@
 
 </head>
 <body>
-<script>alert('你没有进入此版块的权限，请确认身份或联系管理员!')</script>
+	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+	alert('你没有进入此版块的权限，请确认身份或联系管理员!')</script>
 	<!-- preloader -->
 	<div class="loader-wrapper">
 		<div class="loader-cube"></div>
@@ -31,7 +37,7 @@
 			<div class="row">
 				<div class="col s6">
 					<div class="content-left">
-						<a href="index.html">
+						<a href="/mis/stu/main_page_2">
 							<h1>
 								<span class="color-indigo1">C</span><span class="color-indigo2">Q</span><span class="color-indigo3">U</span><span class="color-indigo4">党</span><span class="color-indigo5">建</span>
 							</h1>
@@ -61,8 +67,6 @@
 			<li><a href="/mis/stu/study_center_page"><i class="fas fa-graduation-cap"></i>学习中心</a></li>
 			<li><a href="/mis/stu/party_life_page"><i class="fas fa-calendar-alt"></i>组织生活</a></li>
 			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>		
-			<li><a href="/mis/login"><i class="fas fa-sign-in-alt"></i>登    录</a></li>
-			<li><a href="/mis/register"><i class="fas fa-user-plus"></i>注    册</a></li>
 			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
 		</ul>
 	</div>

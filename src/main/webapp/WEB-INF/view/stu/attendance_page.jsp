@@ -75,6 +75,12 @@
 
 <body>
 	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('签到成功');
@@ -138,7 +144,7 @@
 	<div class="aui-footer-group aui-footer-flex1">
 		<div class="aui-footer-flex">
 			<div class="aui-btn aui-btn-gray" onClick="syalert.syopen('alert4')">
-				<h2>签到</h2>
+				<h2>签 到</h2>
 			</div>
 		</div>
 	</div>
@@ -159,7 +165,7 @@
 				</div>
 			</div>
 			<div class="sy-btn">
-				<a href="/mis/stu/attendance_page"><button type="button">取消</button></a>
+				<button type="button" onclick="location.reload()">取消</button>
 				<button type="submit">确定</button>
 			</div>
 		</div>

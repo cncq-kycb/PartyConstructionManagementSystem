@@ -26,6 +26,13 @@
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
 </head>
 <body>
+	<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
@@ -69,7 +76,7 @@
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员级别管理</a></li>
+						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-list"></i>支部管理

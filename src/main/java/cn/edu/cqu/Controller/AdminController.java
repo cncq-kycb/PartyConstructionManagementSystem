@@ -28,6 +28,7 @@ import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
+import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
 import cn.edu.cqu.Model.vTest;
 import cn.edu.cqu.Service.AdminService;
@@ -119,6 +120,52 @@ public class AdminController {
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
 		return "admin/updateStatusPage";
+	}
+
+	// 查看活动资料
+	@RequestMapping(value = "/checkMaterialPage")
+	public String checkMaterialPage(String student_num_ensure, String student_name_ensure, String student_status_ensure,
+			String branch_name_ensure, HttpSession session) {
+		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_ensure);
+		ArrayList<vStudentMaterial> vStudentMaterials = adminService
+				.select_vStudentMaterial_by_student_num_all(vstudent.getStudent_id());
+		for (vStudentMaterial v : vStudentMaterials) {
+			if (v.getMaterial_url().equals("无")) {
+				v.setMaterial_url(null);
+			}
+		}
+		session.setAttribute("student_num_ensure", student_num_ensure);
+		session.setAttribute("material_list", vStudentMaterials);
+		session.setAttribute("branch_name", branch_name_ensure);
+		session.setAttribute("student_num", student_num_ensure);
+		session.setAttribute("student_name", student_name_ensure);
+		session.setAttribute("student_status", student_status_ensure);
+		session.setAttribute("message", "");
+		return "admin/checkMaterialPage";
+	}
+
+	// 通过线下资料审核
+	@RequestMapping(value = "/checkOfflineMaterial")
+	public String checkOfflineMaterial(String filename,String material_type_id, String student_num, HttpSession session) {
+		System.out.println(filename);
+		String student_id = adminService.select_vStudent_by_student_num(student_num).getStudent_id();
+		if (adminService.update_student_status_material_offline(material_type_id, student_id)) {
+			session.setAttribute("message", "1");
+			String student_num_ensure = (String) session.getAttribute("student_num_ensure");
+			vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_ensure);
+			ArrayList<vStudentMaterial> vStudentMaterials = adminService
+					.select_vStudentMaterial_by_student_num_all(vstudent.getStudent_id());
+			for (vStudentMaterial v : vStudentMaterials) {
+				if (v.getMaterial_url().equals("无")) {
+					v.setMaterial_url(null);
+				}
+			}
+			session.setAttribute("material_list", vStudentMaterials);
+			session.setAttribute("message", "");
+		} else {
+			session.setAttribute("message", "2");
+		}
+		return "admin/checkMaterialPage";
 	}
 
 	// 提升等级阶段

@@ -95,4 +95,35 @@
 		= answer_option
 	</select>
 
+	<select id="select_test_total_time_all" resultType="Integer">
+		SELECT
+		count(test.test_id)
+		FROM
+		test ,
+		student_status_record,
+		student
+		WHERE
+		test.test_date_start > student_status_record.record_date and
+		student_status_record.student_status = 6 and student.student_num =
+		#{student_num}
+		and student_status_record.student_id =
+		student.student_id
+	</select>
+
+	<select id="select_test_total_correct" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		correct_answer_view
+		where student_num = #{student_num}
+	</select>
+
+	<select id="select_test_total_time" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		test_view
+		where student_num = #{student_num}
+	</select>
+
 </mapper>

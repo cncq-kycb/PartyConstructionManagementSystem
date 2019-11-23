@@ -40,7 +40,13 @@ table tr th {
 
 </head>
 <body>
-	<script type="text/javascript">
+		<script type="text/javascript">
+	var isLogin = "<%=session.getAttribute("isLogin")%>";
+	if(isLogin!='1'){
+		alert("您好，请先登录！");
+		window.location.href='<%=request.getContextPath()%>/';
+	};
+
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('该同志已升至下一阶段！');
@@ -212,7 +218,7 @@ table tr th {
 										<td>${member_list.student_num }</td>
 										<td>${member_list.student_name}</td>
 										<td>${member_list.student_status}</td>
-										<td>${member_list.branh_name}</td>
+										<td>${member_list.branch_name}</td>
 
 										<td><button id="checkButton" type="button"
 												onclick="checkModal(this)" class="btn btn-info btn-sm"
@@ -348,7 +354,7 @@ table tr th {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="checkModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="activityModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -363,9 +369,8 @@ table tr th {
 					action="stuActivityPage" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input
-							id="student_num_activity
-							style=" border:
-							none;" type="text" name="student_num_activity" readonly>
+							id="student_num_activity"
+							style=" border:none;" type="text" name="student_num_activity" readonly>
 					</div>
 					<div class="modal-body">
 						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_activity"
@@ -403,22 +408,21 @@ table tr th {
 					action="resultPage" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input
-							id="student_num_activity
-							style=" border:
-							none;" type="text" name="student_num_activity" readonly>
+							id="student_num_result"
+							style="border:none;" type="text" name="student_num_result" readonly>
 					</div>
 					<div class="modal-body">
-						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_activity"
-							style="border: none;" type="text" name="student_name_activity"
+						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_result"
+							style="border: none;" type="text" name="student_name_result"
 							readonly>
 					</div>
 					<div class="modal-body">
-						政治面貌： <input id="student_status_activity" style="border: none;"
-							type="text" name="student_status_activity" readonly>
+						政治面貌： <input id="student_status_result" style="border: none;"
+							type="text" name="student_status_result" readonly>
 					</div>
 					<div class="modal-body">
-						所在支部： <input id="branch_name_activity" style="border: none;"
-							type="text" name="branch_name_activity" readonly>
+						所在支部： <input id="branch_name_result" style="border: none;"
+							type="text" name="branch_name_result" readonly>
 					</div>
 					<div class="modal-footer"></div>
 					<div class="modal-footer">
@@ -485,7 +489,7 @@ table tr th {
 			$("#student_status_activity").val(status_check);
 		}
 	</script>
-	</script>
+	
 	<script>
 		function resultModal(obj) {
 			$("#resultModal").modal('show');
