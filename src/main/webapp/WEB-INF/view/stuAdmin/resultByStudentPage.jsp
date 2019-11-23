@@ -40,24 +40,32 @@ table tr th {
 
 </head>
 <body>
-	<script type="text/javascript">
+			<script type="text/javascript">
 	var isLogin = "<%=session.getAttribute("isLogin")%>";
 	if(isLogin!='1'){
 		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
+
+		var msg = "${message}";
+		if (msg == "1") {
+			alert('无此学生任何答题信息');
+		}
+		if (msg == "2") {
+			alert('必须输入学生学号');
+		}
 	</script>
-	<div class="page">
+		<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="/mis/main_page_1"
+					<a href="/mis/stuAdmin/main_page_3"
 						class="navbar-brand d-none d-sm-inline-block">
-						<div class="brand-text d-none d-lg-inline-block">党员管理系统</div>
+						<div class="brand-text d-none d-lg-inline-block">党员管理系统(学生管理员端)</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
-							<strong>党员管理系统</strong>
+							<strong>党员管理系统(学生管理员端)</strong>
 						</div>
 					</a> <a id="toggle-btn" href="#" class="menu-btn active"> <span></span><span></span><span></span>
 					</a>
@@ -77,35 +85,26 @@ table tr th {
 			<div class="sidebar-header d-flex align-items-center">
 				<div class="title">
 					<p>欢迎您：</p>
-					<h1 class="h4">${admin_name}</h1>
+					
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
 			<ul class="list-unstyled">
-				<li><a href="/mis/admin/authorityPage"> <i
-						class="icon-list-1"></i>权限管理
-				</a></li>
 				<li><a href="#memberManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>成员管理
+					data-toggle="collapse"> <i class="icon-user"></i>本支部成员管理
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
-					</ul></li>
-				<li><a href="#branchManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-list"></i>支部管理
-				</a>
-					<ul id="branchManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/addMemberPage">添加支部成员</a></li>
-						<li><a href="/mis/admin/manageBranchPage">支部成员管理</a></li>
+						<li><a href="/mis/stuAdmin/manageMemberPage">成员信息管理</a></li>
+						<li><a href="/mis/stuAdmin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 			</ul>
 			<span class="heading">组织生活管理</span>
 			<ul class="list-unstyled">
-				<li><a href="/mis/admin/addActivityPage"> <i
+				<li><a href="/mis/stuAdmin/addActivityPage"> <i
 						class="icon-interface-windows"></i>活动的创建与发布
 				</a></li>
-				<li><a href="/mis/admin/manageSignInPage"> <i
+				<li><a href="/mis/stuAdmin/manageSignInPage"> <i
 						class="icon-grid"></i>组织生活签到管理
 				</a></li>
 			</ul>
@@ -115,19 +114,18 @@ table tr th {
 					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
 				</a>
 					<ul id="editStudy" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
-						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
+						<li><a href="/mis/stuAdmin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/stuAdmin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
-				<li><a href="/mis/admin/editCompetitionPage"> <i
+				<li><a href="/mis/stuAdmin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
-				<li class="active"><a href="#competitionResult"
-					aria-expanded="false" data-toggle="collapse"> <i
-						class="icon-line-chart"></i>竞答结果统计
+				<li><a href="#competitionResult" aria-expanded="false"
+					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
-						<li class="active"><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
-						<li><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
 			</nav>
@@ -141,18 +139,18 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="resultByTestPageFinder" method="post">
+								action="resultByStudentPageFinder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
-										id="Tables" data-toggle="table" data-toggle="table"
+										id="TableFinder" data-toggle="table" data-toggle="table"
 										data-pagination="true" data-side-pagination="client">
 										<tr>
-											<th>竞答名称：</th>
-											<td><input type="text" placeholder="精确查找，完整的竞答名称"
-												value="${test_name_input}" class="form-control"
+											<th>学号：</th>
+											<td><input type="text" placeholder="精确查找，完整的学号"
+												value="${student_num_input}" class="form-control"
 												style="border-radius: 3px; height: 30px"
-												id="test_name_input" name="test_name_input"></td>
+												id="student_num_input" name="student_num_input"></td>
 										</tr>
 									</table>
 									<div class="cxbottom">
@@ -175,7 +173,7 @@ table tr th {
 						<div class="panel-body" style="padding-bottom: 0px;">
 
 							<center>
-								<h2>${test_name}竞答结果统计表</h2>
+								<h2>${student_num}-${student_name}-每日竞答结果统计表</h2>
 
 								<h3>&ensp;</h3>
 								<div class="cxbottom"></div>
@@ -188,39 +186,49 @@ table tr th {
 						<table class="table table-hover table-bordered" id="table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client" style="border: 1px solid black">
-							<caption>${test_name}竞答结果统计表</caption>
+							<caption>${student_num}-${student_name}-每日竞答结果统计表</caption>
 
 							<thead>
 								<tr>
-									<th>竞答名称</th>
-									<td>${test_name}</td>
-									<th>试题总分</th>
-									<td>${total_num}</td>
+									<th>姓名</th>
+									<td>${student_name}</td>
+									<th>学号</th>
+									<td style="mso-number-format: '\@';">${student_num}</td>
 								</tr>
 								<tr>
-									<th>学号</th>
-									<th>姓名</th>
-									<th>答题日期</th>
+									<th>所在支部</th>
+									<td>${branch_name}</td>
+									<th>政治面貌</th>
+									<td>${student_status}</td>
 
+								</tr>
+								<tr>
+									<th>试卷名称</th>
+									<th>完成时间</th>
+									<th>试卷总分</th>
 									<th>实际得分</th>
 								</tr>
 
 							</thead>
 							<tbody>
-								<c:forEach items="${member_list}" var="member_list">
+								<c:forEach items="${list}" var="test_list">
 									<tr style="height: auto;">
-										<td style="mso-number-format: '\@';">${member_list.student_num }</td>
-										<td>${member_list.student_name}</td>
-										<td>${member_list.answer_date}</td>
-										<td>${member_list.correct_num}</td>
+										<td>${test_list.test_name }</td>
+										<td>${test_list.answer_date}</td>
+										<td>${test_list.total_num}</td>
+										<td>${test_list.correct_num}</td>
 									</tr>
 								</c:forEach>
 
 							</tbody>
 							<tr>
-								<th rowspan="1" colspan="2"></th>
-								<th>总答题人数</th>
-								<td>${length}</td>
+								<th rowspan="2" colspan="2"></th>
+								<th>总答题次数</th>
+								<td>${total_time}</td>
+							</tr>
+							<tr>
+								<th>得分率</th>
+								<td>${score_percent}%</td>
 							</tr>
 						</table>
 					</div>
@@ -231,6 +239,9 @@ table tr th {
 						</center>
 					</div>
 				</div>
+
+
+
 			</div>
 		</div>
 	</div>
@@ -264,15 +275,10 @@ table tr th {
             document.getElementById("dlink").click();
         }
     });
-	 var disName = "<%=session.getAttribute("test_date")%>";
-	    var avtivytiName = "<%=session.getAttribute("test_name")%>
-		";
-		var disLength = disName.length;
-		var year = disName.substring(0, 4);
-		var month = disName.substring(5, 7);
-		var day = disName.substring(8, 10);
-		var id = "table", worksheetName = 'sheet', workName = year + "年"
-				+ month + "月" + day + "日“" + avtivytiName + "”-" + "结果统计表.xls";
+    var student_num = "<%=session.getAttribute("student_num")%>";
+    var student_name = "<%=session.getAttribute("student_name")%>";
+		var id = "table", worksheetName = 'sheet', workName = student_num
+				+ "-" + student_name + "-" + "每日竞答结果统计表.xls";
 		document.getElementById('button').onclick = function() {
 			var download = tableToExcel();
 			download(id, worksheetName, workName)

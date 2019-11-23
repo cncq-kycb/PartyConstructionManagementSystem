@@ -28,6 +28,7 @@
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
+	
 <script type="text/javascript" charset="utf-8"
 	src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8"
@@ -38,11 +39,7 @@
 	src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 
 
-<style type="text/css">
-div {
-	width: 100%;
-}
-</style>
+
 
 </head>
 <body>
@@ -53,26 +50,25 @@ div {
 		window.location.href='<%=request.getContextPath()%>/';
 	};
 
-
 		var msg = "${message}";
 		if (msg == "1") {
-			alert('活动发布成功');
+			alert('推文推送成功');
 		}
 		if (msg == "2") {
-			alert('活动发布失败');
+			alert('推文推送失败');
 		}
 	</script>
-	<div class="page">
+		<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="/mis/main_page_1"
+					<a href="/mis/stuAdmin/main_page_3"
 						class="navbar-brand d-none d-sm-inline-block">
-						<div class="brand-text d-none d-lg-inline-block">党员管理系统</div>
+						<div class="brand-text d-none d-lg-inline-block">党员管理系统(学生管理员端)</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
-							<strong>党员管理系统</strong>
+							<strong>党员管理系统(学生管理员端)</strong>
 						</div>
 					</a> <a id="toggle-btn" href="#" class="menu-btn active"> <span></span><span></span><span></span>
 					</a>
@@ -92,35 +88,26 @@ div {
 			<div class="sidebar-header d-flex align-items-center">
 				<div class="title">
 					<p>欢迎您：</p>
-					<h1 class="h4">${admin_name}</h1>
+					
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
 			<ul class="list-unstyled">
-				<li><a href="/mis/admin/authorityPage"> <i
-						class="icon-list-1"></i>权限管理
-				</a></li>
 				<li><a href="#memberManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>成员管理
+					data-toggle="collapse"> <i class="icon-user"></i>本支部成员管理
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
-					</ul></li>
-				<li><a href="#branchManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-list"></i>支部管理
-				</a>
-					<ul id="branchManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/addMemberPage">添加支部成员</a></li>
-						<li><a href="/mis/admin/manageBranchPage">支部成员管理</a></li>
+						<li><a href="/mis/stuAdmin/manageMemberPage">成员信息管理</a></li>
+						<li><a href="/mis/stuAdmin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 			</ul>
 			<span class="heading">组织生活管理</span>
 			<ul class="list-unstyled">
-				<li class="active"><a href="/mis/admin/addActivityPage"> <i
+				<li><a href="/mis/stuAdmin/addActivityPage"> <i
 						class="icon-interface-windows"></i>活动的创建与发布
 				</a></li>
-				<li><a href="/mis/admin/manageSignInPage"> <i
+				<li><a href="/mis/stuAdmin/manageSignInPage"> <i
 						class="icon-grid"></i>组织生活签到管理
 				</a></li>
 			</ul>
@@ -130,18 +117,18 @@ div {
 					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
 				</a>
 					<ul id="editStudy" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
-						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
+						<li><a href="/mis/stuAdmin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/stuAdmin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
-				<li><a href="/mis/admin/editCompetitionPage"> <i
+				<li><a href="/mis/stuAdmin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
 				<li><a href="#competitionResult" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
-						<li><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
 			</nav>
@@ -155,62 +142,42 @@ div {
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm "
-								action="/mis/admin/insertActivity"
-								 method="post">
-
+							<form class="form-horizontal" name="inputForm"
+								action="/mis/stuAdmin/insertStudy"
+								method="post">
 								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;活动名称：&ensp;<input
-										type="text" class="layui-input" name="activity_name" style="width:800px"
-										id="activity_name" lay-verify="required" placeholder="请输入活动名称"></label>
-
-								</div>
-								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;参与支部：&ensp;<select
-										name="branch_name" id="branch_name">
-                                        <c:forEach var="branch" items="${branch}">
-										<option>${branch.branch_name }</option>
+									<label class="layui-form-label">&ensp;&ensp;选择栏目:&ensp;&ensp;<select
+										name="study_status" id="study_status">
+												<c:forEach var="study_status_map" items="${study_status_map}">
+										<option>${study_status_map.means}</option>
 										</c:forEach>
 									</select></label>
 								</div>
 								<div class="layui-form-item">
-									<div class="layui-inline">
-										<label class="layui-form-label">&ensp;&ensp;活动日期：&ensp;<input
-											type="date"	 class="layui-input" name="activity_date"
-											id="activity_date" lay-verify="required"
-											placeholder="请输入活动时间"></label>
-									</div>
+									<label class="layui-form-label">&ensp;&ensp;推文题目: &ensp;<input
+										type="text" name="study_title" id="study_title"
+										style="width: 800px;" placeholder="请输入推文题目">
+									</label>
 								</div>
-								<div class="layui-form-item">
-									<div class="layui-inline">
-										<label class="layui-form-label">&ensp;&ensp;活动时长：&ensp;<input
-											type="text"	 class="layui-input" name="activity_duration"
-											id="activity_duration" lay-verify="required" style="width:142px"
-											placeholder="请输入活动时长"></label>
-									</div>
-								</div>
-								<div class="layui-form-item">
-									<div class="layui-inline">
-										<label class="layui-form-label">&ensp;&ensp;活动地点：&ensp;<input
-											type="text" class="layui-input" name="activity_location"
-											id="activity_location" lay-verify="required" style="width:142px"
-											placeholder="请输入活动地点"></label>
 
-									</div>
-								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;活动内容：</label> <input
-										hidden="hidden" id="content" name="content">
-									<div>
-										<script id="editor" type="text/plain"
-											style="width:1024px;height:500px;"></script>
-
-									</div>
-								</div>
-								<div class="layui-form-item">
+									<label class="layui-form-label">&ensp;&ensp;推文内容：</label> <input
+										hidden="hidden" id="study_content" name="study_content">
 									<div class="layui-input-block">
-										<button class="btn btn-success" lay-submit=""
-											lay-filter="rulesSubmit" onclick="return validateForm() ">发布活动</button>
+								<div>
+										<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+
+									</div>
+
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<center>
+									<h4>&ensp;</h4>
+								</center>
+									<div class="layui-input-block">
+										<button class="btn btn-success" lay-submit="" id="save"
+											lay-filter="rulesSubmit" onclick="return validateForm()">发布推文</button>
 									</div>
 								</div>
 
@@ -240,38 +207,33 @@ div {
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
+	
 
-	<script type="text/javascript" charset="utf-8"
-		src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8"
-		src="<%=request.getContextPath()%>/utf8-jsp/ueditor.all.min.js"> </script>
-	<script type="text/javascript" charset="utf-8"
-		src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 
+<script type="text/javascript">
 
-	<script type="text/javascript">
-		//实例化编辑器
-		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，
-		//直接调用UE.getEditor('editor')就能拿到相关的实例
-		UE.delEditor('editor');
-		var ue = UE.getEditor('editor');
-	</script>
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，
+    //直接调用UE.getEditor('editor')就能拿到相关的实例
+    UE.delEditor('editor');
+    var ue = UE.getEditor('editor');
+
+</script>
 	<script>
-		function validateForm() {
-			var activity_name = document.forms["inputForm"]["activity_name"].value;
-			var branch_name = document.forms["inputForm"]["branch_name"].value;
-			var activity_duration = document.forms["inputForm"]["activity_duration"].value;
-			var activity_location = document.forms["inputForm"]["activity_location"].value;
-			var activity_date = document.forms["inputForm"]["activity_date"].value;
-			if (activity_name == null || activity_name == "" || branch_name == null
-					|| branch_name == ""|| activity_location == null
-					|| activity_location == ""|| activity_duration == null
-					|| activity_duration == ""|| activity_date == null
-					|| activity_date == "") {
-				alert("所有内容都必须填写!");
-				return false;
-			}
+	function validateForm() {
+		var study_status = document.forms["inputForm"]["study_status"].value;
+		var study_title = document.forms["inputForm"]["study_title"].value;
+		if ( study_status == null
+				|| study_status == ""|| study_title == null
+				|| study_title ) {
+			alert("所有内容都必须填写!");
+			return false;
 		}
-	</script>
+	}
+</script>
+
 </body>
 </html>

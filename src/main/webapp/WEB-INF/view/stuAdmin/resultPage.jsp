@@ -61,7 +61,7 @@ table tr th {
 					<div class="panel-body" style="padding-bottom: 0px;">
 
 						<center>
-							<h2>${branch_name}-${student_num}-${student_name}-${student_status}竞答记录表</h2>
+							<h2>${branch_name}-${student_id}-${student_name}-${student_status}竞答记录表</h2>
 
 							<h3>&ensp;</h3>
 							<div class="cxbottom">
@@ -78,7 +78,7 @@ table tr th {
 					<table class="table table-hover table-bordered" id="tables"
 						data-toggle="table" data-toggle="table" data-pagination="true"
 						data-side-pagination="client" style="border: 1px solid black">
-						<caption>${branch_name}-${student_num}-${student_name}-${student_status}竞答记录表</caption>
+						<caption>${branch_name}-${student_id}-${student_name}-${student_status}竞答记录表</caption>
 						<thead>
 								<tr>
 									<th>姓名</th>
@@ -102,7 +102,7 @@ table tr th {
 
 							</thead>
 							<tbody>
-								<c:forEach items="${test_list}" var="test_list">
+								<c:forEach items="${list}" var="test_list">
 									<tr style="height: auto;">
 										<td>${test_list.test_name }</td>
 										<td>${test_list.answer_date}</td>

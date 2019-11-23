@@ -38,4 +38,8 @@ public interface AttendanceMapper {
 	Integer count_attendance_time(String student_id);
 	
 	Integer count_activity_time_all(String student_num);
+
+	Integer count_total_activity(String student_id);
+
+	Integer count_total_activity_duration(String student_id);
 }

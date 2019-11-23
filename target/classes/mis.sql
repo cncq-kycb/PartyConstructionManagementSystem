@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 23/11/2019 01:08:07
+ Date: 24/11/2019 01:23:11
 */
 
 SET NAMES utf8mb4;
@@ -42,6 +42,8 @@ CREATE TABLE `activity`  (
 -- ----------------------------
 INSERT INTO `activity` VALUES (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `activity` VALUES (2, 2, '这是个活动名称', '2019-11-21', '<p>阿斯顿<br/></p>', 1.0, 2, '主教1811');
+INSERT INTO `activity` VALUES (3, 2, '阿斯达斯', '2019-11-23', '<p><img title=\"1574506854946091059.png\" alt=\"乾隆.png\" src=\"/mis/upload/image/20191123/1574506854946091059.png\"/></p>', 2.0, 1, 'asd ');
+INSERT INTO `activity` VALUES (4, 2, '今天补上吧', '2019-11-23', '<p>阿斯顿请问<br/></p>', 2.0, 2, '真心的');
 
 -- ----------------------------
 -- Table structure for activity_status_map
@@ -120,7 +122,7 @@ CREATE TABLE `apply`  (
   INDEX `FK_Reference_16`(`apply_status`) USING BTREE,
   CONSTRAINT `FK_Reference_12` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_16` FOREIGN KEY (`apply_status`) REFERENCES `apply_status_map` (`apply_status`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of apply
@@ -128,6 +130,7 @@ CREATE TABLE `apply`  (
 INSERT INTO `apply` VALUES (9, 3, 3);
 INSERT INTO `apply` VALUES (10, 3, 3);
 INSERT INTO `apply` VALUES (11, 1, 3);
+INSERT INTO `apply` VALUES (12, 2, 3);
 
 -- ----------------------------
 -- Table structure for apply_status_map
@@ -166,13 +169,17 @@ CREATE TABLE `attendance`  (
   CONSTRAINT `FK_Reference_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`activity_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_attendance_status` FOREIGN KEY (`attendance_status`) REFERENCES `attendance_status_map` (`attendance_status`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attendance
 -- ----------------------------
 INSERT INTO `attendance` VALUES (3, 2, 1, 4, 'E:\\ProgramStation\\eclipse\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\mis\\\\upload_attendance_pic\\1_2.jpg');
-INSERT INTO `attendance` VALUES (4, 2, 2, 2, NULL);
+INSERT INTO `attendance` VALUES (4, 2, 2, 3, NULL);
+INSERT INTO `attendance` VALUES (5, 3, 2, 3, NULL);
+INSERT INTO `attendance` VALUES (6, 3, 3, 2, NULL);
+INSERT INTO `attendance` VALUES (7, 4, 2, 2, NULL);
+INSERT INTO `attendance` VALUES (8, 4, 3, 2, NULL);
 
 -- ----------------------------
 -- Table structure for attendance_status_map
@@ -223,7 +230,7 @@ CREATE TABLE `examination`  (
   INDEX `FK_Reference_question_id`(`question_id`) USING BTREE,
   CONSTRAINT `FK_Reference_question_id` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_Reference_test_id` FOREIGN KEY (`test_id`) REFERENCES `test` (`test_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of examination
@@ -232,6 +239,11 @@ INSERT INTO `examination` VALUES (1, 2, 1);
 INSERT INTO `examination` VALUES (2, 2, 2);
 INSERT INTO `examination` VALUES (3, 4, 1);
 INSERT INTO `examination` VALUES (4, 4, 2);
+INSERT INTO `examination` VALUES (5, NULL, 2);
+INSERT INTO `examination` VALUES (6, NULL, 4);
+INSERT INTO `examination` VALUES (7, 5, 1);
+INSERT INTO `examination` VALUES (8, 5, 2);
+INSERT INTO `examination` VALUES (9, 5, 4);
 
 -- ----------------------------
 -- Table structure for material_type_map
@@ -283,14 +295,17 @@ CREATE TABLE `question`  (
   `question_option_c` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `question_option_d` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `question_answer` int(11) NULL DEFAULT NULL,
+  `question_status` int(1) NULL DEFAULT NULL COMMENT '0:被移出题库 1：在题库中',
   PRIMARY KEY (`question_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of question
 -- ----------------------------
-INSERT INTO `question` VALUES (1, '问题1das问题1das问题1das问题1das问题1das问题1das问题1das问题1das问题1das', '答案是Ad答案是Ad答案是Ad', '答案是Add答案是Ad', '答案是dd答案是Ad', '答案是d答案是d答案是d', 4);
-INSERT INTO `question` VALUES (2, '问题2', '答c', '答案cc', '答案是c', 'c', 3);
+INSERT INTO `question` VALUES (1, '问题1das问题1das问题1das问题1das问题1das问题1das问题1das问题1das问题1das', '答案是Ad答案是Ad答案是Ad', '答案是Add答案是Ad', '答案是dd答案是Ad', '答案是d答案是d答案是d', 4, 0);
+INSERT INTO `question` VALUES (2, '问题2', '答c', '答案cc', '答案是c', 'c', 3, 0);
+INSERT INTO `question` VALUES (4, '王博韬是谁？？', '不知道', '傻逼', '韬神', '以上都对', 4, 1);
+INSERT INTO `question` VALUES (5, '张子旭是谁？', '帅哥', '旭神', '前端之王', '以上都对', 1, 1);
 
 -- ----------------------------
 -- Table structure for student
@@ -322,9 +337,9 @@ CREATE TABLE `student`  (
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES (1, '1', 1, 1, 2, 'stu', 2, 'student', '男', 18002337921, '664037252@qq.com');
-INSERT INTO `student` VALUES (2, '2', 2, 1, 3, 'stu2', 5, '学生2', '男', 123456789, '邮箱');
-INSERT INTO `student` VALUES (3, '3', 2, 1, 4, 'stu3', 6, 'wbt', '女', 465, 'asd');
+INSERT INTO `student` VALUES (1, '1', 1, 1, 2, 'stu', 4, 'zzx', '男', 18002337921, '664037252@qq.com');
+INSERT INTO `student` VALUES (2, '2', 2, 1, 3, 'stu2', 6, '学生2', '男', 123456789, '邮箱');
+INSERT INTO `student` VALUES (3, '3', 2, 2, 4, 'stu3', 6, 'wbt', '女', 465, 'asd');
 
 -- ----------------------------
 -- Table structure for student_permission_map
@@ -350,7 +365,7 @@ CREATE TABLE `student_status_map`  (
   `student_status` int(11) NOT NULL AUTO_INCREMENT,
   `means` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`student_status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_status_map
@@ -377,18 +392,18 @@ CREATE TABLE `student_status_material`  (
   INDEX `student_status_material_Reference_student_id`(`student_id`) USING BTREE,
   CONSTRAINT `student_status_material_Reference_material_type_id` FOREIGN KEY (`material_type_id`) REFERENCES `material_type_map` (`material_type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `student_status_material_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 142 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_status_material
 -- ----------------------------
-INSERT INTO `student_status_material` VALUES (102, 1, '2019-11-22', 1, 'E:\\ProgramStation\\eclipse\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\mis\\upload_join_material\\1_1.pdf');
-INSERT INTO `student_status_material` VALUES (103, 2, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (102, 1, '2019-11-23', 1, '已提交');
+INSERT INTO `student_status_material` VALUES (103, 2, '2019-11-23', 1, 'C:\\mis\\dataupload_join_material\\1_2.pdf');
 INSERT INTO `student_status_material` VALUES (104, 3, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (105, 4, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (106, 5, NULL, 1, NULL);
-INSERT INTO `student_status_material` VALUES (107, 6, NULL, 1, NULL);
-INSERT INTO `student_status_material` VALUES (108, 7, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (107, 6, '2019-11-23', 1, '已提交');
+INSERT INTO `student_status_material` VALUES (108, 7, '2019-11-23', 1, '已提交');
 INSERT INTO `student_status_material` VALUES (109, 8, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (110, 9, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (111, 10, NULL, 1, NULL);
@@ -402,6 +417,26 @@ INSERT INTO `student_status_material` VALUES (118, 17, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (119, 18, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (120, 19, NULL, 1, NULL);
 INSERT INTO `student_status_material` VALUES (121, 20, NULL, 1, NULL);
+INSERT INTO `student_status_material` VALUES (122, 1, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (123, 2, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (124, 3, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (125, 4, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (126, 5, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (127, 6, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (128, 7, '2019-11-24', 2, '已提交');
+INSERT INTO `student_status_material` VALUES (129, 8, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (130, 9, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (131, 10, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (132, 11, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (133, 12, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (134, 13, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (135, 14, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (136, 15, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (137, 16, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (138, 17, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (139, 18, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (140, 19, NULL, 2, NULL);
+INSERT INTO `student_status_material` VALUES (141, 20, NULL, 2, NULL);
 
 -- ----------------------------
 -- Table structure for student_status_record
@@ -417,13 +452,15 @@ CREATE TABLE `student_status_record`  (
   INDEX `student_status_record_Reference_student_status`(`student_status`) USING BTREE,
   CONSTRAINT `student_status_record_Reference_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `student_status_record_Reference_student_status` FOREIGN KEY (`student_status`) REFERENCES `student_status_map` (`student_status`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_status_record
 -- ----------------------------
 INSERT INTO `student_status_record` VALUES (1, 1, 2, '2019-11-17');
 INSERT INTO `student_status_record` VALUES (2, 1, 3, '2019-11-18');
+INSERT INTO `student_status_record` VALUES (3, 3, 6, '2019-11-01');
+INSERT INTO `student_status_record` VALUES (4, 2, 6, '2019-11-20');
 
 -- ----------------------------
 -- Table structure for study
@@ -447,6 +484,7 @@ INSERT INTO `study` VALUES (4, 1, '<p>	</p><p><br/></p><p><br/></p><p><br/></p><
 INSERT INTO `study` VALUES (6, 1, '<p>	</p><p>难受<img src=\"/mis/upload/image/20191119/1574177755204080018.jpg\" title=\"1574177755204080018.jpg\" alt=\"包拯.jpg\"/></p><p>	</p>', '包拯测试', '2019-11-19 23:35:59');
 INSERT INTO `study` VALUES (7, 2, '<p style=\"margin: 15px 8px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: 0.544px; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial; background-color: rgb(255, 255, 255); line-height: 1.75em; text-align: center; overflow-wrap: break-word !important;\"><span style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 18px;\"><strong style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;\"><span style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; letter-spacing: 0.5px; color: rgb(123, 12, 0); overflow-wrap: break-word !important;\">概率分布概述</span></strong></span></p><p style=\"margin: 15px 8px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; clear: both; min-height: 1em; color: rgb(51, 51, 51); font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-size: 17px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial; background-color: rgb(255, 255, 255); line-height: 1.75em; overflow-wrap: break-word !important;\"><img class=\"\" src=\"https://mmbiz.qpic.cn/mmbiz_png/bicdMLzImlibQeibcTAuRACNicGu4icHQicWXI3icNokDveHAyicxWIY1LMPrRedxhvVPJzp7jLwrbQISrHzWevOZxmACA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1\"/></p><ul class=\" list-paddingleft-2\" style=\"list-style-type: disc;\"><li><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; clear: both; min-height: 1em;\"><span style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 16px;\">共轭意味着它有共轭分布的关系。</span><br/></p></li></ul><blockquote style=\"margin: 1em 0px; padding: 4px 0px 0px 10px; border-left: 3px solid rgb(219, 219, 219); color: rgba(0, 0, 0, 0.498039); font-size: 15px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: 0.544px; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial; background-color: rgb(255, 255, 255);\"><p style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; clear: both; min-height: 1em; text-align: left;\"><span style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 16px;\">在贝叶斯概率论中，如果后验分布 p（θx）与先验概率分布 p（θ）在同一概率分布族中，则先验和后验称为共轭分布，先验称为似然函数的共轭先验。</span><span style=\"margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important; font-size: 16px;\">共轭先验维基百科在这里（https://en.wikipedia.org/wiki/Conjugate_prior）。</span></p></blockquote><p><br/></p>', '历史资料', '2019-11-19 23:40:40');
 INSERT INTO `study` VALUES (8, 2, '<p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: 1.75em;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><span style=\"font-size: 17px;\"><strong style=\"max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">1. 均匀分布（连续）</span></strong></span><span style=\"font-size: 18px;\"><strong style=\"max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;box-sizing: border-box !important;overflow-wrap: break-word !important;\"></span></strong></span></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: normal;text-align: left;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><span style=\"max-width: 100%;color: rgb(217, 33, 66);letter-spacing: 0.5px;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">代码：</span></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: normal;text-align: left;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><span style=\"max-width: 100%;color: rgb(217, 33, 66);letter-spacing: 0.5px;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">https://github.com/graykode/distribution-is-all-you-need/blob/master/uniform.py</span></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: 1.75em;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">均匀分布在 [a，b] 上具有相同的概率值，是简单概率分布。</span></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: 1.75em;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><img class=\"\" src=\"https://mmbiz.qpic.cn/mmbiz_png/bicdMLzImlibQeibcTAuRACNicGu4icHQicWXIbr8NZoC6cj9rrK1u8ibeZhX0Yue7LlrFicbnxLuCOacpSxGUTuL9wBrQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1\"/></p><p><section><br/></section></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: 1.75em;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><span style=\"font-size: 17px;\"><strong style=\"max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">2. 伯努利分布（离散）</span></strong></span><span style=\"font-size: 18px;\"><strong style=\"max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;box-sizing: border-box !important;overflow-wrap: break-word !important;\"></span></strong></span></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: 1.75em;text-align: left;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;color: rgb(217, 33, 66);font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">代码：</span><span style=\"max-width: 100%;color: rgb(217, 33, 66);letter-spacing: 0.5px;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">https://github.com/graykode/distribution-is-all-you-need/blob/master/bernoulli.py&nbsp;</span></p><ul class=\" list-paddingleft-2\" style=\"list-style-type: disc;\"><li><p><span style=\"max-width: 100%;letter-spacing: 0.5px;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">先验概率 p（x）不考虑伯努利分布。因此，如果我们对最大似然进行优化，那么我们很容易被过度拟合。</span><br/></p></li><li><p><span style=\"max-width: 100%;letter-spacing: 0.5px;font-size: 16px;box-sizing: border-box !important;overflow-wrap: break-word !important;\">利用二元交叉熵对二项分类进行分类。它的形式与伯努利分布的负对数相同。</span><br/></p></li></ul><p><section></section><section></section></p><p style=\"margin: 15px 8px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.544px;white-space: normal;background-color: rgb(255, 255, 255);line-height: 1.75em;box-sizing: border-box !important;overflow-wrap: break-word !important;\"><img class=\"\" src=\"https://mmbiz.qpic.cn/mmbiz_png/bicdMLzImlibQeibcTAuRACNicGu4icHQicWXIwQ8jiaUFicXZiaaia2v9dbHxNUJYk2WygS2VevQOniaNjh6dVGQicaibPKN7Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1\"/></p><p><section><br/></section><span style=\"font-size: 17px;\"><strong style=\"max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;\"><span style=\"max-width: 100%;letter-spacing: 0.5px;box-sizing: border-box !important;overflow-wrap: break-word !important;\"></span></strong></span></p><p><br/></p>', '加个图加个图加个图加个图加个图', '2019-11-19 23:48:01');
+INSERT INTO `study` VALUES (9, 1, '<p>驱蚊器无去<br/></p>', '阿斯顿阿斯顿', '2019-11-23 22:58:25');
 
 -- ----------------------------
 -- Table structure for study_status_map
@@ -474,7 +512,7 @@ CREATE TABLE `test`  (
   `test_date_start` datetime(0) NULL DEFAULT NULL,
   `test_date_end` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`test_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of test
@@ -483,6 +521,7 @@ INSERT INTO `test` VALUES (1, '测验1', '2019-11-04 00:57:46', '2019-11-06 00:5
 INSERT INTO `test` VALUES (2, '试卷', '2019-11-19 00:00:00', '2019-11-23 00:00:00');
 INSERT INTO `test` VALUES (3, '试卷1111', '2019-11-03 00:00:00', '2019-11-09 00:00:00');
 INSERT INTO `test` VALUES (4, 'asd', '2019-11-23 00:00:00', '2019-11-26 00:00:00');
+INSERT INTO `test` VALUES (5, '阿斯达', '2019-11-24 00:00:00', '2019-11-25 00:00:00');
 
 -- ----------------------------
 -- Table structure for user
@@ -495,7 +534,7 @@ CREATE TABLE `user`  (
   `user_wechat` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `user_type` int(11) NOT NULL COMMENT '1：管理员用户，2：学生用户',
   PRIMARY KEY (`user_id`, `user_account`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -527,7 +566,13 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `app
 -- View structure for attendance_view
 -- ----------------------------
 DROP VIEW IF EXISTS `attendance_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `attendance_view` AS select `student`.`student_id` AS `student_id`,`activity`.`activity_id` AS `activity_id`,`activity`.`activity_name` AS `activity_name`,`activity`.`activity_date` AS `activity_date`,`activity`.`activity_item` AS `activity_item`,`activity`.`activity_duration` AS `activity_duration`,`attendance_status_map`.`means` AS `attendance_status`,`attendance`.`attendance_status` AS `attendance_status_id`,`activity`.`branch_id` AS `branch_id`,`branch`.`branch_name` AS `branch_name`,`student`.`student_num` AS `student_num`,`student`.`student_name` AS `student_name`,`student_status_map`.`means` AS `student_status`,`student_status_map`.`student_status` AS `student_status_id` from (((((`student` join `attendance` on((`attendance`.`student_id` = `student`.`student_id`))) join `attendance_status_map` on((`attendance`.`attendance_status` = `attendance_status_map`.`attendance_status`))) join `activity` on((`attendance`.`activity_id` = `activity`.`activity_id`))) join `branch` on(((`student`.`branch_id` = `branch`.`branch_id`) and (`activity`.`branch_id` = `branch`.`branch_id`)))) join `student_status_map` on((`student`.`student_status` = `student_status_map`.`student_status`)));
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `attendance_view` AS select `student`.`student_id` AS `student_id`,`activity`.`activity_id` AS `activity_id`,`activity`.`activity_name` AS `activity_name`,`activity`.`activity_date` AS `activity_date`,`activity`.`activity_item` AS `activity_item`,`activity`.`activity_duration` AS `activity_duration`,`attendance_status_map`.`means` AS `attendance_status`,`attendance`.`attendance_status` AS `attendance_status_id`,`activity`.`branch_id` AS `branch_id`,`branch`.`branch_name` AS `branch_name`,`student`.`student_num` AS `student_num`,`student`.`student_name` AS `student_name`,`student_status_map`.`means` AS `student_status`,`student_status_map`.`student_status` AS `student_status_id`,`activity`.`activity_location` AS `activity_location` from (((((`student` join `attendance` on((`attendance`.`student_id` = `student`.`student_id`))) join `attendance_status_map` on((`attendance`.`attendance_status` = `attendance_status_map`.`attendance_status`))) join `activity` on((`attendance`.`activity_id` = `activity`.`activity_id`))) join `branch` on(((`student`.`branch_id` = `branch`.`branch_id`) and (`activity`.`branch_id` = `branch`.`branch_id`)))) join `student_status_map` on((`student`.`student_status` = `student_status_map`.`student_status`)));
+
+-- ----------------------------
+-- View structure for correct_answer_view
+-- ----------------------------
+DROP VIEW IF EXISTS `correct_answer_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `correct_answer_view` AS select count(0) AS `correct_num`,`answer_view`.`student_num` AS `student_num`,`answer_view`.`student_name` AS `student_name`,`answer_view`.`test_id` AS `test_id`,`answer_view`.`test_name` AS `test_name`,`answer_view`.`answer_date` AS `answer_date` from `answer_view` where (`answer_view`.`question_answer` = `answer_view`.`answer_option`) group by `answer_view`.`student_num`,`answer_view`.`test_id`,`answer_view`.`test_name`,`answer_view`.`student_name`,`answer_view`.`answer_date`;
 
 -- ----------------------------
 -- View structure for examination_view
@@ -558,5 +603,11 @@ CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `stu
 -- ----------------------------
 DROP VIEW IF EXISTS `test_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `test_view` AS select count(0) AS `total_num`,`answer_view`.`test_id` AS `test_id`,`answer_view`.`student_num` AS `student_num`,`answer_view`.`test_name` AS `test_name`,`answer_view`.`student_name` AS `student_name`,`answer_view`.`answer_date` AS `answer_date` from `answer_view` group by `answer_view`.`test_id`,`answer_view`.`student_num`,`answer_view`.`student_name`,`answer_view`.`test_name`,`answer_view`.`answer_date`;
+
+-- ----------------------------
+-- View structure for test_view_all
+-- ----------------------------
+DROP VIEW IF EXISTS `test_view_all`;
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`%` SQL SECURITY DEFINER VIEW `test_view_all` AS select `table1`.`correct_num` AS `correct_num`,`test_view`.`total_num` AS `total_num`,`test_view`.`test_id` AS `test_id`,`test_view`.`test_name` AS `test_name`,`test_view`.`student_num` AS `student_num`,`test_view`.`student_name` AS `student_name`,`test_view`.`answer_date` AS `answer_date` from (`test_view` left join (select count(0) AS `correct_num`,`answer_view`.`test_id` AS `test_id`,`answer_view`.`student_num` AS `student_num`,`answer_view`.`test_name` AS `test_name`,`answer_view`.`student_name` AS `student_name`,`answer_view`.`answer_date` AS `answer_date` from `answer_view` where (`answer_view`.`question_answer` = `answer_view`.`answer_option`) group by `answer_view`.`test_id`,`answer_view`.`student_num`,`answer_view`.`student_name`,`answer_view`.`test_name`,`answer_view`.`answer_date`) `table1` on(((`table1`.`test_id` = `test_view`.`test_id`) and (`table1`.`student_num` = `test_view`.`student_num`))));
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -16,6 +16,8 @@ public interface UserService {
 
 	public boolean update_password(String user_account, String user_password);
 
+	public boolean permission(String user_account);
+
 //	// 新增党支部
 //	public boolean branch_insert(Branch branch);
 //

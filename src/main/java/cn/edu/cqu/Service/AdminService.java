@@ -118,4 +118,19 @@ public interface AdminService {
 
 	boolean update_student_status_material_offline(String material_type_id, String student_id);
 
+	ArrayList<vActivity> select_vactivity_by_branch_id(String activity_name_input, String activity_status_input,
+			String activity_date_input, String activity_location_input, String branch_id);
+
+	ArrayList<vAttendance> select_vAttendances_by_student_num_all(String student_id);
+
+	int count_total_activity(String student_id);
+
+	int count_total_activity_duration(String student_id);
+
+	int select_test_total_time(String student_num);
+
+	int select_test_total_correct(String student_num);
+
+	ArrayList<vTest> select_vTest_by_test_name(String test_name);
+
 }

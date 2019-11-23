@@ -41,6 +41,7 @@
 										<h1>重庆大学计算机学院</h1>
 									</div>
 									<h1>党员管理系统</h1>
+									<h3>（学生管理员端）</h3>
 								</center>
 							</div>
 						</div>
@@ -48,7 +49,7 @@
 					<div class="col-lg-6 bg-white">
 						<div class="form d-flex align-items-center">
 							<div class="content">
-								<form name="inputForm" action="login"
+								<form name="inputForm" action="adminLogin"
 									onsubmit="return validateForm()" method="post"
 									class="form-validate">
 									<div class="form-group">
@@ -62,9 +63,7 @@
 											class="label-material">登录密码</label>
 									</div>
 									<button id="login" class="btn btn-primary">登 录</button>
-									
 								</form>
-								<a href="/mis/stuadmin">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;>>>学生管理员入口</a>
 							</div>
 						</div>
 					</div>

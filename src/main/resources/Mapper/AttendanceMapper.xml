@@ -97,7 +97,7 @@
 		update attendance
 		set
 		attendance_pic =
-		#{attendance_pic},attendance_status = 4
+		#{attendance_pic},attendance_status = 3
 		where
 		student_id = #{student_id}
 		and activity_id = #{activity_id}
@@ -140,7 +140,22 @@
 		#{student_num}
 		and student_status_record.student_id =
 		student.student_id
+	</select>
 
+	<select id="count_total_activity" resultType="Integer">
+		select count(*)
+		from attendance_view
+		where student_id = #{student_id}
+		and
+		attendance_status = '已签到'
+	</select>
+
+	<select id="count_total_activity_duration" resultType="Integer">
+		select
+		sum(activity_duration)
+		from attendance_view
+		where student_id = #{student_id}
+		and attendance_status = '已签到'
 	</select>
 
 </mapper>

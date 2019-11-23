@@ -11,7 +11,7 @@
 			<if test="student_num != null">
 				student_num = #{student_num}
 			</if>
-			<if test="student_name != null">
+			<if test="student_name != nul">
 				<bind name="student_name" value="'%' + student_name + '%' " />
 				and student_name like #{student_name}
 			</if>

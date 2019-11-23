@@ -72,8 +72,7 @@ table tr th {
 
 							<h3>&ensp;</h3>
 							<div class="cxbottom">
-								<a id="dlink" style="display: none;"></a> <input id="button"
-									type="button" value="导出为Excel表格">
+							
 
 							</div>
 						</center>

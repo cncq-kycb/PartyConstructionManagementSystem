@@ -50,4 +50,6 @@ public interface TestMapper {
 
 	Integer select_test_total_time(String student_num);
 
+	ArrayList<vTest> select_vTest_by_test_name(String test_name);
+
 }

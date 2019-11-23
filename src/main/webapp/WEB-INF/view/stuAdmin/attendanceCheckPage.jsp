@@ -38,14 +38,13 @@ table tr th {
 
 </head>
 <body>
-		<script type="text/javascript">
+	<script type="text/javascript">
 	var isLogin = "<%=session.getAttribute("isLogin")%>";
 	if(isLogin!='1'){
 		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
 	</script>
-
 	<div >
 		<header class="header"></header>
 		<div class="content-inner">
@@ -61,7 +60,7 @@ table tr th {
 					<div class="panel-body" style="padding-bottom: 0px;">
 
 						<center>
-							<h2>${branch_name}-${student_num}-${student_name}-${student_status}竞答记录表</h2>
+							<h2>${activity_date}${activity_name}-${branch_name}签到表</h2>
 
 							<h3>&ensp;</h3>
 							<div class="cxbottom">
@@ -78,49 +77,39 @@ table tr th {
 					<table class="table table-hover table-bordered" id="tables"
 						data-toggle="table" data-toggle="table" data-pagination="true"
 						data-side-pagination="client" style="border: 1px solid black">
-						<caption>${branch_name}-${student_num}-${student_name}-${student_status}竞答记录表</caption>
+						<caption>${activity_date}${activity_name}-${branch_name}签到表</caption>
 						<thead>
-								<tr>
-									<th>姓名</th>
-									<td>${student_name}</td>
-									<th>学号</th>
-									<td style="mso-number-format: '\@';">${student_num}</td>
-								</tr>
-								<tr>
-									<th>所在支部</th>
-									<td>${branch_name}</td>
-									<th>政治面貌</th>
-									<td>${student_status}</td>
-
-								</tr>
-								<tr>
-									<th>试卷名称</th>
-									<th>完成日期</th>
-									<th>试卷总分</th>
-									<th>实际得分</th>
-								</tr>
-
-							</thead>
-							<tbody>
-								<c:forEach items="${test_list}" var="test_list">
-									<tr style="height: auto;">
-										<td>${test_list.test_name }</td>
-										<td>${test_list.answer_date}</td>
-										<td>${test_list.total_num}</td>
-										<td>${test_list.correct_num}</td>
-									</tr>
-								</c:forEach>
-
-							</tbody>
 							<tr>
-								<th rowspan="2" colspan="2"></th>
-								<th>总答题次数</th>
-								<td>${total_time}</td>
+								<th>学号</th>
+								<th>姓名</th>
+								<th>所在支部</th>
+								<th>政治面貌</th>
+								<th>签到情况</th>
 							</tr>
-							<tr>
-								<th>得分率</th>
-								<td>${score_percent}%</td>
-							</tr>
+
+						</thead>
+						<tbody>
+							<c:forEach items="${list}" var="member_list">
+								<tr style="height: auto;">
+									<td style="mso-number-format: '\@';">${member_list.student_num }</td>
+									<td>${member_list.student_name }</td>
+									<td>${member_list.branch_name }</td>
+									<td>${member_list.student_status}</td>
+									<td>${member_list.attendance_status}</td>
+								</tr>
+
+							</c:forEach>
+
+						</tbody>
+						<tr>
+							<th rowspan="2" colspan="3"></th>
+							<th>实到人数</th>
+							<td>${signInNum}</td>
+						</tr>
+						<tr>
+							<th>应到人数</th>
+							<td>${totalMemberNum}</td>
+						</tr>
 					</table>
 				
 				</div>
@@ -162,14 +151,16 @@ table tr th {
             document.getElementById("dlink").click();
         }
     });
-    var disName = "<%=session.getAttribute("student_id")%>";
-    var avtivytiName = "<%=session.getAttribute("student_name")%>";
+    var disName = "<%=session.getAttribute("activity_date")%>";
+    var avtivytiName = "<%=session.getAttribute("activity_name")%>";
     var branchName = "<%=session.getAttribute("branch_name")%>";
-    var status = "<%=session.getAttribute("student_status")%>";
-
-		var id = "tables", worksheetName = 'sheet', workName = branch_name + "-"
-				+ student_id + "-" + branch_name + "-" + status + "-" 
-				+ "竞答记录表.xls";
+		var disLength = disName.length;
+		var year = disName.substring(0, 4);
+		var month = disName.substring(5, 7);
+		var day = disName.substring(8, 10);
+		var id = "tables", worksheetName = 'sheet', workName = year + "年"
+				+ month + "月" + day + "日-" + avtivytiName + "-" + branchName
+				+ "签到表.xls";
 		document.getElementById('button').onclick = function() {
 			var download = tableToExcel();
 			download(id, worksheetName, workName)

@@ -38,19 +38,26 @@ table tr th {
 
 </head>
 <body>
-		<script type="text/javascript">
+	<script type="text/javascript">
 	var isLogin = "<%=session.getAttribute("isLogin")%>";
 	if(isLogin!='1'){
 		alert("您好，请先登录！");
 		window.location.href='<%=request.getContextPath()%>/';
 	};
+	var msg = ${message};
+	if(msg == "1"){
+		alert("审核通过");
+	}
+	if(msg == "2"){
+		alert("审核提交失败");
+	}
 	</script>
 
-	<div >
+	<div>
 		<header class="header"></header>
 		<div class="content-inner">
 
-			<div >
+			<div>
 				<blockquote class="layui-elem-quote">
 					<div class="cxbottom">
 						<center>
@@ -61,69 +68,76 @@ table tr th {
 					<div class="panel-body" style="padding-bottom: 0px;">
 
 						<center>
-							<h2>${branch_name}-${student_num}-${student_name}-${student_status}竞答记录表</h2>
+							<h2>${branch_name}-${student_num}-${student_name}-${student_status}材料表</h2>
 
 							<h3>&ensp;</h3>
 							<div class="cxbottom">
-								<a id="dlink" style="display: none;"></a> <input id="button"
-									type="button" value="导出为Excel表格">
+							
 
 							</div>
 						</center>
 
 					</div>
 				</blockquote>
-				<div id="content" style="width: 100%; height: 533px;margin-left:120px;">
-               
+				<div id="content"
+					style="width: 100%; height: 533px; margin-left: 120px;">
+
 					<table class="table table-hover table-bordered" id="tables"
 						data-toggle="table" data-toggle="table" data-pagination="true"
 						data-side-pagination="client" style="border: 1px solid black">
-						<caption>${branch_name}-${student_num}-${student_name}-${student_status}竞答记录表</caption>
+						<caption>${branch_name}-${student_num}-${student_name}-${student_status}材料表</caption>
 						<thead>
-								<tr>
-									<th>姓名</th>
-									<td>${student_name}</td>
-									<th>学号</th>
-									<td style="mso-number-format: '\@';">${student_num}</td>
-								</tr>
-								<tr>
-									<th>所在支部</th>
-									<td>${branch_name}</td>
-									<th>政治面貌</th>
-									<td>${student_status}</td>
-
-								</tr>
-								<tr>
-									<th>试卷名称</th>
-									<th>完成日期</th>
-									<th>试卷总分</th>
-									<th>实际得分</th>
-								</tr>
-
-							</thead>
-							<tbody>
-								<c:forEach items="${test_list}" var="test_list">
-									<tr style="height: auto;">
-										<td>${test_list.test_name }</td>
-										<td>${test_list.answer_date}</td>
-										<td>${test_list.total_num}</td>
-										<td>${test_list.correct_num}</td>
-									</tr>
-								</c:forEach>
-
-							</tbody>
 							<tr>
-								<th rowspan="2" colspan="2"></th>
-								<th>总答题次数</th>
-								<td>${total_time}</td>
+								<th>材料名</th>
+								<th>提交日期</th>
+								<th>材料类型</th>
+								<th>操作</th>
+
 							</tr>
-							<tr>
-								<th>得分率</th>
-								<td>${score_percent}%</td>
-							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${material_list}" var="material_list" varStatus="st">
+								<tr style="height: auto;">
+									<td>${material_list.material_type_name}</td>
+									<td>${material_list.material_date}</td>
+									<td><c:choose>
+											<c:when test="${material_list.material_type_from=='1'}">
+							学生线上提交
+							</c:when>
+										</c:choose> <c:choose>
+											<c:when test="${material_list.material_type_from=='2'}">
+							老师审核材料
+							</c:when>
+										</c:choose></td>
+									<td>
+										<form action="/mis/download" id="thisForm${st.index }">
+											<input type="hidden" type="text" name="filename" value="${material_list.material_type_name}"> 
+												<input type="hidden" type="text" name="url" value="${material_list.material_url}"> 
+												<input type="hidden" type="text" name="student_num" value="${student_num}">
+												<input type="hidden" type="text" name="material_type_id" value="${material_list.material_type_id}">
+											<c:choose>
+												<c:when test="${not empty material_list.material_url && material_list.material_type_from=='1'}">
+													<button type="button" id="downloadButton"
+														name="downloadButton" onclick="download(${st.index});">下载</button>
+												</c:when>
+
+												<c:when test="${empty material_list.material_url && material_list.material_type_from=='2'}">
+													<button type="button" id="checkButton" name="checkButton"
+														onclick="check(${st.index});">线下提交确认</button>
+												</c:when>
+												<c:when
+													test="${not empty material_list.material_url && material_list.material_type_from=='2'}">
+											线下提交通过
+										</c:when>
+											</c:choose>
+										</form>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
 					</table>
-				
 				</div>
+
 				<div class="cxbottom">
 					<center>
 						<h1>&ensp;</h1>
@@ -167,13 +181,26 @@ table tr th {
     var branchName = "<%=session.getAttribute("branch_name")%>";
     var status = "<%=session.getAttribute("student_status")%>";
 
-		var id = "tables", worksheetName = 'sheet', workName = branch_name + "-"
-				+ student_id + "-" + branch_name + "-" + status + "-" 
-				+ "竞答记录表.xls";
+		var id = "tables", worksheetName = 'sheet', workName = branch_name
+				+ "-" + student_id + "-" + branch_name + "-" + status + "-"
+				+ "材料表.xls";
 		document.getElementById('button').onclick = function() {
 			var download = tableToExcel();
 			download(id, worksheetName, workName)
 		};
+	</script>
+	<script>
+		function check(st) {
+			document.getElementById("thisForm"+st).action = "/mis/stuAdmin/checkOfflineMaterial";
+			document.getElementById("thisForm"+st).submit();
+
+		}
+
+		function download(st) {
+			document.getElementById("thisForm"+st).action = "/mis/download";
+			document.getElementById("thisForm"+st).submit();
+
+		}
 	</script>
 </body>
 </html>

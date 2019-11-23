@@ -37,6 +37,24 @@ public class UserController {
 		}
 		return "loginFail";
 	}
+	
+	// 用户登录2
+	@RequestMapping(value = "/adminLogin")
+	public String adminLogin(String user_account, String user_password, HttpSession session) {
+		User user = new User(user_account, user_password);
+		int type = userService.login(user, session);
+		if (type == 1) {
+			session.setAttribute("isLogin", "1");
+			return "main_page_1";
+		}
+		else if(type == 2) {
+			if(userService.permission(user_account)) {
+				session.setAttribute("isLogin", "1");
+				return "main_page_3";
+			}
+		}
+		return "loginFail";
+	}
 
 	// 用户退出
 	@RequestMapping(value = "/logout")
@@ -108,6 +126,13 @@ public class UserController {
 			session.setAttribute("message", "2");
 		}
 		return "psw_changed_page";
+	}
+	
+	
+	// 管理员登录界面
+	@RequestMapping(value = "/stuadmin")
+	public String admin(HttpSession session) {
+		return "adminLoginPage";
 	}
 
 }

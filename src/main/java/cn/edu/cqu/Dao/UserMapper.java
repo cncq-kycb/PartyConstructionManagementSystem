@@ -17,4 +17,6 @@ public interface UserMapper {
 
 	void update_password(@Param("user_account") String user_account, @Param("user_password") String user_password);
 
+	int permission(@Param("user_account")String user_account);
+
 }

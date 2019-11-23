@@ -5,11 +5,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.edu.cqu.Dao.BranchMapper;
+import cn.edu.cqu.Dao.StudentMapper;
 import cn.edu.cqu.Dao.UserMapper;
 import cn.edu.cqu.Model.Activity;
 import cn.edu.cqu.Model.Admin;
 import cn.edu.cqu.Model.Student;
 import cn.edu.cqu.Model.User;
+import cn.edu.cqu.Service.StudentService;
 import cn.edu.cqu.Service.UserService;
 import cn.edu.cqu.Utils.Utils;
 
@@ -18,7 +21,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-
+	@Autowired
+	private BranchMapper branchMapper;
+	
 	// 用户登录
 	@Override
 	public int login(User user, HttpSession session) {
@@ -36,6 +41,8 @@ public class UserServiceImpl implements UserService {
 				Student student = userMapper.select_student_by_account(user.getUser_account());
 				session.setAttribute("student_name", student.getStudent_name());
 				session.setAttribute("student", student);
+				session.setAttribute("my_branch_id", student.getBranch_id());
+				session.setAttribute("my_branch_name",branchMapper.select_name_by_id(student.getBranch_id()) );
 				return 2;
 //			case 3:
 //				Student admin_student = userMapper.select_student_by_account(user.getUser_account());
@@ -64,5 +71,11 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+	@Override
+	public boolean permission(String user_account) {
+			if(userMapper.permission(user_account)==2)
+			return true;
+			return false;
+	};
 
 }

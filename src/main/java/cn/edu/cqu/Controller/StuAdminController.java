@@ -26,7 +26,6 @@ import cn.edu.cqu.Model.StudentStatusMap;
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vActivity;
-import cn.edu.cqu.Model.vAnswer;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudentMaterial;
@@ -37,16 +36,17 @@ import cn.edu.cqu.Service.UserService;
 import cn.edu.cqu.Utils.Utils;
 
 @Controller
-@RequestMapping(value = "/admin")
-public class AdminController {
+@RequestMapping(value = "/stuAdmin")
+public class StuAdminController {
 
 	@Autowired
 	private AdminService adminService;
 
+
 	// 主页
-	@RequestMapping(value = "/main_page_1")
-	public String main_page_1() {
-		return "main_page_1";
+	@RequestMapping(value = "/main_page_3")
+	public String main_page_3() {
+		return "main_page_3";
 	}
 
 	// 党员管理页面模糊查询
@@ -65,7 +65,7 @@ public class AdminController {
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
-		return "admin/manageMemberPage";
+		return "stuAdmin/manageMemberPage";
 	}
 
 	// 修改信息
@@ -90,7 +90,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/manageMemberPage";
+		return "stuAdmin/manageMemberPage";
 	}
 
 	// 成员级别管理页面
@@ -101,7 +101,7 @@ public class AdminController {
 		session.setAttribute("message", "");
 		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>();
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/updateStatusPage";
+		return "stuAdmin/updateStatusPage";
 	}
 
 	// 成员级别管理查找
@@ -120,10 +120,10 @@ public class AdminController {
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
-		return "admin/updateStatusPage";
+		return "stuAdmin/updateStatusPage";
 	}
 
-	// 查看学生相关资料
+	// 查看活动资料
 	@RequestMapping(value = "/checkMaterialPage")
 	public String checkMaterialPage(String student_num_ensure, String student_name_ensure, String student_status_ensure,
 			String branch_name_ensure, HttpSession session) {
@@ -142,64 +142,12 @@ public class AdminController {
 		session.setAttribute("student_name", student_name_ensure);
 		session.setAttribute("student_status", student_status_ensure);
 		session.setAttribute("message", "");
-		return "admin/checkMaterialPage";
-	}
-
-	// 查看学生活动记录
-	@RequestMapping(value = "/stuActivityPage")
-	public String stuActivityPage(String student_num_activity, String student_name_activity,
-			String branch_name_activity, String student_status_activity, HttpSession session) {
-		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_activity);
-		ArrayList<vAttendance> vAttendances = adminService
-				.select_vAttendances_by_student_num_all(vstudent.getStudent_id());
-		int total_activity_num = adminService.count_total_activity(vstudent.getStudent_id());
-		int total_activity_duration = adminService.count_total_activity_duration(vstudent.getStudent_id());
-		session.setAttribute("vattendances_list", vAttendances);
-		session.setAttribute("total_activity_num", total_activity_num);
-		session.setAttribute("total_activity_duration", total_activity_duration);
-		session.setAttribute("branch_name", branch_name_activity);
-		session.setAttribute("student_num", student_num_activity);
-		session.setAttribute("student_name", student_name_activity);
-		session.setAttribute("student_status", student_status_activity);
-		session.setAttribute("message", "");
-		return "admin/stuActivityPage";
-	}
-
-	// 查看学生答题记录
-	@RequestMapping(value = "/resultPage")
-	public String resultPage(String student_num_result, String student_name_result, String branch_name_result,
-			String student_status_result, HttpSession session) {
-		// vStudent vstudent =
-		// adminService.select_vStudent_by_student_num(student_num_result);
-		ArrayList<vTest> test_list = adminService.select_vTest(student_num_result);
-		for (vTest v : test_list) {
-			if (v.getCorrect_num() == null) {
-				v.setCorrect_num(0);
-			}
-		}
-		int total_time = adminService.select_test_total_time(student_num_result);
-		int total_correct = adminService.select_test_total_correct(student_num_result);
-		double score_percent;
-		if (total_time == 0) {
-			score_percent = 0;
-		} else {
-			score_percent = total_correct / total_time * 100;
-		}
-		session.setAttribute("test_list", test_list);
-		session.setAttribute("score_percent", score_percent);
-		session.setAttribute("total_time", total_time);
-		session.setAttribute("branch_name", branch_name_result);
-		session.setAttribute("student_num", student_num_result);
-		session.setAttribute("student_name", student_name_result);
-		session.setAttribute("student_status", student_status_result);
-		session.setAttribute("message", "");
-		return "admin/resultPage";
+		return "stuAdmin/checkMaterialPage";
 	}
 
 	// 通过线下资料审核
 	@RequestMapping(value = "/checkOfflineMaterial")
-	public String checkOfflineMaterial(String filename, String material_type_id, String student_num,
-			HttpSession session) {
+	public String checkOfflineMaterial(String filename,String material_type_id, String student_num, HttpSession session) {
 		System.out.println(filename);
 		String student_id = adminService.select_vStudent_by_student_num(student_num).getStudent_id();
 		if (adminService.update_student_status_material_offline(material_type_id, student_id)) {
@@ -218,7 +166,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/checkMaterialPage";
+		return "stuAdmin/checkMaterialPage";
 	}
 
 	// 提升等级阶段
@@ -236,13 +184,13 @@ public class AdminController {
 						student_status_input, branch_name_input);
 				PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
 				session.setAttribute("pageInfo", pageInfo);
-				return "admin/updateStatusPage";
+				return "stuAdmin/updateStatusPage";
 			}
 			session.setAttribute("message", "3");
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/updateStatusPage";
+		return "stuAdmin/updateStatusPage";
 	}
 
 	/*
@@ -264,7 +212,7 @@ public class AdminController {
 		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
 		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/authorityPage";
+		return "stuAdmin/authorityPage";
 	}
 
 	// 查找用户
@@ -280,7 +228,7 @@ public class AdminController {
 		session.setAttribute("student_status_input", student_status_input);
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("message", "");
-		return "admin/authorityPage";
+		return "stuAdmin/authorityPage";
 	}
 
 	// 修改权限
@@ -311,14 +259,14 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/authorityPage";
+		return "stuAdmin/authorityPage";
 	}
 
 	// 党支部增删改查
 	@RequestMapping(value = "/branch_insert_page")
 	public String branch_insert_page(HttpSession session) {
 		session.setAttribute("message", "");
-		return "admin/branch_insert_page";
+		return "stuAdmin/branch_insert_page";
 	}
 
 	@RequestMapping(value = "/branch_insert")
@@ -328,7 +276,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/branch_insert_page";
+		return "stuAdmin/branch_insert_page";
 	}
 
 	@RequestMapping(value = "/manageBranchPage")
@@ -338,7 +286,7 @@ public class AdminController {
 		session.setAttribute("branch", branch);
 		ArrayList<vStudent> list = new ArrayList<vStudent>();
 		session.setAttribute("list", list);
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	// 支部成员管理查找
@@ -347,7 +295,7 @@ public class AdminController {
 		ArrayList<vStudent> list = adminService.select_vstudent_by_branch_name(branch_name_input);
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("list", list);
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	@RequestMapping(value = "/branch_delete")
@@ -357,7 +305,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	@RequestMapping(value = "/branch_update")
@@ -367,7 +315,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	// 添加支部成员页面
@@ -376,7 +324,7 @@ public class AdminController {
 		session.setAttribute("message", "");
 		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>();
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/addMemberPage";
+		return "stuAdmin/addMemberPage";
 	}
 
 	// 添加支部成员查找
@@ -401,7 +349,7 @@ public class AdminController {
 		session.setAttribute("student_name_input", student_name_input);
 		session.setAttribute("branch", branch);
 		session.setAttribute("message", "");
-		return "admin/addMemberPage";
+		return "stuAdmin/addMemberPage";
 	}
 
 	// 添加支部成员
@@ -437,7 +385,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/addMemberPage";
+		return "stuAdmin/addMemberPage";
 	}
 
 	// 成员管理页面
@@ -452,7 +400,7 @@ public class AdminController {
 		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/manageMemberPage";
+		return "stuAdmin/manageMemberPage";
 	}
 
 	// 从支部移除
@@ -464,13 +412,13 @@ public class AdminController {
 				session.setAttribute("message", "1");
 			} else {
 				session.setAttribute("message", "2");
-				return "admin/manageBranchPage";
+				return "stuAdmin/manageBranchPage";
 			}
 		}
 		String branch_name_input = (String) session.getAttribute("branch_name_input");
 		ArrayList<vStudent> list = adminService.select_vstudent_by_branch_name(branch_name_input);
 		session.setAttribute("list", list);
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	// 设为支部管理
@@ -482,13 +430,13 @@ public class AdminController {
 				session.setAttribute("message", "3");
 			} else {
 				session.setAttribute("message", "4");
-				return "admin/manageBranchPage";
+				return "stuAdmin/manageBranchPage";
 			}
 		}
 		String branch_name_input = (String) session.getAttribute("branch_name_input");
 		ArrayList<vStudent> list = adminService.select_vstudent_by_branch_name(branch_name_input);
 		session.setAttribute("list", list);
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	// 取消支部管理
@@ -500,13 +448,13 @@ public class AdminController {
 				session.setAttribute("message", "5");
 			} else {
 				session.setAttribute("message", "6");
-				return "admin/manageBranchPage";
+				return "stuAdmin/manageBranchPage";
 			}
 		}
 		String branch_name_input = (String) session.getAttribute("branch_name_input");
 		ArrayList<vStudent> list = adminService.select_vstudent_by_branch_name(branch_name_input);
 		session.setAttribute("list", list);
-		return "admin/manageBranchPage";
+		return "stuAdmin/manageBranchPage";
 	}
 
 	// 活动的创建与发布页面
@@ -516,7 +464,7 @@ public class AdminController {
 		branch.remove(0);
 		session.setAttribute("branch", branch);
 		session.setAttribute("message", "");
-		return "admin/addActivityPage";
+		return "stuAdmin/addActivityPage";
 	}
 
 	// 发布活动
@@ -543,12 +491,12 @@ public class AdminController {
 				session.setAttribute("message", "1");
 			} else {
 				session.setAttribute("message", "2");
-				return "admin/addActivityPage";
+				return "stuAdmin/addActivityPage";
 			}
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/addActivityPage";
+		return "stuAdmin/addActivityPage";
 	}
 
 	// 查看活动详情页面
@@ -574,7 +522,7 @@ public class AdminController {
 		session.setAttribute("branch_name", branch_name);
 
 		session.setAttribute("message", "");
-		return "admin/activityItemPage";
+		return "stuAdmin/activityItemPage";
 	}
 
 	// 组织生活签到管理页面
@@ -590,7 +538,7 @@ public class AdminController {
 		session.setAttribute("activity_status_input", "");
 		session.setAttribute("activity_date_input", "");
 		session.setAttribute("activity_location_input", "");
-		return "admin/manageSignInPage";
+		return "stuAdmin/manageSignInPage";
 	}
 
 	// 组织生活签到查询结果
@@ -598,8 +546,10 @@ public class AdminController {
 	public String manageSignInPageFinder(String activity_name_input, String activity_status_input,
 			String activity_date_input, String activity_location_input,
 			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
-		ArrayList<vActivity> activities = adminService.select_vactivity(activity_name_input, activity_status_input,
-				activity_date_input, activity_location_input);
+		String my_branch_id=(String)session.getAttribute("my_branch_id");
+		ArrayList<vActivity> activities = adminService.select_vactivity_by_branch_id(activity_name_input, activity_status_input,
+				activity_date_input, activity_location_input,my_branch_id);
+
 		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("activity_name_input", activity_name_input);
@@ -607,7 +557,7 @@ public class AdminController {
 		session.setAttribute("activity_date_input", activity_date_input);
 		session.setAttribute("activity_location_input", activity_location_input);
 		session.setAttribute("message", "");
-		return "admin/manageSignInPage";
+		return "stuAdmin/manageSignInPage";
 	}
 
 	// 组织生活签到审核与查看
@@ -624,7 +574,7 @@ public class AdminController {
 		session.setAttribute("signInNum", signInNum);
 		session.setAttribute("totalMemberNum", totalMemberNum);
 		session.setAttribute("message", "");
-		return "admin/attendanceCheckPage";
+		return "stuAdmin/attendanceCheckPage";
 	}
 
 	// 修改活动状态
@@ -651,7 +601,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/manageSignInPage";
+		return "stuAdmin/manageSignInPage";
 	}
 
 	// 发布学习内容页面
@@ -660,7 +610,7 @@ public class AdminController {
 		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
 		session.setAttribute("study_status_map", study_status_map);
 		session.setAttribute("message", "");
-		return "admin/insertStudyPage";
+		return "stuAdmin/insertStudyPage";
 	}
 
 	// 发布学习内容
@@ -684,7 +634,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/insertStudyPage";
+		return "stuAdmin/insertStudyPage";
 	}
 
 	// 管理学习内容页面
@@ -698,7 +648,7 @@ public class AdminController {
 		session.setAttribute("study_title_input", "");
 		session.setAttribute("message", "");
 		session.setAttribute("study_status_input", "");
-		return "admin/manageStudyPage";
+		return "stuAdmin/manageStudyPage";
 	}
 
 	// 删除学习内容
@@ -717,7 +667,7 @@ public class AdminController {
 			session.setAttribute("message", "2");
 
 		}
-		return "admin/manageStudyPage";
+		return "stuAdmin/manageStudyPage";
 	}
 
 	// 管理学习内容查询结果
@@ -737,7 +687,7 @@ public class AdminController {
 		session.setAttribute("study_title_input", study_title_input);
 		session.setAttribute("study_status_input", study_status_input);
 		session.setAttribute("message", "");
-		return "admin/manageStudyPage";
+		return "stuAdmin/manageStudyPage";
 	}
 
 	// 推文详情页面
@@ -749,7 +699,7 @@ public class AdminController {
 		session.setAttribute("study_content", study.getStudy_content());
 		session.setAttribute("study_status", study.getMeans());
 		session.setAttribute("message", "");
-		return "admin/checkStudyPage";
+		return "stuAdmin/checkStudyPage";
 	}
 
 	// 编辑推文页面
@@ -765,7 +715,7 @@ public class AdminController {
 		session.setAttribute("study_status", study.getStudy_status());
 		session.setAttribute("study_id_update", study_id_update);
 		session.setAttribute("message", "");
-		return "admin/updateStudyPage";
+		return "stuAdmin/updateStudyPage";
 	}
 
 	// 重新发布学习内容
@@ -798,7 +748,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/updateStudyPage";
+		return "stuAdmin/updateStudyPage";
 	}
 
 	// 知识竞答编辑
@@ -812,7 +762,7 @@ public class AdminController {
 		}
 		PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/editCompetitionPage";
+		return "stuAdmin/editCompetitionPage";
 	}
 
 	// 添加知识竞答题目
@@ -833,7 +783,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/editCompetitionPage";
+		return "stuAdmin/editCompetitionPage";
 	}
 
 	// 修改知识竞答题目
@@ -855,7 +805,7 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "6");
 		}
-		return "admin/editCompetitionPage";
+		return "stuAdmin/editCompetitionPage";
 	}
 
 	// 删除知识竞答题目
@@ -867,7 +817,7 @@ public class AdminController {
 				session.setAttribute("message", "3");
 			} else {
 				session.setAttribute("message", "4");
-				return "admin/editCompetitionPage";
+				return "stuAdmin/editCompetitionPage";
 			}
 		}
 		ArrayList<Question> questions = adminService.select_all_question();
@@ -877,7 +827,7 @@ public class AdminController {
 		}
 		PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/editCompetitionPage";
+		return "stuAdmin/editCompetitionPage";
 	}
 
 	// 手动选择组卷
@@ -894,7 +844,7 @@ public class AdminController {
 				continue;
 			} else {
 				session.setAttribute("message", "8");
-				return "admin/editCompetitionPage";
+				return "stuAdmin/editCompetitionPage";
 			}
 		}
 		session.setAttribute("message", "7");
@@ -905,7 +855,7 @@ public class AdminController {
 		}
 		PageInfo<Question> pageInfo = new PageInfo<Question>(questions, 10);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/editCompetitionPage";
+		return "stuAdmin/editCompetitionPage";
 	}
 
 	// 知识竞答结果页面
@@ -919,28 +869,7 @@ public class AdminController {
 		session.setAttribute("branch_name", "");
 		session.setAttribute("student_status", "");
 		session.setAttribute("message", "");
-		return "admin/resultByTestPage";
-	}
-
-	// 按答题名查询
-	@RequestMapping(value = "/resultByTestPageFinder")
-	public String resultByTestPageFinder(String test_name_input, String test_date_input, HttpSession session) {
-		ArrayList<vTest> vTests = adminService.select_vTest_by_test_name(test_name_input);
-		int total_num = 0;
-		for (vTest v : vTests) {
-			if (v.getCorrect_num() == null) {
-				v.setCorrect_num(0);
-				total_num = v.getTotal_num();
-			}
-		}
-		int length = vTests.size();
-
-		session.setAttribute("total_num", total_num);
-		session.setAttribute("member_list", vTests);
-		session.setAttribute("length", length);
-		session.setAttribute("test_date", test_name_input);
-		session.setAttribute("branch_name", "");
-		return "admin/resultByTestPage";
+		return "stuAdmin/resultByTestPage";
 	}
 
 	// 按学生查询知识竞答结果
@@ -954,7 +883,7 @@ public class AdminController {
 		session.setAttribute("branch_name", "");
 		session.setAttribute("student_status", "");
 		session.setAttribute("message", "");
-		return "admin/resultByStudentPage";
+		return "stuAdmin/resultByStudentPage";
 	}
 
 	// 知识竞答结果按学生查询
@@ -962,7 +891,7 @@ public class AdminController {
 	public String resultByStudentPageFinder(String student_num_input, HttpSession session) {
 		if (student_num_input == null || student_num_input.equals("")) {
 			session.setAttribute("message", "2");
-			return "admin/resultByStudentPage";
+			return "stuAdmin/resultByStudentPage";
 		}
 		ArrayList<vTest> vTests = adminService.select_vTest(student_num_input);
 		for (vTest v : vTests) {
@@ -970,7 +899,7 @@ public class AdminController {
 		}
 		if (vTests == null) {
 			session.setAttribute("message", "1");
-			return "admin/resultByStudentPage";
+			return "stuAdmin/resultByStudentPage";
 		}
 		int correct_num = 0, total_num = 0;
 		for (vTest v : vTests) {
@@ -992,7 +921,7 @@ public class AdminController {
 		session.setAttribute("branch_name", vstudent.getBranch_name());
 		session.setAttribute("student_status", vstudent.getStudent_status());
 		session.setAttribute("message", "");
-		return "admin/resultByStudentPage";
+		return "stuAdmin/resultByStudentPage";
 	}
 
 }

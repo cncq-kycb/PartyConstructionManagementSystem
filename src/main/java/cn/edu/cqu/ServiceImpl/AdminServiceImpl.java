@@ -249,6 +249,14 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public ArrayList<vActivity> select_vactivity_by_branch_id(String activity_name, String activity_status,
+			String activity_date, String activity_location, String branch_id) {
+		// TODO Auto-generated method stub
+		return activityMapper.select_vactivity_by_branch_id(activity_name, activity_status, activity_date,
+				activity_location, branch_id);
+	}
+
+	@Override
 	public ArrayList<vStudy> select_study_list(String study_title, String study_status) {
 		return studyMapper.select_study_list(study_title, study_status);
 	};
@@ -467,13 +475,66 @@ public class AdminServiceImpl implements AdminService {
 	public boolean update_student_status_material_offline(String material_type_id, String student_id) {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("material_type_id:"+material_type_id + " student_id:" + student_id);
+			// System.out.println("material_type_id:"+material_type_id + " student_id:" +
+			// student_id);
 			applyMapper.update_student_status_material_offline(material_type_id, student_id);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return false;
 		}
+	}
+
+	@Override
+	public ArrayList<vAttendance> select_vAttendances_by_student_num_all(String student_id) {
+		// TODO Auto-generated method stub
+		return attendanceMapper.select_all_by_student_id(student_id);
+	}
+
+	@Override
+	public int count_total_activity(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.count_total_activity(student_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int count_total_activity_duration(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.count_total_activity_duration(student_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_test_total_time(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_total_time(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_test_total_correct(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_total_correct(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public ArrayList<vTest> select_vTest_by_test_name(String test_name) {
+		// TODO Auto-generated method stub
+		return testMapper.select_vTest_by_test_name(test_name);
 	}
 
 }

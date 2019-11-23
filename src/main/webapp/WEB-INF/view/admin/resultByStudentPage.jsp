@@ -153,7 +153,7 @@ table tr th {
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
-										id="Table" data-toggle="table" data-toggle="table"
+										id="Tables" data-toggle="table" data-toggle="table"
 										data-pagination="true" data-side-pagination="client">
 										<tr>
 											<th>学号：</th>
@@ -193,7 +193,7 @@ table tr th {
 					</blockquote>
 					<div id="content" style="width: 100%; height: 533px;">
 
-						<table class="table table-hover table-bordered" id="tables"
+						<table class="table table-hover table-bordered" id="table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client" style="border: 1px solid black">
 							<caption>${student_num}-${student_name}-每日竞答结果统计表</caption>
@@ -288,7 +288,7 @@ table tr th {
     var student_num = "<%=session.getAttribute("student_num")%>";
     var student_name = "<%=session.getAttribute("student_name")%>
 		";
-		var id = "tables", worksheetName = 'sheet', workName = student_num
+		var id = "table", worksheetName = 'sheet', workName = student_num
 				+ "-" + student_name + "-" + "每日竞答结果统计表.xls";
 		document.getElementById('button').onclick = function() {
 			var download = tableToExcel();

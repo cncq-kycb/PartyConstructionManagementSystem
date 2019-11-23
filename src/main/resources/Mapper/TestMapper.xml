@@ -5,15 +5,16 @@
 
 	<insert id="insert_question">
 		insert into
-		question(question_problem,question_option_a,question_option_b,question_option_c,question_option_d,question_answer)
+		question(question_problem,question_option_a,question_option_b,question_option_c,question_option_d,question_answer,question_status)
 		values
-		(#{question_problem},#{question_option_a},#{question_option_b},#{question_option_c},#{question_option_d},#{question_answer})
+		(#{question_problem},#{question_option_a},#{question_option_b},#{question_option_c},#{question_option_d},#{question_answer}.'1')
 	</insert>
 
 	<select id="select_all_question"
 		resultType="cn.edu.cqu.Model.Question">
 		select *
 		from question
+		where question_status = '1'
 	</select>
 
 	<update id="update_question">
@@ -28,11 +29,13 @@
 		question_id = #{question_id}
 	</update>
 
-	<delete id="delete_question">
-		delete from question
-		where question_id =
+	<update id="delete_question">
+		update question
+		SET question_status = '0'
+		where
+		question_id =
 		#{question_id}
-	</delete>
+	</update>
 
 	<select id="select_curr_test_id" resultType="int">
 		select max(test_id)
@@ -80,7 +83,7 @@
 
 	<select id="select_vTest" resultType="cn.edu.cqu.Model.vTest">
 		select *
-		from test_view
+		from test_view_all
 		where student_num = #{student_num}
 	</select>
 
@@ -124,6 +127,13 @@
 		FROM
 		test_view
 		where student_num = #{student_num}
+	</select>
+
+	<select id="select_vTest_by_test_name"
+		resultType="cn.edu.cqu.Model.vTest">
+		select *
+		from test_view_all
+		where test_name = #{test_name}
 	</select>
 
 </mapper>

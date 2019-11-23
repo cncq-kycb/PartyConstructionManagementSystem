@@ -61,7 +61,7 @@ table tr th {
 					<div class="panel-body" style="padding-bottom: 0px;">
 
 						<center>
-							<h2>${branch_name}-${student_id}-${student_name}-${student_status}活动记录表</h2>
+							<h2>${branch_name}-${student_num}-${student_name}-${student_status}活动记录表</h2>
 
 							<h3>&ensp;</h3>
 							<div class="cxbottom">
@@ -75,10 +75,10 @@ table tr th {
 				</blockquote>
 				<div id="content" style="width: 100%; height: 533px;margin-left:120px;">
                
-					<table class="table table-hover table-bordered" id="tables"
+					<table class="table table-hover table-bordered" id="table"
 						data-toggle="table" data-toggle="table" data-pagination="true"
 						data-side-pagination="client" style="border: 1px solid black">
-						<caption>${branch_name}-${student_id}-${student_name}-${student_status}活动记录表</caption>
+						<caption>${branch_name}-${student_num}-${student_name}-${student_status}活动记录表</caption>
 						<thead>
 							<tr>
 								<th>活动名称</th>
@@ -98,7 +98,11 @@ table tr th {
 								    <td>${vattendances_list.activity_duration }</td>
 									<td>${vattendances_list.attendance_status }</td>
 								</tr>
-                               <tr>
+                               
+							</c:forEach>
+
+						</tbody>
+				<tr>
 							<th rowspan="2" colspan="3"></th>
 							<th>总活动次数</th>
 							<td>${total_activity_num}</td>
@@ -107,10 +111,6 @@ table tr th {
 							<th>总活动时长</th>
 							<td>${total_activity_duration}小时</td>
 						</tr>
-							</c:forEach>
-
-						</tbody>
-				
 					</table>
 				
 				</div>
@@ -157,7 +157,7 @@ table tr th {
     var branchName = "<%=session.getAttribute("branch_name")%>";
     var status = "<%=session.getAttribute("student_status")%>";
 
-		var id = "tables", worksheetName = 'sheet', workName = branch_name + "-"
+		var id = "table", worksheetName = 'sheet', workName = branch_name + "-"
 				+ student_id + "-" + branch_name + "-" + status + "-" 
 				+ "活动记录表.xls";
 		document.getElementById('button').onclick = function() {

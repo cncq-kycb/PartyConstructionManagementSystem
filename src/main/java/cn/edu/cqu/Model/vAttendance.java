@@ -7,6 +7,7 @@ public class vAttendance {
 	private String activity_date;
 	private String activity_item;
 	private String activity_duration;
+	private String activity_location;
 	private String attendance_status;
 	private String attendance_status_id;
 	private String branch_id;
@@ -126,6 +127,14 @@ public class vAttendance {
 
 	public void setStudent_status_id(String student_status_id) {
 		this.student_status_id = student_status_id;
+	}
+
+	public String getActivity_location() {
+		return activity_location;
+	}
+
+	public void setActivity_location(String activity_location) {
+		this.activity_location = activity_location;
 	}
 
 }

@@ -27,4 +27,7 @@ public interface ActivityMapper {
 
 	int select_curr_activity_id();
 
+	ArrayList<vActivity> select_vactivity_by_branch_id(@Param("activity_name")String activity_name,@Param("activity_status_means") String activity_status_means,
+			 @Param("activity_date")String activity_date, @Param("activity_location")String activity_location, @Param("branch_id")String branch_id);
+
 }

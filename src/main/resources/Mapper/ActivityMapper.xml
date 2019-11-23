@@ -32,6 +32,34 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="select_vactivity_by_branch_id"
+		resultType="cn.edu.cqu.Model.vActivity">
+		select *
+		from
+		activity_view
+		<where>
+			<if test="activity_name != null and activity_name != ''">
+				<bind name="activity_name" value="'%' + activity_name + '%' " />
+				and activity_name like #{activity_name}
+			</if>
+			<if test="activity_date != null and activity_date != ''">
+				and activity_date = #{activity_date}
+			</if>
+			<if
+				test="activity_status_means != null and activity_status_means != ''">
+				and means = #{activity_status_means}
+			</if>
+			<if test="activity_location != null and activity_location != ''">
+				<bind name="activity_location"
+					value="'%' + activity_location + '%' " />
+				and activity_location like #{activity_location}
+			</if>
+				<if test="branch_id != null and branch_id != ''">
+				and branch_id = #{branch_id}
+			</if>
+		</where>
+	</select>
 
 	<update id="update_activity_status">
 		update activity

@@ -74,17 +74,17 @@ table tr th {
 			alert('生成试卷失败');
 		}
 	</script>
-	<div class="page">
+		<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="/mis/main_page_1"
+					<a href="/mis/stuAdmin/main_page_3"
 						class="navbar-brand d-none d-sm-inline-block">
-						<div class="brand-text d-none d-lg-inline-block">党员管理系统</div>
+						<div class="brand-text d-none d-lg-inline-block">党员管理系统(学生管理员端)</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
-							<strong>党员管理系统</strong>
+							<strong>党员管理系统(学生管理员端)</strong>
 						</div>
 					</a> <a id="toggle-btn" href="#" class="menu-btn active"> <span></span><span></span><span></span>
 					</a>
@@ -104,35 +104,26 @@ table tr th {
 			<div class="sidebar-header d-flex align-items-center">
 				<div class="title">
 					<p>欢迎您：</p>
-					<h1 class="h4">${admin_name}</h1>
+					
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
 			<ul class="list-unstyled">
-				<li><a href="/mis/admin/authorityPage"> <i
-						class="icon-list-1"></i>权限管理
-				</a></li>
 				<li><a href="#memberManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>成员管理
+					data-toggle="collapse"> <i class="icon-user"></i>本支部成员管理
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
-					</ul></li>
-				<li><a href="#branchManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-list"></i>支部管理
-				</a>
-					<ul id="branchManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/addMemberPage">添加支部成员</a></li>
-						<li><a href="/mis/admin/manageBranchPage">支部成员管理</a></li>
+						<li><a href="/mis/stuAdmin/manageMemberPage">成员信息管理</a></li>
+						<li><a href="/mis/stuAdmin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 			</ul>
 			<span class="heading">组织生活管理</span>
 			<ul class="list-unstyled">
-				<li><a href="/mis/admin/addActivityPage"> <i
+				<li><a href="/mis/stuAdmin/addActivityPage"> <i
 						class="icon-interface-windows"></i>活动的创建与发布
 				</a></li>
-				<li><a href="/mis/admin/manageSignInPage"> <i
+				<li><a href="/mis/stuAdmin/manageSignInPage"> <i
 						class="icon-grid"></i>组织生活签到管理
 				</a></li>
 			</ul>
@@ -142,18 +133,18 @@ table tr th {
 					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
 				</a>
 					<ul id="editStudy" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
-						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
+						<li><a href="/mis/stuAdmin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/stuAdmin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
-				<li class="active"><a href="editCompetitionPage"> <i
+				<li><a href="/mis/stuAdmin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
 				<li><a href="#competitionResult" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
-						<li><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
 			</nav>
@@ -173,7 +164,6 @@ table tr th {
 								onclick="insertQuestionModal(this)" name="passBtn">添加题目</button>
 							<button type="submit" class="btn btn-danger" id="deleteBtn"
 								onclick="deleteQuestionModal(this)" name="deleteBtn">移除选中题目</button>
-
 							<button type="button" class="btn btn-primary" id="createBtn"
 								name="createBtn" onclick="createModal(this)">选中题目组卷</button>
 							<h1>&ensp;</h1>
@@ -221,7 +211,7 @@ table tr th {
 							<ul class="pagination">
 								<c:if test="${pageInfo.hasPreviousPage}">
 									<li class="page-item"><a class="page-link"
-										href="/mis/admin/editCompetionPage?pn=${pageInfo.pageNum -1}"
+										href="/mis/stuAdmin/editCompetionPage?pn=${pageInfo.pageNum -1}"
 										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 									</a></li>
 								</c:if>
@@ -231,12 +221,12 @@ table tr th {
 									</c:if>
 									<c:if test="${pageNum != pageInfo.pageNum }">
 										<li class="page-item"><a class="page-link"
-											href="/mis/admin/editCompetionPage?pn=${pageNum }">${pageNum }</a></li>
+											href="/mis/stuAdmin/editCompetionPage?pn=${pageNum }">${pageNum }</a></li>
 									</c:if>
 								</c:forEach>
 								<c:if test="${pageInfo.hasNextPage}">
 									<li class="page-item"><a class="page-link"
-										href="/mis/admin/editCompetionPage?pn=${pageInfo.pageNum +1}"
+										href="/mis/stuAdmin/editCompetionPage?pn=${pageInfo.pageNum +1}"
 										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 									</a></li>
 								</c:if>

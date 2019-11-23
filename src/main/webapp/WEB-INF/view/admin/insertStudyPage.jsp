@@ -186,7 +186,7 @@
 								</center>
 									<div class="layui-input-block">
 										<button class="btn btn-success" lay-submit="" id="save"
-											lay-filter="rulesSubmit">发布推文</button>
+											lay-filter="rulesSubmit" onclick="return validateForm()">发布推文</button>
 									</div>
 								</div>
 
@@ -229,8 +229,20 @@
     //直接调用UE.getEditor('editor')就能拿到相关的实例
     UE.delEditor('editor');
     var ue = UE.getEditor('editor');
-
+    </script>
+	<script>
+	function validateForm() {
+		var study_status = document.forms["inputForm"]["study_status"].value;
+		var study_title = document.forms["inputForm"]["study_title"].value;
+		if (study_status == null
+				|| study_status == ""|| study_title == null
+				|| study_title ) {
+			alert("所有内容都必须填写!");
+			return false;
+		}
+	}
 </script>
+
 
 </body>
 </html>

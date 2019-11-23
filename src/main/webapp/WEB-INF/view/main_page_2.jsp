@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -66,7 +68,7 @@
 			<li><a href="/mis/stu/main_page_2"><i class="fas fa-home"></i>主页</a></li>
 			<li><a href="/mis/stu/study_center_page"><i class="fas fa-graduation-cap"></i>学习中心</a></li>
 			<li><a href="/mis/stu/party_life_page"><i class="fas fa-calendar-alt"></i>组织生活</a></li>
-			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>		
+			<li><a href="/mis/stu/info_page"><i class="fas fa-user"></i>个人中心</a></li>				
 			<li><a href="/mis/logout"><i class="fas fa-sign-out-alt"></i>退出登录</a></li>
 		</ul>
 	</div>

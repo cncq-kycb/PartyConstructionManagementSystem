@@ -9,6 +9,14 @@
 		from user
 		where user_account = #{user_account}
 	</select>
+	
+		<select id="permission" resultType="int">
+		select
+		s.student_permission
+		from student s , user u
+		where u.user_account = #{user_account}
+		and u.user_id =s.user_id
+	</select>
 
 	<select id="select_type_by_account" resultType="int">
 		select

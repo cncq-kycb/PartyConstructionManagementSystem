@@ -62,17 +62,17 @@ div {
 			alert('活动发布失败');
 		}
 	</script>
-	<div class="page">
+		<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
 			<div
 				class="navbar-holder d-flex align-items-center justify-content-between">
 				<div class="navbar-header">
-					<a href="/mis/main_page_1"
+					<a href="/mis/stuAdmin/main_page_3"
 						class="navbar-brand d-none d-sm-inline-block">
-						<div class="brand-text d-none d-lg-inline-block">党员管理系统</div>
+						<div class="brand-text d-none d-lg-inline-block">党员管理系统(学生管理员端)</div>
 						<div class="brand-text d-none d-sm-inline-block d-lg-none">
-							<strong>党员管理系统</strong>
+							<strong>党员管理系统(学生管理员端)</strong>
 						</div>
 					</a> <a id="toggle-btn" href="#" class="menu-btn active"> <span></span><span></span><span></span>
 					</a>
@@ -92,35 +92,26 @@ div {
 			<div class="sidebar-header d-flex align-items-center">
 				<div class="title">
 					<p>欢迎您：</p>
-					<h1 class="h4">${admin_name}</h1>
+					
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
 			<ul class="list-unstyled">
-				<li><a href="/mis/admin/authorityPage"> <i
-						class="icon-list-1"></i>权限管理
-				</a></li>
 				<li><a href="#memberManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>成员管理
+					data-toggle="collapse"> <i class="icon-user"></i>本支部成员管理
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
-						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
-					</ul></li>
-				<li><a href="#branchManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-list"></i>支部管理
-				</a>
-					<ul id="branchManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/addMemberPage">添加支部成员</a></li>
-						<li><a href="/mis/admin/manageBranchPage">支部成员管理</a></li>
+						<li><a href="/mis/stuAdmin/manageMemberPage">成员信息管理</a></li>
+						<li><a href="/mis/stuAdmin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 			</ul>
 			<span class="heading">组织生活管理</span>
 			<ul class="list-unstyled">
-				<li class="active"><a href="/mis/admin/addActivityPage"> <i
+				<li><a href="/mis/stuAdmin/addActivityPage"> <i
 						class="icon-interface-windows"></i>活动的创建与发布
 				</a></li>
-				<li><a href="/mis/admin/manageSignInPage"> <i
+				<li><a href="/mis/stuAdmin/manageSignInPage"> <i
 						class="icon-grid"></i>组织生活签到管理
 				</a></li>
 			</ul>
@@ -130,18 +121,18 @@ div {
 					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
 				</a>
 					<ul id="editStudy" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
-						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
+						<li><a href="/mis/stuAdmin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/stuAdmin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
-				<li><a href="/mis/admin/editCompetitionPage"> <i
+				<li><a href="/mis/stuAdmin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
 				<li><a href="#competitionResult" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
-						<li><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
+						<li><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
 			</nav>
@@ -156,7 +147,7 @@ div {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="/mis/admin/insertActivity"
+								action="/mis/stuAdmin/insertActivity"
 								 method="post">
 
 								<div class="layui-form-item">
@@ -166,12 +157,9 @@ div {
 
 								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;参与支部：&ensp;<select
-										name="branch_name" id="branch_name">
-                                        <c:forEach var="branch" items="${branch}">
-										<option>${branch.branch_name }</option>
-										</c:forEach>
-									</select></label>
+									<label class="layui-form-label">&ensp;&ensp;参与支部：&ensp;<input
+										name="branch_name" id="branch_name" readonly style="border:none;" value="${my_branch_name}">
+                                        </label>
 								</div>
 								<div class="layui-form-item">
 									<div class="layui-inline">
@@ -210,7 +198,7 @@ div {
 								<div class="layui-form-item">
 									<div class="layui-input-block">
 										<button class="btn btn-success" lay-submit=""
-											lay-filter="rulesSubmit" onclick="return validateForm() ">发布活动</button>
+											lay-filter="rulesSubmit" onclick="return validateForm()">发布活动</button>
 									</div>
 								</div>
 
@@ -266,7 +254,7 @@ div {
 			if (activity_name == null || activity_name == "" || branch_name == null
 					|| branch_name == ""|| activity_location == null
 					|| activity_location == ""|| activity_duration == null
-					|| activity_duration == ""|| activity_date == null
+					|| activity_duration == ""||  activity_date == null
 					|| activity_date == "") {
 				alert("所有内容都必须填写!");
 				return false;
