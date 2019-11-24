@@ -10,7 +10,7 @@
 		FROM
 		attendance_view
 		where
-		attendance_status = 1
+		attendance_status = '已签到'
 		and student_id = #{student_id}
 	</select>
 
@@ -21,7 +21,7 @@
 		FROM
 		attendance_view
 		where
-		attendance_status = 1 and student_id = #{student_id}
+		attendance_status = '已签到' and student_id = #{student_id}
 	</select>
 
 	<select id="select_all_by_student_id"

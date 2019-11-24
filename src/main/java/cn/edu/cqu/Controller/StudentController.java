@@ -115,7 +115,7 @@ public class StudentController {
 					+ study_list.get(i).getStudy_id() + "\"><h5>&ensp;&ensp;&ensp;&ensp;"
 					+ study_list.get(i).getStudy_title() + "</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"
 					+ study_list.get(i).getStudy_date()
-					+ "<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+					+ "<span><i class=\"fas fa-ellipsis-v\"></i>新闻共享</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
 		}
 		session.setAttribute("study_list", study_list);
 		session.setAttribute("content", temp);
@@ -132,7 +132,7 @@ public class StudentController {
 					+ study_list.get(i).getStudy_id() + "\"><h5>&ensp;&ensp;&ensp;&ensp;"
 					+ study_list.get(i).getStudy_title() + "</h5><p class=\"date\">&ensp;&ensp;&ensp;&ensp;"
 					+ study_list.get(i).getStudy_date()
-					+ "<span><i class=\"fas fa-ellipsis-v\"></i>十九大讲话</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
+					+ "<span><i class=\"fas fa-ellipsis-v\"></i>党员必读</span></p><div class=\"link-more\">&ensp;&ensp;&ensp;&ensp;Read More <i class=\"fas fa-long-arrow-alt-right\"></i></a></div></div></div></div>";
 		}
 		session.setAttribute("study_list", study_list);
 		session.setAttribute("content", temp);

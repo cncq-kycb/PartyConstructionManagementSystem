@@ -127,7 +127,7 @@ table tr th {
 						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
 				<li><a href="/mis/admin/editCompetitionPage"> <i
-						class="icon-padnote"></i>知识竞答编辑
+						class="icon-padnote"></i>竞答编辑
 				</a></li>
 				<li class="active"><a href="#competitionResult"
 					aria-expanded="false" data-toggle="collapse"> <i
