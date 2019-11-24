@@ -2,13 +2,22 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<style>
+table tr th, td {
+	border: 1px solid red;
+	text-align: center;
+}
+
+table tr th {
+	border: 1px solid red;
+	text-align: center;
+}
+</style>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>党员管理系统</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="description" content="">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,22 +37,10 @@
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-	
-<script type="text/javascript" charset="utf-8"
-	src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8"
-	src="<%=request.getContextPath()%>/utf8-jsp/ueditor.all.min.js"></script>
-<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-<script type="text/javascript" charset="utf-8"
-	src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
-
-
-
 
 </head>
 <body>
-		<script type="text/javascript">
+			<script type="text/javascript">
 	var isLogin = "<%=session.getAttribute("isLogin")%>";
 	if(isLogin!='1'){
 		alert("您好，请先登录！");
@@ -52,10 +49,10 @@
 
 		var msg = "${message}";
 		if (msg == "1") {
-			alert('推文编辑成功');
+			alert('无此学生任何答题信息');
 		}
 		if (msg == "2") {
-			alert('推文编辑失败');
+			alert('必须输入学生学号');
 		}
 	</script>
 	<div class="page">
@@ -122,27 +119,27 @@
 			</ul>
 			<span class="heading">内容管理</span>
 			<ul class="list-unstyled">
-				<li class="active"><a href="#editStudy" aria-expanded="false"
+				<li><a href="#editStudy" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-presentation"></i>学习中心内容编辑
 				</a>
 					<ul id="editStudy" class="collapse list-unstyled ">
-						<li class="active"><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
+						<li><a href="/mis/admin/insertStudyPage">发布学习内容</a></li>
 						<li><a href="/mis/admin/manageStudyPage">管理学习内容</a></li>
 					</ul></li>
 				<li><a href="/mis/admin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
-				<li><a href="#competitionResult" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
+				<li class="active"><a href="#competitionResult"
+					aria-expanded="false" data-toggle="collapse"> <i
+						class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
-						<li><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
+						<li class="active"><a href="/mis/admin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
 			</nav>
 			<div class="content-inner">
-
 				<div style="margin: 0px; background-color: white; margin: 0 10px;">
 					<blockquote class="layui-elem-quote">
 						<div class="cxbottom">
@@ -151,54 +148,87 @@
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm"  id="inputForm"
-								action="/mis/admin/updateStudy"
-								method="post">
-								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;选择栏目:&ensp;&ensp;<select
-										name="study_status" id="study_status">
-												<c:forEach var="study_status_map" items="${study_status_map}">
-										<option>${study_status_map.means}</option>
-										</c:forEach>
-									</select></label>
-								</div>
-								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;推文题目: &ensp;<input
-										type="text" name="study_title" id="study_title" value="${study_title}"
-										style="width: 800px;" placeholder="请输入推文题目">
-									</label>
-								</div>
-
-								<div class="layui-form-item">
-									<label class="layui-form-label">&ensp;&ensp;推文内容：</label> 
-								
-									<div class="layui-input-block">
-								<div>
-										<script id="editor" type="text/plain" style="width:1024px;height:500px;">	${study_content}	</script>
-
-									</div>
-
-									</div>
-								</div>
-								<div class="layui-form-item">
-									<center>
-									<h4>&ensp;</h4>
-								</center>
-									<div class="layui-input-block">
-										<button class="btn btn-success" lay-submit="" id="save"
-											lay-filter="rulesSubmit" onclick="return validate();">重新发布推文</button>
-									</div>
-								</div>
-
-							</form>
-							<div class="cxbottom">
-								<center>
-									<h1>&ensp;</h1>
-									<h1>&ensp;</h1>
-								</center>
-							</div>
 						</div>
+					</blockquote>
+					<blockquote class="layui-elem-quote">
+						<div class="cxbottom">
+							<center>
+								<h1>&ensp;</h1>
+							</center>
+						</div>
+
+						<div class="panel-body" style="padding-bottom: 0px;">
+
+							<center>
+								<h2>${student_num}-${student_name}-每日竞答结果统计表</h2>
+
+								<h3>&ensp;</h3>
+								<div class="cxbottom"></div>
+							</center>
+
+						</div>
+					</blockquote>
+					<div id="content" style="width: 100%; height: 533px;">
+
+						<table class="table table-hover table-bordered" id="table"
+							data-toggle="table" data-toggle="table" data-pagination="true"
+							data-side-pagination="client" style="border: 1px solid black">
+							<caption>${student_num}-${student_name}-每日竞答结果统计表</caption>
+
+							<thead>
+								<tr>
+									<th>姓名</th>
+									<td>${student_name}</td>
+									<th>学号</th>
+									<td style="mso-number-format: '\@';">${student_num}</td>
+								</tr>
+								<tr>
+									<th>所在支部</th>
+									<td>${branch_name}</td>
+									<th>政治面貌</th>
+									<td>${student_status}</td>
+
+								</tr>
+								<tr>
+									<th>试卷名称</th>
+									<th>完成时间</th>
+									<th>试卷总分</th>
+									<th>实际得分</th>
+								</tr>
+
+							</thead>
+							<tbody>
+								<c:forEach items="${list}" var="test_list">
+									<tr style="height: auto;">
+										<td>${test_list.test_name }</td>
+										<td>${test_list.answer_date}</td>
+										<td>${test_list.total_num}</td>
+										<td>${test_list.correct_num}</td>
+									</tr>
+								</c:forEach>
+
+							</tbody>
+							<tr>
+								<th rowspan="2" colspan="2"></th>
+								<th>总答题次数</th>
+								<td>${total_time}</td>
+							</tr>
+							<tr>
+								<th>得分率</th>
+								<td>${score_percent}%</td>
+							</tr>
+						</table>
+					</div>
+					<div class="cxbottom">
+						<center>
+							<h1>&ensp;</h1>
+							<h1>&ensp;</h1>
+						</center>
+					</div>
 				</div>
+
+
+
 			</div>
 		</div>
 	</div>
@@ -216,35 +246,33 @@
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
-	
+	<script type="text/javascript">
+	var tableToExcel = (function() {
+        var uri = 'data:application/vnd.ms-excel;base64,',
+            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+            base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
+            format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) };
+        return function(table, name, filename) {
+            if (!table.nodeType) table = document.getElementById(table);
+            console.log(table.innerHTML)
+            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }//此时的innerHTML数据可以自己自定义 比如json转化 只要值要数据符合即可
 
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/ueditor.all.min.js"> </script>
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
+            document.getElementById("dlink").href = uri + base64(format(template, ctx));
+            document.getElementById("dlink").download = filename;
+            document.getElementById("dlink").click();
+        }
+    });
+    var student_num = "<%=session.getAttribute("student_num")%>";
+    var student_name = "<%=session.getAttribute("student_name")%>
+		";
+		var id = "table", worksheetName = 'sheet', workName = student_num
+				+ "-" + student_name + "-" + "每日竞答结果统计表.xls";
+		document.getElementById('button').onclick = function() {
+			var download = tableToExcel();
+			download(id, worksheetName, workName)
+		};
+	</script>
 
-<script type="text/javascript">
 
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，
-    //直接调用UE.getEditor('editor')就能拿到相关的实例
-            var editorOption = {
-            //是否自动清除编辑器初始内容
-            autoClearinitialContent:false
-        };
-    UE.delEditor('editor');
-    var ue = UE.getEditor('editor');
-       
-
-</script>
-	<script>
-	function validateForm() {
-		var study_title = document.forms["inputForm"]["study_title"].value;
-		if (study_title == null
-				|| study_title ) {
-			alert("推文题目不能为空");
-			return false;
-		}
-	}
-</script>
 </body>
 </html>

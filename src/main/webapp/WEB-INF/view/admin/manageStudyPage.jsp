@@ -148,8 +148,8 @@ table tr th {
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm "
-								action="manageStudyPageFinder" onsubmit="return validateForm()"
+							<form class="form-horizontal" name="inputForm "  id="inputForm"
+								action="/mis/admin/manageStudyPageFinder" onsubmit="return validateForm()"
 								method="post">
 
 								<div class="tableWrap">

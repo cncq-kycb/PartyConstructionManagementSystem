@@ -363,10 +363,7 @@ public class StudentController {
 	@RequestMapping(value = "/life_record_page")
 	public String life_record_page(HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-		if (!studentService.is_member(student_id)) {
-			session.setAttribute("message", "2");
-			return "stu/info_page";
-		}
+
 		String total_time = studentService.attendance_total_time(student_id);
 		String total_duration = studentService.attendance_total_duration(student_id);
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
@@ -412,8 +409,10 @@ public class StudentController {
 				}
 			}
 		}
-		System.out.println(temp);
+		Student student = (Student) session.getAttribute("student");
 		session.setAttribute("content", temp);
+		if (student.getStudent_status() == 2)
+			session.setAttribute("content", "<center><p>您当前的政治面貌暂无可参与活动</p></center>");
 		session.setAttribute("total_time", total_time);
 		session.setAttribute("total_duration", total_duration);
 		session.setAttribute("branch_name", branch_name);
@@ -424,9 +423,7 @@ public class StudentController {
 	@RequestMapping(value = "/view_activity_page")
 	public String view_activity_page(HttpSession session) {
 		String student_id = ((Student) session.getAttribute("student")).getStudent_id();
-		if (!studentService.is_member(student_id)) {
-			return "stu/no_permission";
-		}
+
 		session.setAttribute("message", "");
 		ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
@@ -459,8 +456,14 @@ public class StudentController {
 				}
 			}
 		}
-		System.out.println(temp);
+		if (temp == null || temp == "") {
+			temp = "<center><p>当前暂无可参加活动</p></center>";
+		}
 		session.setAttribute("content", temp);
+		Student student = (Student) session.getAttribute("student");
+		if (student.getStudent_status() == 2) {
+			session.setAttribute("content", "<center><p>您当前的政治面貌暂无可参与活动</p></center>");
+		}
 		return "stu/view_activity_page";
 	}
 
@@ -591,7 +594,7 @@ public class StudentController {
 				}
 			}
 			String newFileName = student_id + "_" + material_type_id + ".pdf";
-			String filePath = "C:\\mis\\data"  + "upload_join_material\\";
+			String filePath = "C:\\mis\\data" + "upload_join_material\\";
 			File dir = new File(filePath);
 			if (!dir.exists()) {
 				dir.mkdir();
@@ -653,10 +656,7 @@ public class StudentController {
 		Student student = (Student) session.getAttribute("student");
 		String student_id = student.getStudent_id();
 		String student_num = student.getStudent_num();
-		if (!studentService.is_member(student_id)) {
-			session.setAttribute("message", "2");
-			return "stu/info_page";
-		}
+
 		String total_time = studentService.attendance_total_time(student_id);
 		String total_duration = studentService.attendance_total_duration(student_id);
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
@@ -667,7 +667,7 @@ public class StudentController {
 		if (total_activity_time_all == 0) {
 			absent_percent = 0;
 		} else {
-			absent_percent = total_attendance_time / total_activity_time_all * 100;
+			absent_percent = total_attendance_time * 100.0 / total_activity_time_all;
 		}
 		int test_total_time = studentService.select_test_total_time(student_num);
 		int test_total_time_all = studentService.select_test_total_time_all(student_num);
@@ -677,12 +677,12 @@ public class StudentController {
 		if (test_total_time_all == 0) {
 			test_percent = 0;
 		} else {
-			test_percent = test_total_time / test_total_time_all * 100;
+			test_percent = test_total_time * 100.0 / test_total_time_all;
 		}
 		if (test_total_time == 0) {
 			score_percent = 0;
 		} else {
-			score_percent = test_total_correct / test_total_time * 100;
+			score_percent = test_total_correct * 100.0 / test_total_time;
 		}
 		String temp = "";
 		String start = "<div class=\"row\">";
@@ -726,6 +726,8 @@ public class StudentController {
 			}
 		}
 		session.setAttribute("content", temp);
+		if (student.getStudent_status() == 2)
+			session.setAttribute("content", "<center><p>您当前的政治面貌暂无可参与活动</p></center>");
 		session.setAttribute("absent_percent", absent_percent);
 		session.setAttribute("test_total_time", test_total_time);
 		session.setAttribute("test_percent", test_percent);

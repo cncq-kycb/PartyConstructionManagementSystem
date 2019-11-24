@@ -161,7 +161,7 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm"
-								action="manageBranchPageFinder" method="post">
+								action="/mis/admin/manageBranchPageFinder" method="post">
 
 								<div class="cxbottom">
 									<center>

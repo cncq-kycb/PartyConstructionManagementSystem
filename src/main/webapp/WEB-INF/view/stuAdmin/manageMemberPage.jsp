@@ -86,7 +86,7 @@ table tr th {
 				<div class="title">
 					<p>欢迎您：</p>
 					
-					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${my_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
@@ -226,7 +226,7 @@ table tr th {
 							<ul class="pagination">
 								<c:if test="${pageInfo.hasPreviousPage}">
 									<li class="page-item"><a class="page-link"
-										href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum -1}"
+										href="/mis/stuAdmin/manageMemberPage?pn=${pageInfo.pageNum -1}"
 										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 									</a></li>
 								</c:if>
@@ -236,12 +236,12 @@ table tr th {
 									</c:if>
 									<c:if test="${pageNum != pageInfo.pageNum }">
 										<li class="page-item"><a class="page-link"
-											href="/mis/stu/activity_record_page?pn=${pageNum }">${pageNum }</a></li>
+											href="/mis/stuAdmin/manageMemberPage?pn=${pageNum }">${pageNum }</a></li>
 									</c:if>
 								</c:forEach>
 								<c:if test="${pageInfo.hasNextPage}">
 									<li class="page-item"><a class="page-link"
-										href="/mis/stu/activity_record_page?pn=${pageInfo.pageNum +1}"
+										href="/mis/stuAdmin/manageMemberPage?pn=${pageInfo.pageNum +1}"
 										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 									</a></li>
 								</c:if>
@@ -289,7 +289,7 @@ table tr th {
 							type="text" name="student_gender_check">
 					</div>
 					<div class="modal-body">
-						所属级别： <input id="student_status_check" style="border: none;"
+						政治面貌： <input id="student_status_check" style="border: none;"
 							type="text" name="student_status_check" readonly>
 					</div>
 					<div class="modal-body">

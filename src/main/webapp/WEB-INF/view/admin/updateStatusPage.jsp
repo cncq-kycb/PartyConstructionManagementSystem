@@ -288,7 +288,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateLevelForm" id="updateLevelForm"
-					action="updateLevel" method="post" class="form-validate">
+					action="/mis/admin/updateLevel" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_check"
 							style="border: none;" type="text" name="student_num_check"
@@ -327,7 +327,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="checkForm" id="checkForm" target="_blank"
-					action="checkMaterialPage" method="post" class="form-validate">
+					action="/mis/admin/checkMaterialPage" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_ensure"
 							style="border: none;" type="text" name="student_num_ensure"
@@ -366,7 +366,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="activityForm" id="activityForm" target="_blank"
-					action="stuActivityPage" method="post" class="form-validate">
+					action="/mis/admin/stuActivityPage" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input
 							id="student_num_activity"
@@ -405,7 +405,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="resultForm" id="resultForm" target="_blank"
-					action="resultPage" method="post" class="form-validate">
+					action="/mis/admin/resultPage" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input
 							id="student_num_result"

@@ -135,5 +135,12 @@
 		from test_view_all
 		where test_name = #{test_name}
 	</select>
+	
+		<select id="select_Test_all"
+		resultType="cn.edu.cqu.Model.Test">
+		select *
+		from test
+		order by test_date_end desc
+	</select>
 
 </mapper>

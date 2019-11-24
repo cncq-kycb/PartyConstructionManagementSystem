@@ -78,7 +78,7 @@ table tr th {
 				<div class="title">
 					<p>欢迎您：</p>
 					
-					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${my_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
@@ -129,36 +129,7 @@ table tr th {
 								<h1>&ensp;</h1>
 							</center>
 						</div>
-						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm "
-								action="resultByTestPageFinder" method="post">
-
-								<div class="tableWrap">
-									<table width="100%" class="table table-hover table-bordered"
-										id="Tables" data-toggle="table" data-toggle="table"
-										data-pagination="true" data-side-pagination="client">
-										<tr>
-											<th>竞答名称：</th>
-											<td><input type="text" placeholder="精确查找，完整的竞答名称"
-												value="${test_name_input}" class="form-control"
-												style="border-radius: 3px; height: 30px" id="test_name_input"
-												name="test_name_input"></td>
-											<th>竞答日期：</th>
-											<td><input type="text" placeholder="精确查找，YYYY-MM-DD"
-												value="${test_date_input}" class="form-control"
-												style="border-radius: 3px; height: 30px" id="test_date_input"
-												name="test_date_input"></td>
-										</tr>
-									</table>
-									<div class="cxbottom">
-										<center>
-											<button type="submit">查 询</button>
-											<a id="dlink" style="display: none;"></a> <input id="button"
-												type="button" value="导出为Excel表格">
-										</center>
-									</div>
-							</Form>
-						</div>
+	
 					</blockquote>
 					<blockquote class="layui-elem-quote">
 						<div class="cxbottom">
@@ -170,7 +141,7 @@ table tr th {
 						<div class="panel-body" style="padding-bottom: 0px;">
 
 							<center>
-								<h2>${test_date}${test_name}竞答结果统计表</h2>
+								<h2>试卷列表</h2>
 
 								<h3>&ensp;</h3>
 								<div class="cxbottom"></div>
@@ -183,46 +154,31 @@ table tr th {
 						<table class="table table-hover table-bordered" id="table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client" style="border: 1px solid black">
-							<caption>${test_date}${test_name}竞答结果统计表</caption>
 
 							<thead>
 								<tr>
-									<th>竞答名称</th>
-									<td>${test_name}</td>
-									<th>竞答日期</th>
-									<td>${test_date_start}</td>
-									<th>竞答总分</th>
-									<td>${total_score}</td>
-								</tr>
-								<tr>
-									<th>学号</th>
-									<th>姓名</th>
-									
-									<th>所在支部</th>
-									<th>政治面貌</th>
-									<th>答题日期</th>
-									<th>实际得分</th>
+									<th>试卷编号</th>
+									<th>试卷名称</th>
+									<th>开始时间</th>
+									<th>结束时间</th>
+									<th>操作</th>
 								</tr>
 
 							</thead>
 							<tbody>
-								<c:forEach items="${list}" var="member_list">
+								<c:forEach items="${test_list}" var="member_list">
 									<tr style="height: auto;">
-										<td style="mso-number-format: '\@';">${member_list.student_num }</td>
-										<td>${member_list.student_name}</td>
-										<td>${member_list.branch_name}</td>
-										<td>${member_list.student_status}</td>
-								       <td>${member_list.test_date_end}</td>					
-										<td>${member_list.get_score}</td>
+										<td style="mso-number-format: '\@';">${member_list.test_id }</td>
+										<td>${member_list.test_name}</td>
+										<td>${member_list.test_date_start}</td>
+										<td>${member_list.test_date_end}</td>
+										<td>
+											<button class="btn btn-info btn-sm"
+												onclick="updateMemberModal(this)" data-toggle="modal">查看试卷结果</button>
+										</td>
 									</tr>
 								</c:forEach>
-
 							</tbody>
-							<tr>
-								<th rowspan="1" colspan="4"></th>
-								<th>总答题人数</th>
-								<td>${member_list.length}</td>
-							</tr>
 						</table>
 					</div>
 					<div class="cxbottom">
@@ -235,7 +191,33 @@ table tr th {
 			</div>
 		</div>
 	</div>
+<div class="modal fade" id="updateMemberModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">确定查看该试卷结果吗？</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="updateMemberForm" id="updateMemberForm"
+					action="/mis/stuAdmin/resultByTestPageFinder"
+					method="post" class="form-validate">
 
+					<div class="modal-body">
+						试卷名称： <input id="test_name_input" style="border: none;"
+							type="text" name="test_name_input" readonly>
+					</div>
+
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确 定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery/jquery.min.js"></script>
 	<script
@@ -249,35 +231,18 @@ table tr th {
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
-	<script type="text/javascript">
-	var tableToExcel = (function() {
-        var uri = 'data:application/vnd.ms-excel;base64,',
-            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
-            base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
-            format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) };
-        return function(table, name, filename) {
-            if (!table.nodeType) table = document.getElementById(table);
-            console.log(table.innerHTML)
-            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }//此时的innerHTML数据可以自己自定义 比如json转化 只要值要数据符合即可
-
-            document.getElementById("dlink").href = uri + base64(format(template, ctx));
-            document.getElementById("dlink").download = filename;
-            document.getElementById("dlink").click();
-        }
-    });
-	 var disName = "<%=session.getAttribute("test_date")%>";
-	    var avtivytiName = "<%=session.getAttribute("test_name")%>";
-		var disLength = disName.length;
-		var year = disName.substring(0, 4);
-		var month = disName.substring(5, 7);
-		var day = disName.substring(8, 10);
-		var id = "table", worksheetName = 'sheet', workName = year + "年"
-				+ month + "月" + day + "日“" + avtivytiName + "”-" + "结果统计表.xls";
-		document.getElementById('button').onclick = function() {
-			var download = tableToExcel();
-			download(id, worksheetName, workName)
-		};
+	<script>
+		function updateMemberModal(obj) {
+			$("#updateMemberModal").modal('show');
+			var $td = $(obj).parents('tr').children('td');
+			var student_name_check = $td.eq(1).text();
+	
+			$("#test_name_input").val(student_name_check);
+			
+		}
 	</script>
+
+
 
 
 </body>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
+import cn.edu.cqu.Model.Test;
 import cn.edu.cqu.Model.ActivityStatusMap;
 import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.Question;
@@ -132,5 +133,9 @@ public interface AdminService {
 	int select_test_total_correct(String student_num);
 
 	ArrayList<vTest> select_vTest_by_test_name(String test_name);
+	
+	ArrayList<Test> select_Test_all();
+
+	ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num_for_admin(String student_id);
 
 }

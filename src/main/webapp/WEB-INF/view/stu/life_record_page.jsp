@@ -19,7 +19,33 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/owl.theme.default.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/Edugo/css/style.css">
 
-
+<style>
+/* Red border */
+hr.new1 {
+  border-top: 1px solid red;
+}
+ 
+/* Dashed red border */
+hr.new2 {
+  border-top: 1px dashed red;
+}
+ 
+/* Dotted red border */
+hr.new3 {
+  border-top: 1px dotted red;
+}
+ 
+/* Thick red border */
+hr.new4 {
+  border: 1px solid red;
+}
+ 
+/* Large rounded green border */
+hr.new5 {
+  border: 10px solid green;
+  border-radius: 5px;
+}
+</style>
 </head>
 <body>
 	<script type="text/javascript">
@@ -106,7 +132,11 @@
 		</div>
 	</div>
 	<!-- end counter -->
-				
+				<h1>&ensp;</h1>	<h1>&ensp;</h1>
+				<h4>&ensp;&ensp;&ensp;活动参与情况</h4>
+
+<hr class="new4">
+
 				<div class="pricing-table segments-page">
 		<div class="container">
 			${content}
@@ -114,6 +144,7 @@
 	</div>
 
 	
+				<h4>&ensp;&ensp;</h4>
 	
 
 

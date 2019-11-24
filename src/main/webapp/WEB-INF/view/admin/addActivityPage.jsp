@@ -155,7 +155,7 @@ div {
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm "
+							<form class="form-horizontal" name="inputForm "  id="inputForm"
 								action="/mis/admin/insertActivity"
 								 method="post">
 

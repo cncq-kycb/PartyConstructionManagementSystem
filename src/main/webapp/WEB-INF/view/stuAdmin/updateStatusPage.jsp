@@ -89,7 +89,7 @@ table tr th {
 				<div class="title">
 					<p>欢迎您：</p>
 					
-					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${my_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
@@ -143,7 +143,8 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="/mis/stuAdmin/distributionPageFinder" method="post">
+								
+="/mis/stuAdmin/distributionPageFinder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
@@ -176,10 +177,10 @@ table tr th {
 												style="border-radius: 3px; height: 30px"
 												id="student_name_input" name="student_name_input"></td>
 											<th>所在支部：</th>
-											<td><input type="text"
-												value="${my_branch_name}" 
-												style="border:none; height: 30px"
-												id="branch_name_input" name="branch_name_input" readonly></td>
+											<td><input type="text" placeholder="模糊查询，所在支部名称中的一部分即可"
+												value="${branch_name_input}" class="form-control"
+												style="border-radius: 3px; height: 30px"
+												id="branch_name_input" name="branch_name_input"></td>
 										</tr>
 									</table>
 									<div class="cxbottom">

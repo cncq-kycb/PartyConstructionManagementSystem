@@ -21,6 +21,7 @@ import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
+import cn.edu.cqu.Model.Test;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAttendance;
 import cn.edu.cqu.Model.vStudent;
@@ -537,4 +538,15 @@ public class AdminServiceImpl implements AdminService {
 		return testMapper.select_vTest_by_test_name(test_name);
 	}
 
+	@Override
+	public ArrayList<Test> select_Test_all() {
+		// TODO Auto-generated method stub
+		return testMapper.select_Test_all();
+	}
+
+	@Override
+	public ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num_for_admin(String student_id) {
+		// TODO Auto-generated method stub
+		return applyMapper.select_vStudentMaterial_by_student_num_for_admin(student_id);
+	}
 }

@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 				Student student = userMapper.select_student_by_account(user.getUser_account());
 				session.setAttribute("student_name", student.getStudent_name());
 				session.setAttribute("student", student);
+				session.setAttribute("my_name", student.getStudent_name());
 				session.setAttribute("my_branch_id", student.getBranch_id());
 				session.setAttribute("my_branch_name",branchMapper.select_name_by_id(student.getBranch_id()) );
 				return 2;

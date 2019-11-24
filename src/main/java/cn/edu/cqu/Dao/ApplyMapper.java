@@ -24,6 +24,8 @@ public interface ApplyMapper {
 
 	ArrayList<vStudentMaterial> stu_select_vStudentMaterial_by_student_id_all(String student_id);
 
+	ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num_for_admin(String student_id);
+
 	void update_student_status_material_offline(@Param("material_type_id") String material_type_id,
 			@Param("student_id") String student_id);
 

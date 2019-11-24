@@ -49,10 +49,10 @@ table tr th {
 
 		var msg = "${message}";
 		if (msg == "1") {
-			alert('无此学生任何答题信息');
+			alert('党员信息修改成功');
 		}
 		if (msg == "2") {
-			alert('必须输入学生学号');
+			alert('党员信息修改失败');
 		}
 	</script>
 	<div class="page">
@@ -93,11 +93,12 @@ table tr th {
 				<li><a href="/mis/admin/authorityPage"> <i
 						class="icon-list-1"></i>权限管理
 				</a></li>
-				<li><a href="#memberManager" aria-expanded="false"
-					data-toggle="collapse"> <i class="icon-user"></i>成员管理
+				<li ><a href="#memberManager"
+					aria-expanded="false" data-toggle="collapse"> <i
+						class="icon-user"></i>成员管理
 				</a>
 					<ul id="memberManager" class="collapse list-unstyled ">
-						<li><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
+						<li class="active"><a href="/mis/admin/manageMemberPage">成员信息管理</a></li>
 						<li><a href="/mis/admin/updateStatusPage">成员政治面貌管理</a></li>
 					</ul></li>
 				<li><a href="#branchManager" aria-expanded="false"
@@ -129,9 +130,8 @@ table tr th {
 				<li><a href="/mis/admin/editCompetitionPage"> <i
 						class="icon-padnote"></i>知识竞答编辑
 				</a></li>
-				<li class="active"><a href="#competitionResult"
-					aria-expanded="false" data-toggle="collapse"> <i
-						class="icon-line-chart"></i>竞答结果统计
+				<li><a href="#competitionResult" aria-expanded="false"
+					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
 						<li><a href="/mis/admin/resultByTestPage">按竞答查询</a></li>
@@ -140,6 +140,7 @@ table tr th {
 			</ul>
 			</nav>
 			<div class="content-inner">
+
 				<div style="margin: 0px; background-color: white; margin: 0 10px;">
 					<blockquote class="layui-elem-quote">
 						<div class="cxbottom">
@@ -149,99 +150,115 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="resultByStudentPageFinder" method="post">
+								action="/mis/admin/sbFinder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
-										id="Tables" data-toggle="table" data-toggle="table"
+										id="Table" data-toggle="table" data-toggle="table"
 										data-pagination="true" data-side-pagination="client">
 										<tr>
-											<th>学号：</th>
-											<td><input type="text" placeholder="精确查找，完整的学号"
-												value="${student_num_input}" class="form-control"
+											<th width="12%">学号：</th>
+											<td width="21%">
+												<div class="" id="data_5">
+													<div class="input-daterange input-group" id="datepicker">
+														<input type="text" value="${student_num_input}"
+															class="form-control"
+															style="border-radius: 3px; height: 30px"
+															id="student_num_input" name="student_num_input"></input>
+													</div>
+												</div>
+											</td>
+											<th width="12%">政治面貌：</th>
+											<td width="21%"><select name="student_status_input"
+												id="student_status_input">
+													<c:forEach var="ssm" items="${ssm}">
+														<option>${ssm.means }</option>
+													</c:forEach>
+											</select></td>
+										</tr>
+										<tr>
+											<th>姓名：</th>
+											<td><input type="text" placeholder="模糊查询，姓名中的一部分即可"
+												value="${student_name_input}" class="form-control"
 												style="border-radius: 3px; height: 30px"
-												id="student_num_input" name="student_num_input"></td>
+												id="student_name_input" name="student_name_input"></td>
+											<th>所在支部：</th>
+											<td><input type="text" placeholder="模糊查询，所在支部名称中的一部分即可"
+												value="${branch_name_input}" class="form-control"
+												style="border-radius: 3px; height: 30px"
+												id="branch_name_input" name="branch_name_input"></td>
 										</tr>
 									</table>
 									<div class="cxbottom">
 										<center>
 											<button type="submit">查 询</button>
-											<a id="dlink" style="display: none;"></a> <input id="button"
-												type="button" value="导出为Excel表格">
 										</center>
 									</div>
 							</Form>
 						</div>
 					</blockquote>
-					<blockquote class="layui-elem-quote">
-						<div class="cxbottom">
-							<center>
-								<h1>&ensp;</h1>
-							</center>
-						</div>
-
-						<div class="panel-body" style="padding-bottom: 0px;">
-
-							<center>
-								<h2>${student_num}-${student_name}-每日竞答结果统计表</h2>
-
-								<h3>&ensp;</h3>
-								<div class="cxbottom"></div>
-							</center>
-
-						</div>
-					</blockquote>
 					<div id="content" style="width: 100%; height: 533px;">
-
-						<table class="table table-hover table-bordered" id="table"
+						<table class="table table-hover table-bordered" id="Table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
-							data-side-pagination="client" style="border: 1px solid black">
-							<caption>${student_num}-${student_name}-每日竞答结果统计表</caption>
-
+							data-side-pagination="client">
 							<thead>
 								<tr>
-									<th>姓名</th>
-									<td>${student_name}</td>
 									<th>学号</th>
-									<td style="mso-number-format: '\@';">${student_num}</td>
-								</tr>
-								<tr>
-									<th>所在支部</th>
-									<td>${branch_name}</td>
+									<th>姓名</th>
+									<th>性别</th>
 									<th>政治面貌</th>
-									<td>${student_status}</td>
-
+									<th>所在支部</th>
+									<th>手机号码</th>
+									<th>电子邮箱</th>
+									<th>操作</th>
 								</tr>
-								<tr>
-									<th>试卷名称</th>
-									<th>完成时间</th>
-									<th>试卷总分</th>
-									<th>实际得分</th>
-								</tr>
-
 							</thead>
 							<tbody>
-								<c:forEach items="${list}" var="test_list">
+								<c:forEach var="member_list" items="${pageInfo.list}">
 									<tr style="height: auto;">
-										<td>${test_list.test_name }</td>
-										<td>${test_list.answer_date}</td>
-										<td>${test_list.total_num}</td>
-										<td>${test_list.correct_num}</td>
+										<td>${member_list.student_num }</td>
+										<td>${member_list.student_name}</td>
+										<td>${member_list.student_gender}</td>
+										<td>${member_list.student_status}</td>
+										<td>${member_list.branch_name}</td>
+										<td>${member_list.student_tel}</td>
+										<td>${member_list.student_email}</td>
+										<td>
+											<button class="btn btn-warning btn-sm"
+												onclick="updateMemberModal(this)" data-toggle="modal">查看竞答结果</button>
+										</td>
 									</tr>
 								</c:forEach>
-
 							</tbody>
-							<tr>
-								<th rowspan="2" colspan="2"></th>
-								<th>总答题次数</th>
-								<td>${total_time}</td>
-							</tr>
-							<tr>
-								<th>得分率</th>
-								<td>${score_percent}%</td>
-							</tr>
 						</table>
 					</div>
+					<center>
+						<div class="col-sm-4 offset-sm-5">
+							<ul class="pagination">
+								<c:if test="${pageInfo.hasPreviousPage}">
+									<li class="page-item"><a class="page-link"
+										href="/mis/admin/resultByStudentPage?pn=${pageInfo.pageNum -1}"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									</a></li>
+								</c:if>
+								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
+									<c:if test="${pageNum == pageInfo.pageNum }">
+										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
+									</c:if>
+									<c:if test="${pageNum != pageInfo.pageNum }">
+										<li class="page-item"><a class="page-link"
+											href="/mis/admin/resultByStudentPage?pn=${pageNum }">${pageNum }</a></li>
+									</c:if>
+								</c:forEach>
+								<c:if test="${pageInfo.hasNextPage}">
+									<li class="page-item"><a class="page-link"
+										href="/mis/admin/resultByStudentPage?pn=${pageInfo.pageNum +1}"
+										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									</a></li>
+								</c:if>
+							</ul>
+						</div>
+					</center>
 					<div class="cxbottom">
 						<center>
 							<h1>&ensp;</h1>
@@ -255,7 +272,57 @@ table tr th {
 			</div>
 		</div>
 	</div>
-
+	<div class="modal fade" id="updateMemberModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">查看竞答记录</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form name="updateMemberForm" id="updateMemberForm"
+					action="/mis/admin/resultByStudentPageFinder"
+					method="post" class="form-validate">
+					<div class="modal-body">
+						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_check"
+							style="border: none;" type="text" name="student_num_check"
+							readonly>
+					</div>
+					<div class="modal-body">
+						姓&ensp;&ensp;&ensp;&ensp;名： <input id="student_name_check"
+							type="text" name="student_name_check" style="border: none;" readonly>
+					</div>
+					<div class="modal-body">
+						性&ensp;&ensp;&ensp;&ensp;别： <input id="student_gender_check"
+							type="text" name="student_gender_check" style="border: none;" readonly>
+					</div>
+					<div class="modal-body">
+						政治面貌： <input id="student_status_check" style="border: none;"
+							type="text" name="student_status_check" readonly>
+					</div>
+					<div class="modal-body">
+						所在支部： <input id="branch_name_check" style="border: none;"
+							type="text" name="branch_name_check" readonly>
+					</div>
+					<div class="modal-body">
+						手机号码：<input id="student_tel_check" type="text"
+							name="student_tel_check" style="border: none;" readonly>
+					</div>
+					<div class="modal-body">
+						电子邮箱：<input id="student_email_check" type="text"
+							name="student_email_check" style="border: none;" readonly>
+					</div>
+					<div class="modal-footer"></div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确 定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery/jquery.min.js"></script>
 	<script
@@ -269,31 +336,25 @@ table tr th {
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
-	<script type="text/javascript">
-	var tableToExcel = (function() {
-        var uri = 'data:application/vnd.ms-excel;base64,',
-            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
-            base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
-            format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) };
-        return function(table, name, filename) {
-            if (!table.nodeType) table = document.getElementById(table);
-            console.log(table.innerHTML)
-            var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }//此时的innerHTML数据可以自己自定义 比如json转化 只要值要数据符合即可
-
-            document.getElementById("dlink").href = uri + base64(format(template, ctx));
-            document.getElementById("dlink").download = filename;
-            document.getElementById("dlink").click();
-        }
-    });
-    var student_num = "<%=session.getAttribute("student_num")%>";
-    var student_name = "<%=session.getAttribute("student_name")%>
-		";
-		var id = "table", worksheetName = 'sheet', workName = student_num
-				+ "-" + student_name + "-" + "每日竞答结果统计表.xls";
-		document.getElementById('button').onclick = function() {
-			var download = tableToExcel();
-			download(id, worksheetName, workName)
-		};
+	<script>
+		function updateMemberModal(obj) {
+			$("#updateMemberModal").modal('show');
+			var $td = $(obj).parents('tr').children('td');
+			var student_num_check = $td.eq(0).text();
+			var student_name_check = $td.eq(1).text();
+			var student_gender_check = $td.eq(2).text();
+			var student_status_check = $td.eq(3).text();
+			var branch_name_check = $td.eq(4).text();
+			var student_tel_check = $td.eq(5).text();
+			var student_email_check = $td.eq(6).text();
+			$("#student_num_check").val(student_num_check);
+			$("#student_name_check").val(student_name_check);
+			$("#student_gender_check").val(student_gender_check);
+			$("#student_status_check").val(student_status_check);
+			$("#branch_name_check").val(branch_name_check);
+			$("#student_tel_check").val(student_tel_check);
+			$("#student_email_check").val(student_email_check);
+		}
 	</script>
 
 

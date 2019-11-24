@@ -45,6 +45,17 @@
 		material_type_id
 	</select>
 
+	<select id="select_vStudentMaterial_by_student_num_for_admin"
+		resultType="cn.edu.cqu.Model.vStudentMaterial">
+		select *
+		from student_status_material_view
+		where
+		student_id =
+		#{student_id} and student_status >= student_status_limite
+		order by
+		material_type_id
+	</select>
+
 	<insert id="insert_material">
 		insert into
 		student_status_material(student_id,material_type_id) values

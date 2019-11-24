@@ -89,7 +89,7 @@
 		select *
 		from attendance_view
 		where student_id =
-		#{student_id} and attendance_status = '待签到'
+		#{student_id} and attendance_status = '待签到' and activity_status = 2
 	</select>
 
 	<update id="add_pic_for_attendance"
@@ -154,7 +154,8 @@
 		select
 		sum(activity_duration)
 		from attendance_view
-		where student_id = #{student_id}
+		where student_id =
+		#{student_id}
 		and attendance_status = '已签到'
 	</select>
 

@@ -259,7 +259,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateQuestionForm" id="updateQuestionForm"
-					action="updateQuestion" method="post" class="form-validate">
+					action="/mis/admin/updateQuestion" method="post" class="form-validate">
 					<div class="modal-body">
 						题目： <input id="question_problem_check" type="text"
 							name="question_problem_check">
@@ -313,7 +313,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="insertQuestionForm" id="insertQuestionForm"
-					action="insertQuestion" method="post" class="form-validate">
+					action="/mis/admin/insertQuestion" method="post" class="form-validate">
 					<div class="modal-body">
 						题目： <input id="qustion_problem_new" type="text"
 							name="qustion_problem_new">
@@ -358,7 +358,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="deleteQuestionForm" id="deleteQuestionForm"
-					action="deleteQuestion" method="post" class="form-validate">
+					action="/mis/admin/deleteQuestion" method="post" class="form-validate">
 					<div class="modal-body">
 						移除题目编号： <input id="question_id_delete" type="text"
 							name="question_id_delete" readonly>
@@ -382,7 +382,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="aotoCreateForm" id="aotoCreateForm"
-					action="aotoCreateTest" method="post" class="form-validate">
+					action="/mis/admin/aotoCreateTest" method="post" class="form-validate">
 					<div class="modal-body">
 						题目个数： <input id="qustion_list_length" type="text"
 							name="qustion_list_length">
@@ -416,7 +416,7 @@ table tr th {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form name="createForm" id="createForm" action="createTest"
+				<form name="createForm" id="createForm" action="/mis/admin/createTest"
 					method="post" class="form-validate">
 					<div class="modal-body">
 						试卷名称： <input id="test_name" type="text" name="test_name">

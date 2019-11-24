@@ -151,7 +151,7 @@
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm"
+							<form class="form-horizontal" name="inputForm" id="inputForm"
 								action="/mis/admin/insertStudy"
 								method="post">
 								<div class="layui-form-item">
@@ -234,13 +234,12 @@
 	function validateForm() {
 		var study_status = document.forms["inputForm"]["study_status"].value;
 		var study_title = document.forms["inputForm"]["study_title"].value;
-		if (study_status == null
-				|| study_status == ""|| study_title == null
-				|| study_title ) {
-			alert("所有内容都必须填写!");
+		if ( study_title == null || study_title =="") {
+			alert("推文题目不能为空");
 			return false;
 		}
 	}
+
 </script>
 
 

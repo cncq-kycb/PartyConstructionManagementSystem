@@ -149,7 +149,7 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="addMemberPageFinder" method="post">
+								action="/mis/admin/addMemberPageFinder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
@@ -261,7 +261,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateMemberForm" id="updateMemberForm"
-					action="addMember" method="post" class="form-validate">
+					action="/mis/admin/addMember" method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：&ensp;&ensp;<input
 							id="student_num_check" style="border: none;" type="text"

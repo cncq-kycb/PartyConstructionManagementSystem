@@ -86,7 +86,7 @@ table tr th {
 				<div class="title">
 					<p>欢迎您：</p>
 					
-					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${my_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
@@ -139,8 +139,8 @@ table tr th {
 							</center>
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
-							<form class="form-horizontal" name="inputForm "
-								action="manageStudyPageFinder" onsubmit="return validateForm()"
+							<form class="form-horizontal" name="inputForm "  id="inputForm"
+								action="/mis/stuAdmin/manageStudyPageFinder" onsubmit="return validateForm()"
 								method="post">
 
 								<div class="tableWrap">

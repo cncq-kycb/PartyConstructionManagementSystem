@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import cn.edu.cqu.Model.Question;
+import cn.edu.cqu.Model.Test;
 import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vTest;
 
@@ -51,5 +52,7 @@ public interface TestMapper {
 	Integer select_test_total_time(String student_num);
 
 	ArrayList<vTest> select_vTest_by_test_name(String test_name);
+
+	ArrayList<Test> select_Test_all();
 
 }

@@ -25,6 +25,7 @@ import cn.edu.cqu.Model.StudentPermissionMap;
 import cn.edu.cqu.Model.StudentStatusMap;
 import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
+import cn.edu.cqu.Model.Test;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vAnswer;
 import cn.edu.cqu.Model.vAttendance;
@@ -66,6 +67,24 @@ public class AdminController {
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
 		return "admin/manageMemberPage";
+	}
+
+	// 模糊查询
+	@RequestMapping(value = "/sbFinder")
+	public String sbFinder(String student_num_input, String student_name_input, String student_status_input,
+			String branch_name_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+		ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
+				student_status_input, branch_name_input);
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		session.setAttribute("pageInfo", pageInfo);
+		session.setAttribute("student_num_input", student_num_input);
+		session.setAttribute("student_name_input", student_name_input);
+		session.setAttribute("student_status_input", student_status_input);
+		session.setAttribute("branch_name_input", branch_name_input);
+		session.setAttribute("ssm", ssm);
+		session.setAttribute("message", "");
+		return "admin/resultByStudentPage";
 	}
 
 	// 修改信息
@@ -129,7 +148,7 @@ public class AdminController {
 			String branch_name_ensure, HttpSession session) {
 		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_ensure);
 		ArrayList<vStudentMaterial> vStudentMaterials = adminService
-				.select_vStudentMaterial_by_student_num_all(vstudent.getStudent_id());
+				.select_vStudentMaterial_by_student_num_for_admin(vstudent.getStudent_id());
 		for (vStudentMaterial v : vStudentMaterials) {
 			if (v.getMaterial_url().equals("无")) {
 				v.setMaterial_url(null);
@@ -183,7 +202,7 @@ public class AdminController {
 		if (total_time == 0) {
 			score_percent = 0;
 		} else {
-			score_percent = total_correct / total_time * 100;
+			score_percent = total_correct * 100.0 / total_time;
 		}
 		session.setAttribute("test_list", test_list);
 		session.setAttribute("score_percent", score_percent);
@@ -911,20 +930,14 @@ public class AdminController {
 	// 知识竞答结果页面
 	@RequestMapping(value = "/resultByTestPage")
 	public String resultByTestPage(HttpSession session) {
-		session.setAttribute("list", "");
-		session.setAttribute("score_percent", "");
-		session.setAttribute("total_time", "");
-		session.setAttribute("student_name", "");
-		session.setAttribute("student_num", "");
-		session.setAttribute("branch_name", "");
-		session.setAttribute("student_status", "");
-		session.setAttribute("message", "");
+		ArrayList<Test> Tests = adminService.select_Test_all();
+		session.setAttribute("test_list", Tests);
 		return "admin/resultByTestPage";
 	}
 
 	// 按答题名查询
 	@RequestMapping(value = "/resultByTestPageFinder")
-	public String resultByTestPageFinder(String test_name_input, String test_date_input, HttpSession session) {
+	public String resultByTestPageFinder(String test_name_input, HttpSession session) {
 		ArrayList<vTest> vTests = adminService.select_vTest_by_test_name(test_name_input);
 		int total_num = 0;
 		for (vTest v : vTests) {
@@ -938,9 +951,9 @@ public class AdminController {
 		session.setAttribute("total_num", total_num);
 		session.setAttribute("member_list", vTests);
 		session.setAttribute("length", length);
-		session.setAttribute("test_date", test_name_input);
+		session.setAttribute("test_name_input", test_name_input);
 		session.setAttribute("branch_name", "");
-		return "admin/resultByTestPage";
+		return "admin/resultByTestPage2";
 	}
 
 	// 按学生查询知识竞答结果
@@ -954,19 +967,28 @@ public class AdminController {
 		session.setAttribute("branch_name", "");
 		session.setAttribute("student_status", "");
 		session.setAttribute("message", "");
+		session.setAttribute("student_num_input", "");
+		session.setAttribute("student_name_input", "");
+		session.setAttribute("student_status_input", "");
+		session.setAttribute("branch_name_input", "");
+		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		session.setAttribute("ssm", ssm);
+		session.setAttribute("pageInfo", pageInfo);
 		return "admin/resultByStudentPage";
 	}
 
 	// 知识竞答结果按学生查询
 	@RequestMapping(value = "/resultByStudentPageFinder")
-	public String resultByStudentPageFinder(String student_num_input, HttpSession session) {
-		if (student_num_input == null || student_num_input.equals("")) {
+	public String resultByStudentPageFinder(String student_num_check, HttpSession session) {
+		if (student_num_check == null || student_num_check.equals("")) {
 			session.setAttribute("message", "2");
 			return "admin/resultByStudentPage";
 		}
-		ArrayList<vTest> vTests = adminService.select_vTest(student_num_input);
+		ArrayList<vTest> vTests = adminService.select_vTest(student_num_check);
 		for (vTest v : vTests) {
-			v.setCorrect_num(adminService.select_correct_num_by_student_per_test(student_num_input, v.getTest_id()));
+			v.setCorrect_num(adminService.select_correct_num_by_student_per_test(student_num_check, v.getTest_id()));
 		}
 		if (vTests == null) {
 			session.setAttribute("message", "1");
@@ -981,18 +1003,18 @@ public class AdminController {
 		if (total_num == 0) {
 			score_percent = 0;
 		} else {
-			score_percent = correct_num * 100 / total_num;
+			score_percent = correct_num * 100.0 / total_num;
 		}
-		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_input);
+		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_check);
 		session.setAttribute("list", vTests);
 		session.setAttribute("score_percent", score_percent);
 		session.setAttribute("total_time", vTests.size());
 		session.setAttribute("student_name", vstudent.getStudent_name());
-		session.setAttribute("student_num", student_num_input);
+		session.setAttribute("student_num", student_num_check);
 		session.setAttribute("branch_name", vstudent.getBranch_name());
 		session.setAttribute("student_status", vstudent.getStudent_status());
 		session.setAttribute("message", "");
-		return "admin/resultByStudentPage";
+		return "admin/resultByStudentPage2";
 	}
 
 }

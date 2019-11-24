@@ -197,6 +197,7 @@ public class StudentServiceImpl implements StudentService {
 	public boolean add_pic_for_attendance(String student_id, String activity_id, String attendance_pic) {
 		// TODO Auto-generated method stub
 		try {
+			System.out.println(student_id+" "+activity_id+" "+attendance_pic);
 			attendanceMapper.add_pic_for_attendance(student_id, activity_id, attendance_pic);
 			return true;
 		} catch (Exception e) {

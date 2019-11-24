@@ -283,7 +283,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="activityItemForm" id="activityItemForm" target="_blank"
-					action="activityItemPage" method="post" class="form-validate">
+					action="/mis/admin/activityItemPage" method="post" class="form-validate">
 						<div class="modal-body">
 						活动编号：<input id="activity_id_check" style="border: none;"
 							type="text" name="activity_id_check" readonly>
@@ -324,7 +324,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="signInForm" id="signInForm" target="_blank"
-					action="attendanceCheckPage" method="post" class="form-validate">
+					action="/mis/admin/attendanceCheckPage" method="post" class="form-validate">
 					<div class="modal-body">
 						活动编号：<input id="activity_id_signIn" style="border: none;"
 							type="text" name="activity_id_signIn" readonly>
@@ -369,7 +369,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateStatusForm" id="updateStatusForm" target="_blank"
-					action="updateActivityStatus" method="post" class="form-validate">
+					action="/mis/admin/updateActivityStatus" method="post" class="form-validate">
 					<div class="modal-body">
 						活动编号：<input id="activity_id_update" style="border: none;"
 							type="text" name="activity_id_update" readonly>

@@ -64,7 +64,7 @@
 				<div class="title">
 					<p>欢迎您：</p>
 					
-					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${student_name}</h1>
+					<p>&ensp;</p><h1 class="h4">${my_branch_name}&ensp;${my_name}</h1>
 				</div>
 			</div>
 			<span class="heading">用户管理</span>
