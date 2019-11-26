@@ -23,11 +23,14 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	@Autowired
 	private BranchMapper branchMapper;
-	
+
 	// 用户登录
 	@Override
 	public int login(User user, HttpSession session) {
 		String password = userMapper.select_password_by_account(user.getUser_account());
+		if (password == null) {
+			return 0;
+		}
 		if (password.equals(Utils.security_coding(user.getUser_password()))) {
 			session.setAttribute("user", user);
 			int user_type = userMapper.select_type_by_account(user.getUser_account());
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserService {
 				session.setAttribute("student", student);
 				session.setAttribute("my_name", student.getStudent_name());
 				session.setAttribute("my_branch_id", student.getBranch_id());
-				session.setAttribute("my_branch_name",branchMapper.select_name_by_id(student.getBranch_id()) );
+				session.setAttribute("my_branch_name", branchMapper.select_name_by_id(student.getBranch_id()));
 				return 2;
 //			case 3:
 //				Student admin_student = userMapper.select_student_by_account(user.getUser_account());
@@ -72,11 +75,12 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean permission(String user_account) {
-			if(userMapper.permission(user_account)==2)
+		if (userMapper.permission(user_account) == 2)
 			return true;
-			return false;
+		return false;
 	};
 
 }

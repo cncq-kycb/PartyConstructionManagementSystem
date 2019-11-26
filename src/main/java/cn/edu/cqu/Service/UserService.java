@@ -1,10 +1,7 @@
 package cn.edu.cqu.Service;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
 
-import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.User;
 
 public interface UserService {

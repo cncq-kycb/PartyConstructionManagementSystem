@@ -62,14 +62,14 @@
 											class="label-material">登录密码</label>
 									</div>
 									<button id="login" class="btn btn-primary">登 录</button>
-									
+
 								</form>
 								<a href="/mis/stuadmin">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;>>>学生管理员入口</a>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
 		</div>
 	</div>
 	<script
