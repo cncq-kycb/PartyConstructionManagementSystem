@@ -100,32 +100,28 @@
 
 	<select id="select_test_total_time_all" resultType="Integer">
 		SELECT
-		count(test.test_id)
+		count(
+		* )
 		FROM
-		test ,
-		student_status_record,
-		student
+		test_view_all
 		WHERE
-		test.test_date_start > student_status_record.record_date and
-		student_status_record.student_status = 6 and student.student_num =
-		#{student_num}
-		and student_status_record.student_id =
-		student.student_id
+		student_num = #{student_num}
 	</select>
 
-	<select id="select_test_total_correct" resultType="Integer">
+	<select id="select_answer_num_correct" resultType="Integer">
 		SELECT
-		count(*)
+		sum(correct_num)
 		FROM
 		correct_answer_view
-		where student_num = #{student_num}
+		where student_num =
+		#{student_num}
 	</select>
 
-	<select id="select_test_total_time" resultType="Integer">
+	<select id="select_answer_total_num" resultType="Integer">
 		SELECT
-		count(*)
+		sum(total_num)
 		FROM
-		test_view
+		test_view_all
 		where student_num = #{student_num}
 	</select>
 
@@ -135,12 +131,46 @@
 		from test_view_all
 		where test_name = #{test_name}
 	</select>
-	
-		<select id="select_Test_all"
-		resultType="cn.edu.cqu.Model.Test">
+
+	<select id="select_Test_all" resultType="cn.edu.cqu.Model.Test">
 		select *
 		from test
-		order by test_date_end desc
+		order
+		by test_date_end desc
+	</select>
+
+	<select id="select_count_answered" resultType="Integer">
+		select count(*)
+		from test_view_all
+		where test_id = #{test_id}
+	</select>
+
+	<select id="select_test_num_answerd" resultType="Integer">
+		SELECT
+		count(
+		* )
+		FROM
+		test_view_all
+		WHERE
+		student_num = #{student_num}
+	</select>
+
+	<select id="select_test_num_total" resultType="Integer">
+		SELECT
+		count(
+		test.test_id )
+		FROM
+		test,
+		student_status_record,
+		student
+		WHERE
+		test.test_date_start > student_status_record.record_date
+		AND
+		student_status_record.student_status = 6
+		AND
+		student_status_record.student_id = student.student_id
+		AND
+		student.student_num = #{student_num}
 	</select>
 
 </mapper>

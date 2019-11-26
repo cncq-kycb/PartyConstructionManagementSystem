@@ -9,6 +9,15 @@ public class vTest {
 	private String student_name;
 	private String answer_date;
 	private Integer correct_num;
+	private Integer ydrs;
+
+	public Integer getYdrs() {
+		return ydrs;
+	}
+
+	public void setYdrs(Integer ydrs) {
+		this.ydrs = ydrs;
+	}
 
 	public Integer getTotal_num() {
 		return total_num;

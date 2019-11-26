@@ -13,6 +13,15 @@ public class vStudentMaterial {
 	private String material_date;
 	private String material_url;
 	private String material_type_from;
+	private int student_status_limite;
+
+	public int getStudent_status_limite() {
+		return student_status_limite;
+	}
+
+	public void setStudent_status_limite(int student_status_limite) {
+		this.student_status_limite = student_status_limite;
+	}
 
 	public String getStudent_num() {
 		return student_num;
@@ -100,5 +109,14 @@ public class vStudentMaterial {
 
 	public void setMaterial_type_from(String material_type_from) {
 		this.material_type_from = material_type_from;
+	}
+
+	@Override
+	public String toString() {
+		return "vStudentMaterial [student_num=" + student_num + ", student_name=" + student_name + ", student_status="
+				+ student_status + ", mean=" + mean + ", branch_id=" + branch_id + ", branch_name=" + branch_name
+				+ ", material_type_id=" + material_type_id + ", material_type_name=" + material_type_name
+				+ ", material_date=" + material_date + ", material_url=" + material_url + ", material_type_from="
+				+ material_type_from + ", student_status_limite=" + student_status_limite + "]";
 	}
 }

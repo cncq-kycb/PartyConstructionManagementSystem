@@ -43,16 +43,26 @@ public interface TestMapper {
 
 	ArrayList<vTest> select_vTest(@Param("student_num") String student_num);
 
-	Integer select_vTest_correct_num(@Param("student_num") String student_num, @Param("test_id") String test_id);
-
-	Integer select_test_total_time_all(String student_num);
-
-	Integer select_test_total_correct(String student_num);
-
-	Integer select_test_total_time(String student_num);
-
 	ArrayList<vTest> select_vTest_by_test_name(String test_name);
 
 	ArrayList<Test> select_Test_all();
+
+	Integer select_vTest_correct_num(@Param("student_num") String student_num, @Param("test_id") String test_id);
+
+	//Integer select_test_total_time_all(String student_num);
+
+	// 答对题目题数
+	Integer select_answer_num_correct(String student_num);
+
+	// 答题题目总数
+	Integer select_answer_total_num(String student_num);
+
+	// 已答考试数
+	Integer select_test_num_answerd(String student_num);
+
+	// 应答考试数
+	Integer select_test_num_total(String student_num);
+
+	Integer select_count_answered(String test_id);
 
 }

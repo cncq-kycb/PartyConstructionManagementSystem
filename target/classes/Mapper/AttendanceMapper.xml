@@ -10,7 +10,8 @@
 		FROM
 		attendance_view
 		where
-		attendance_status = '已签到'
+		attendance_status =
+		'已签到'
 		and student_id = #{student_id}
 	</select>
 
@@ -159,4 +160,33 @@
 		and attendance_status = '已签到'
 	</select>
 
+	<select id="select_count_signed_activity" resultType="Integer">
+		select
+		count(*)
+		from attendance
+		where student_id = #{student_id} and
+		attendance_pic is not null and attendance_status = 3
+	</select>
+
+	<select id="select_count_activity_all" resultType="Integer">
+		select
+		count(*)
+		from attendance
+		where student_id = #{student_id}
+	</select>
+
+	<select id="select_count_total_student_num" resultType="Integer">
+		select
+		count(*)
+		from attendance
+		where activity_id = #{activity_id}
+	</select>
+
+	<select id="select_count_signed_in_student_num"
+		resultType="Integer">
+		select
+		count(*)
+		from attendance_view
+		where activity_id = #{activity_id} and attendance_status = '已签到'
+	</select>
 </mapper>

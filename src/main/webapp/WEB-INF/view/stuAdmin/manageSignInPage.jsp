@@ -140,7 +140,7 @@ table tr th {
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
 								action="/mis/stuAdmin/manageSignInPageFinder" method="post">
-								<div class="tableWrap">
+																<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
 										id="Table" data-toggle="table" data-toggle="table"
 										data-pagination="true" data-side-pagination="client">
@@ -196,6 +196,7 @@ table tr th {
 									<th>活动日期</th>
 									<th>活动地点</th>
 									<th>活动状态</th>
+									<th>签到率</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -208,6 +209,7 @@ table tr th {
 										<td>${activity_list.activity_date}</td>
 										<td>${activity_list.activity_location}</td>
 										<td>${activity_list.means}</td>
+										<td>${activity_list.yqdrs}&ensp;/&ensp;${activity_list.hdzrs}</td>
 										<td>
 											<button class="btn btn-success btn-sm"
 												onclick="activityItemModal(this)" data-toggle="modal">查看活动内容</button>
@@ -221,32 +223,27 @@ table tr th {
 							</tbody>
 						</table>
 					</div>
-					<center>
-						<div class="col-sm-4 offset-sm-5">
-							<ul class="pagination">
-								<c:if test="${pageInfo.hasPreviousPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/stuAdmin/manageSignInPage?pn=${pageInfo.pageNum -1}"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-								</c:if>
-								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
-									<c:if test="${pageNum == pageInfo.pageNum }">
-										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
-									</c:if>
-									<c:if test="${pageNum != pageInfo.pageNum }">
-										<li class="page-item"><a class="page-link"
-											href="/mis/stuAdmin/manageSignInPage?pn=${pageNum }">${pageNum }</a></li>
-									</c:if>
-								</c:forEach>
-								<c:if test="${pageInfo.hasNextPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/stuAdmin/manageSignInPage?pn=${pageInfo.pageNum +1}"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
-								</c:if>
-							</ul>
-						</div>
+<center>
+						<li>共<i class="blue">${pageInfo.total}</i>条记录，当前显示第<i
+							class="blue">${pageInfo.pageNum}</i>页， 总<i class="blue">${pageInfo.pages }</i>页
+							<c:if
+								test="${pageInfo.pages !=1 && pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/stuAdmin/manageSignInPageFinder?currentPage=1"><button
+									class="layui-btn layui-btn-normal  layui-btn-sm">首页</button></a> 
+									</c:if> <c:if
+								test="${pageInfo.hasPreviousPage && pageInfo.pageNum!=1}">
+								<a
+									href="${pageContext.request.contextPath}/stuAdmin/manageSignInPageFinder?currentPage=${pageInfo.pageNum-1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">上一页</button></a>
+							</c:if> <c:if test="${pageInfo.hasNextPage && pageInfo.pageNum!=pageInfo.pages }">
+								<a
+									href="${pageContext.request.contextPath}/stuAdmin/manageSignInPageFinder?currentPage=${pageInfo.pageNum+1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">下一页</button></a>
+							</c:if> <c:if
+								test="${pageInfo.pages !=1 && pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/stuAdmin/manageSignInPageFinder?currentPage=${pageInfo.pages}"><button>
+									末页</button></a></c:if> 
+						</li>
 					</center>
 					<div class="cxbottom">
 						<center>

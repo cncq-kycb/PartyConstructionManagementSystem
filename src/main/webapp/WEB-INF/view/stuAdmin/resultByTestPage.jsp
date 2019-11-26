@@ -112,11 +112,11 @@ table tr th {
 				<li><a href="/mis/stuAdmin/editCompetitionPage"> <i
 						class="icon-padnote"></i>竞答编辑
 				</a></li>
-				<li><a href="#competitionResult" aria-expanded="false"
+				<li class="active"><a href="#competitionResult" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
-						<li><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
+						<li class="active"><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
 						<li><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
@@ -149,7 +149,7 @@ table tr th {
 
 						</div>
 					</blockquote>
-					<div id="content" style="width: 100%; height: 533px;">
+					<div id="content" style="width: 100%; height: 100%px;">
 
 						<table class="table table-hover table-bordered" id="table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
@@ -161,6 +161,7 @@ table tr th {
 									<th>试卷名称</th>
 									<th>开始时间</th>
 									<th>结束时间</th>
+									<th>已答人数</th>
 									<th>操作</th>
 								</tr>
 
@@ -172,6 +173,7 @@ table tr th {
 										<td>${member_list.test_name}</td>
 										<td>${member_list.test_date_start}</td>
 										<td>${member_list.test_date_end}</td>
+										<td>${member_list.ydrs}</td>
 										<td>
 											<button class="btn btn-info btn-sm"
 												onclick="updateMemberModal(this)" data-toggle="modal">查看试卷结果</button>

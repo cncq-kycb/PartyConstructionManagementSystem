@@ -10,6 +10,97 @@ public class vStudent {
 	private String student_permission;
 	private String branch_name;
 	private String student_gender;
+	private int yjcls;
+	private int zcls;
+	private double daticanyulv;
+	private double datizhengquelv;
+	
+	private int yijiaocailiaoshu;
+	private int zongcailiaoshu;
+	private int yicanyuhuodongshu;
+	private int huodongzongshu;
+	private int yicanjiajingdashu;
+	private int jingdazongshu;
+
+	public int getYijiaocailiaoshu() {
+		return yijiaocailiaoshu;
+	}
+
+	public void setYijiaocailiaoshu(int yijiaocailiaoshu) {
+		this.yijiaocailiaoshu = yijiaocailiaoshu;
+	}
+
+	public int getZongcailiaoshu() {
+		return zongcailiaoshu;
+	}
+
+	public void setZongcailiaoshu(int zongcailiaoshu) {
+		this.zongcailiaoshu = zongcailiaoshu;
+	}
+
+	public int getYicanyuhuodongshu() {
+		return yicanyuhuodongshu;
+	}
+
+	public void setYicanyuhuodongshu(int yicanyuhuodongshu) {
+		this.yicanyuhuodongshu = yicanyuhuodongshu;
+	}
+
+	public int getHuodongzongshu() {
+		return huodongzongshu;
+	}
+
+	public void setHuodongzongshu(int huodongzongshu) {
+		this.huodongzongshu = huodongzongshu;
+	}
+
+	public int getYicanjiajingdashu() {
+		return yicanjiajingdashu;
+	}
+
+	public void setYicanjiajingdashu(int yicanjiajingdashu) {
+		this.yicanjiajingdashu = yicanjiajingdashu;
+	}
+
+	public int getJingdazongshu() {
+		return jingdazongshu;
+	}
+
+	public void setJingdazongshu(int jingdazongshu) {
+		this.jingdazongshu = jingdazongshu;
+	}
+
+	public double getDaticanyulv() {
+		return daticanyulv;
+	}
+
+	public void setDaticanyulv(double daticanyulv) {
+		this.daticanyulv = daticanyulv;
+	}
+
+	public double getDatizhengquelv() {
+		return datizhengquelv;
+	}
+
+	public void setDatizhengquelv(double datizhengquelv) {
+		this.datizhengquelv = datizhengquelv;
+	}
+
+	public int getYjcls() {
+		return yjcls;
+	}
+
+	public void setYjcls(int yjcls) {
+		this.yjcls = yjcls;
+	}
+
+	public int getZcls() {
+		return zcls;
+	}
+
+	public void setZcls(int zcls) {
+		this.zcls = zcls;
+	}
 
 	public String getStudent_id() {
 		return student_id;

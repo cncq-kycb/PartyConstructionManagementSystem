@@ -159,7 +159,7 @@ table tr th {
 
 						</div>
 					</blockquote>
-					<div id="content" style="width: 100%; height: 533px;">
+					<div id="content" style="width: 100%; height: 100%;">
 
 						<table class="table table-hover table-bordered" id="table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
@@ -171,6 +171,7 @@ table tr th {
 									<th>试卷名称</th>
 									<th>开始时间</th>
 									<th>结束时间</th>
+									<th>已答人数</th>
 									<th>操作</th>
 								</tr>
 
@@ -182,6 +183,7 @@ table tr th {
 										<td>${member_list.test_name}</td>
 										<td>${member_list.test_date_start}</td>
 										<td>${member_list.test_date_end}</td>
+										<td>${member_list.ydrs}</td>
 										<td>
 											<button class="btn btn-info btn-sm"
 												onclick="updateMemberModal(this)" data-toggle="modal">查看试卷结果</button>

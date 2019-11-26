@@ -70,6 +70,32 @@
 	margin-bottom: 12px;
 	width: 100%;
 }
+
+/* Red border */
+hr.new1 {
+	border-top: 1px solid red;
+}
+
+/* Dashed red border */
+hr.new2 {
+	border-top: 1px dashed red;
+}
+
+/* Dotted red border */
+hr.new3 {
+	border-top: 1px dotted red;
+}
+
+/* Thick red border */
+hr.new4 {
+	border: 1px solid red;
+}
+
+/* Large rounded green border */
+hr.new5 {
+	border: 10px solid green;
+	border-radius: 5px;
+}
 </style>
 
 </head>
@@ -117,22 +143,27 @@
 
 
 	<p></p>
-	<div class="aui-flex b-line">
-		<div class="aui-flex-box"></div>
-	</div>
+	<h4>&ensp;&ensp;</h4>
+
+	<h4>&ensp;&ensp;&ensp;线上材料</h4>
+
+	<hr class="new4">
+
+
 	<div class="aui-flex b-line" style="text-align: center;">
 		<div class="aui-flex-box">
 			<table id="tables" style="border: 0px solid; margin: auto">
 				<thead>
 					<tr>
 						<th>材料名</th>
-						<th>提交日期</th>
+						<th width="50%">提交日期</th>
 						<th>操作</th>
 
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${material_list}" var="material_list" varStatus="st">
+					<c:forEach items="${material_list}" var="material_list"
+						varStatus="st">
 						<tr style="height: auto;">
 							<td>${material_list.material_type_name}</td>
 							<td>${material_list.material_date}</td>
@@ -144,7 +175,7 @@
 									<c:choose>
 										<c:when test="${not empty material_list.material_url}">
 											<button type="button" id="downloadButton"
-														name="downloadButton" onclick="download(${st.index});">下载</button>
+												name="downloadButton" onclick="download(${st.index});">下载</button>
 										</c:when>
 									</c:choose>
 								</form>
@@ -155,10 +186,44 @@
 
 				</tbody>
 			</table>
-			<p></p>
-			<p></p>
 		</div>
 	</div>
+	<h4>&ensp;&ensp;</h4>
+
+	<h4>&ensp;&ensp;&ensp;线下材料</h4>
+	<hr class="new4">
+	<div class="aui-flex b-line" style="text-align: center;">
+		<div class="aui-flex-box">
+			<table id="tables" style="border: 0px solid; margin: auto">
+				<thead>
+					<tr>
+						<th>材料名</th>
+						<th width="20%">审核日期</th>
+						<th width="30%">当前状态</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${offline_material_list}"
+						var="offline_material_list">
+						<tr style="height: auto;">
+							<td>${offline_material_list.material_type_name}</td>
+							<td>${offline_material_list.material_date}</td>
+							<td><c:choose>
+									<c:when test="${not empty offline_material_list.material_url }">
+											线下提交通过
+										</c:when>
+									<c:when test="${ empty offline_material_list.material_url }">
+											暂未线下提交
+										</c:when>
+								</c:choose></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 
 	</section> <footer class="aui-footer-button aui-footer-flex aui-footer-fixed">
 
@@ -197,7 +262,7 @@
 			</div>
 		</div>
 	</form>
-	
+
 	<script>
 		function ok(id) {
 			syalert.syhide(id);
@@ -218,12 +283,12 @@
 			returntrue;
 		}
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 		function download(st) {
 			document.getElementById("thisForm"+st).submit();
 
 		}
 	</script>
-	</body>
-	
+</body>
+
 </html>

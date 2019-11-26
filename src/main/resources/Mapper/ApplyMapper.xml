@@ -81,4 +81,21 @@
 		material_type_id = #{material_type_id}
 	</update>
 
+	<select id="select_count_uploaded" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		student_status_material
+		where student_id = #{student_id} and
+		material_url is not null
+	</select>
+
+	<select id="select_count_upload_all" resultType="Integer">
+		SELECT count(*)
+		FROM
+		student_status_material_view
+		where student_id = #{student_id} and
+		student_status >= student_status_limite 
+	</select>
+
 </mapper>

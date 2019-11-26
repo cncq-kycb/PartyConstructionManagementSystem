@@ -179,7 +179,7 @@ table tr th {
 							<h1>&ensp;</h1>
 						</center>
 					</div>
-					<div id="content" style="width: 100%; height: 533px;">
+					<div id="content" style="width: 100%; height: 100%;">
 						<table class="table table-hover table-bordered" id="Table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client">
@@ -216,33 +216,7 @@ table tr th {
 							</tbody>
 						</table>
 					</div>
-					<center>
-						<div class="col-sm-4 offset-sm-5">
-							<ul class="pagination">
-								<c:if test="${pageInfo.hasPreviousPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/admin/editCompetionPage?pn=${pageInfo.pageNum -1}"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-								</c:if>
-								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
-									<c:if test="${pageNum == pageInfo.pageNum }">
-										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
-									</c:if>
-									<c:if test="${pageNum != pageInfo.pageNum }">
-										<li class="page-item"><a class="page-link"
-											href="/mis/admin/editCompetionPage?pn=${pageNum }">${pageNum }</a></li>
-									</c:if>
-								</c:forEach>
-								<c:if test="${pageInfo.hasNextPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/admin/editCompetionPage?pn=${pageInfo.pageNum +1}"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
-								</c:if>
-							</ul>
-						</div>
-					</center>
+
 				</div>
 			</div>
 		</div>

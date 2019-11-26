@@ -120,12 +120,12 @@ table tr th {
 				<li><a href="/mis/stuAdmin/editCompetitionPage"> <i
 						class="icon-padnote"></i>竞答编辑
 				</a></li>
-				<li><a href="#competitionResult" aria-expanded="false"
+				<li class="active"><a href="#competitionResult" aria-expanded="false"
 					data-toggle="collapse"> <i class="icon-line-chart"></i>竞答结果统计
 				</a>
 					<ul id="competitionResult" class="collapse list-unstyled ">
 						<li><a href="/mis/stuAdmin/resultByTestPage">按竞答查询</a></li>
-						<li><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
+						<li class="active"><a href="/mis/stuAdmin/resultByStudentPage">按学生查询</a></li>
 					</ul></li>
 			</ul>
 			</nav>
@@ -140,7 +140,7 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="/mis/stuAdmin/sbFinder" method="post">
+								action="/mis/stuAdmin/Finder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
@@ -198,8 +198,8 @@ table tr th {
 									<th>性别</th>
 									<th>政治面貌</th>
 									<th>所在支部</th>
-									<th>手机号码</th>
-									<th>电子邮箱</th>
+									<th>答题参与率</th>
+									<th>答题正确率</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -211,8 +211,8 @@ table tr th {
 										<td>${member_list.student_gender}</td>
 										<td>${member_list.student_status}</td>
 										<td>${member_list.branch_name}</td>
-										<td>${member_list.student_tel}</td>
-										<td>${member_list.student_email}</td>
+										<td>${member_list.daticanyulv}%</td>
+										<td>${member_list.datizhengquelv}%</td>
 										<td>
 											<button class="btn btn-warning btn-sm"
 												onclick="updateMemberModal(this)" data-toggle="modal">查看竞答结果</button>
@@ -222,33 +222,29 @@ table tr th {
 							</tbody>
 						</table>
 					</div>
-					<center>
-						<div class="col-sm-4 offset-sm-5">
-							<ul class="pagination">
-								<c:if test="${pageInfo.hasPreviousPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/stuAdmin/resultByStudentPage?pn=${pageInfo.pageNum -1}"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-								</c:if>
-								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
-									<c:if test="${pageNum == pageInfo.pageNum }">
-										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
-									</c:if>
-									<c:if test="${pageNum != pageInfo.pageNum }">
-										<li class="page-item"><a class="page-link"
-											href="/mis/stuAdmin/resultByStudentPage?pn=${pageNum }">${pageNum }</a></li>
-									</c:if>
-								</c:forEach>
-								<c:if test="${pageInfo.hasNextPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/stuAdmin/resultByStudentPage?pn=${pageInfo.pageNum +1}"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
-								</c:if>
-							</ul>
-						</div>
+<center>
+						<li>共<i class="blue">${pageInfo.total}</i>条记录，当前显示第<i
+							class="blue">${pageInfo.pageNum}</i>页， 总<i class="blue">${pageInfo.pages }</i>页
+							<c:if
+								test="${pageInfo.pages !=1&& pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/stuAdmin/Finder?currentPage=1"><button
+									class="layui-btn layui-btn-normal  layui-btn-sm">首页</button></a> 
+									</c:if> <c:if
+								test="${pageInfo.hasPreviousPage && pageInfo.pageNum!=1}">
+								<a
+									href="${pageContext.request.contextPath}/stuAdmin/Finder?currentPage=${pageInfo.pageNum-1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">上一页</button></a>
+							</c:if> <c:if test="${pageInfo.hasNextPage && pageInfo.pageNum!=pageInfo.pages }">
+								<a
+									href="${pageContext.request.contextPath}/stuAdmin/Finder?currentPage=${pageInfo.pageNum+1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">下一页</button></a>
+							</c:if> <c:if
+								test="${pageInfo.pages !=1&& pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/stuAdmin/Finder?currentPage=${pageInfo.pages}"><button>
+									末页</button></a></c:if> 
+						</li>
 					</center>
+					
 					<div class="cxbottom">
 						<center>
 							<h1>&ensp;</h1>
@@ -274,7 +270,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateMemberForm" id="updateMemberForm"
-					action="/mis/stuAdmin/resultByStudentPageFinder"
+					action="/mis/stuAdmin/resultByStudentPageFinder2"
 					method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_check"
@@ -285,10 +281,7 @@ table tr th {
 						姓&ensp;&ensp;&ensp;&ensp;名： <input id="student_name_check"
 							type="text" name="student_name_check" style="border: none;" readonly>
 					</div>
-					<div class="modal-body">
-						性&ensp;&ensp;&ensp;&ensp;别： <input id="student_gender_check"
-							type="text" name="student_gender_check" style="border: none;" readonly>
-					</div>
+
 					<div class="modal-body">
 						政治面貌： <input id="student_status_check" style="border: none;"
 							type="text" name="student_status_check" readonly>
@@ -297,15 +290,7 @@ table tr th {
 						所在支部： <input id="branch_name_check" style="border: none;"
 							type="text" name="branch_name_check" readonly>
 					</div>
-					<div class="modal-body">
-						手机号码：<input id="student_tel_check" type="text"
-							name="student_tel_check" style="border: none;" readonly>
-					</div>
-					<div class="modal-body">
-						电子邮箱：<input id="student_email_check" type="text"
-							name="student_email_check" style="border: none;" readonly>
-					</div>
-					<div class="modal-footer"></div>
+		
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">确 定</button>
 					</div>

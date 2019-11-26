@@ -21,6 +21,8 @@
 			</if>
 			<if test="student_status != null">and student_status=#{student_status}</if>
 		</where>
+		order by student_num
+		ASC
 	</select>
 
 	<select id="select_vstudent"
@@ -40,6 +42,8 @@
 			<if test="student_status != null and student_status != ''">and student_status = #{student_status}</if>
 			<if test="student_num != null and student_num != ''">and student_num = #{student_num}</if>
 		</where>
+		order by student_num
+		ASC
 	</select>
 
 	<select id="select_vStudent_by_student_id"
@@ -47,6 +51,8 @@
 		select *
 		from student_view
 		where student_id = #{student_id}
+		order by student_num
+		ASC
 	</select>
 
 	<select id="select_student_id_by_student_num"
@@ -62,6 +68,8 @@
 		select *
 		from student_view
 		where branch_name = #{branch_name}
+		order by student_num
+		ASC
 	</select>
 
 	<update id="update_info_stu">
@@ -160,6 +168,8 @@
 		select *
 		from student
 		where branch_id = #{branch_id}
+		order by student_num
+		ASC
 	</select>
 
 	<!-- 根据学号选择学生视图 -->
@@ -168,5 +178,7 @@
 		select *
 		from student_view
 		where student_num = #{student_num}
+		order by student_num
+		ASC
 	</select>
 </mapper>

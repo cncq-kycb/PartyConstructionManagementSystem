@@ -128,14 +128,32 @@ public interface AdminService {
 
 	int count_total_activity_duration(String student_id);
 
-	int select_test_total_time(String student_num);
+	int select_answer_total_num(String student_num);
 
-	int select_test_total_correct(String student_num);
+	int select_answer_num_correct(String student_num);
 
 	ArrayList<vTest> select_vTest_by_test_name(String test_name);
-	
+
 	ArrayList<Test> select_Test_all();
 
 	ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_num_for_admin(String student_id);
+
+	int select_test_num_total(String student_num);
+
+	Integer select_test_num_answerd(String student_num);
+
+	int select_count_uploaded(String student_id);
+
+	int select_count_upload_all(String student_id);
+
+	int select_count_signed_activity(String student_id);
+
+	int select_count_activity_all(String student_id);
+
+	Integer select_count_answered(String test_id);
+
+	int select_count_total_student_num(String activity_id);
+
+	int select_count_signed_in_student_num(String activity_id);
 
 }

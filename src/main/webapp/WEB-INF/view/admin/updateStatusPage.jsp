@@ -40,12 +40,13 @@ table tr th {
 
 </head>
 <body>
-		<script type="text/javascript">
+	<script type="text/javascript">
 	var isLogin = "<%=session.getAttribute("isLogin")%>";
 	if(isLogin!='1'){
 		alert("您好，请先登录！");
-		window.location.href='<%=request.getContextPath()%>/';
-	};
+		window.location.href='<%=request.getContextPath()%>
+		/';
+		};
 
 		var msg = "${message}";
 		if (msg == "1") {
@@ -209,27 +210,30 @@ table tr th {
 									<th>姓名</th>
 									<th>政治面貌</th>
 									<th>所在支部</th>
+									<th>入党材料</th>
+									<th>活动记录</th>
+									<th>竞答记录</th>
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="member_list" items="${pageInfo.list}">
+								<c:forEach var="pageInfo" items="${pageInfo.list}">
 									<tr style="height: auto;">
-										<td>${member_list.student_num }</td>
-										<td>${member_list.student_name}</td>
-										<td>${member_list.student_status}</td>
-										<td>${member_list.branch_name}</td>
+										<td>${pageInfo.student_num }</td>
+										<td>${pageInfo.student_name}</td>
+										<td>${pageInfo.student_status}</td>
+										<td>${pageInfo.branch_name}</td>
 
 										<td><button id="checkButton" type="button"
 												onclick="checkModal(this)" class="btn btn-info btn-sm"
-												data-toggle="modal">查看材料</button>
-											<button id="activityButton" type="button"
+												data-toggle="modal">${pageInfo.yijiaocailiaoshu}&ensp;/&ensp;${pageInfo.zongcailiaoshu}</button></td>
+										<td><button id="activityButton" type="button"
 												onclick="activityModal(this)" class="btn btn-warning btn-sm"
-												data-toggle="modal">查看活动记录</button>
-											<button id="resultButton" type="button"
+												data-toggle="modal">${pageInfo.yicanyuhuodongshu}&ensp;/&ensp;${pageInfo.huodongzongshu}</button></td>
+										<td><button id="resultButton" type="button"
 												onclick="resultModal(this)" class="btn btn-danger btn-sm"
-												data-toggle="modal">查看竞答记录</button>
-											<button id="updateBranchButton" type="button"
+												data-toggle="modal">${pageInfo.yicanjiajingdashu}&ensp;/&ensp;${pageInfo.jingdazongshu}</button></td>
+										<td><button id="updateBranchButton" type="button"
 												onclick="updateLevelModal(this)"
 												class="btn btn-success btn-sm" data-toggle="modal">同意进入下一阶段</button>
 										</td>
@@ -237,34 +241,32 @@ table tr th {
 								</c:forEach>
 							</tbody>
 						</table>
+						<h1>&ensp;</h1>
+						
 					</div>
-					<center>
-						<div class="col-sm-4 offset-sm-5">
-							<ul class="pagination">
-								<c:if test="${pageInfo.hasPreviousPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/stu/updateStatusPage?pn=${pageInfo.pageNum -1}"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-								</c:if>
-								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
-									<c:if test="${pageNum == pageInfo.pageNum }">
-										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
-									</c:if>
-									<c:if test="${pageNum != pageInfo.pageNum }">
-										<li class="page-item"><a class="page-link"
-											href="/mis/stu/updateStatusPage?pn=${pageNum }">${pageNum }</a></li>
-									</c:if>
-								</c:forEach>
-								<c:if test="${pageInfo.hasNextPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/stu/updateStatusPage?pn=${pageInfo.pageNum +1}"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
-								</c:if>
-							</ul>
-						</div>
+	<center>
+						<li>共<i class="blue">${pageInfo.total}</i>条记录，当前显示第<i
+							class="blue">${pageInfo.pageNum}</i>页， 总<i class="blue">${pageInfo.pages }</i>页
+							<c:if
+								test="${pageInfo.pages !=1&& pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/admin/distributionPageFinder?currentPage=1"><button
+									class="layui-btn layui-btn-normal  layui-btn-sm">首页</button></a> 
+									</c:if> <c:if
+								test="${pageInfo.hasPreviousPage && pageInfo.pageNum!=1}">
+								<a
+									href="${pageContext.request.contextPath}/admin/distributionPageFinder?currentPage=${pageInfo.pageNum-1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">上一页</button></a>
+							</c:if> <c:if test="${pageInfo.hasNextPage && pageInfo.pageNum!=pageInfo.pages }">
+								<a
+									href="${pageContext.request.contextPath}/admin/distributionPageFinder?currentPage=${pageInfo.pageNum+1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">下一页</button></a>
+							</c:if> <c:if
+								test="${pageInfo.pages !=1&& pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/admin/distributionPageFinder?currentPage=${pageInfo.pages}"><button>
+									末页</button></a></c:if> 
+						</li>
 					</center>
+
 					<div class="cxbottom">
 						<center>
 							<h1>&ensp;</h1>
@@ -327,7 +329,8 @@ table tr th {
 					</button>
 				</div>
 				<form name="checkForm" id="checkForm" target="_blank"
-					action="/mis/admin/checkMaterialPage" method="post" class="form-validate">
+					action="/mis/admin/checkMaterialPage" method="post"
+					class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_ensure"
 							style="border: none;" type="text" name="student_num_ensure"
@@ -366,11 +369,12 @@ table tr th {
 					</button>
 				</div>
 				<form name="activityForm" id="activityForm" target="_blank"
-					action="/mis/admin/stuActivityPage" method="post" class="form-validate">
+					action="/mis/admin/stuActivityPage" method="post"
+					class="form-validate">
 					<div class="modal-body">
-						学&ensp;&ensp;&ensp;&ensp;号：<input
-							id="student_num_activity"
-							style=" border:none;" type="text" name="student_num_activity" readonly>
+						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_activity"
+							style="border: none;" type="text" name="student_num_activity"
+							readonly>
 					</div>
 					<div class="modal-body">
 						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_activity"
@@ -407,9 +411,9 @@ table tr th {
 				<form name="resultForm" id="resultForm" target="_blank"
 					action="/mis/admin/resultPage" method="post" class="form-validate">
 					<div class="modal-body">
-						学&ensp;&ensp;&ensp;&ensp;号：<input
-							id="student_num_result"
-							style="border:none;" type="text" name="student_num_result" readonly>
+						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_result"
+							style="border: none;" type="text" name="student_num_result"
+							readonly>
 					</div>
 					<div class="modal-body">
 						姓&ensp;&ensp;&ensp;&ensp;名：<input id="student_name_result"
@@ -489,7 +493,7 @@ table tr th {
 			$("#student_status_activity").val(status_check);
 		}
 	</script>
-	
+
 	<script>
 		function resultModal(obj) {
 			$("#resultModal").modal('show');

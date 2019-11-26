@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageInfo;
-
 import cn.edu.cqu.Model.Branch;
 import cn.edu.cqu.Model.MaterialTypeMap;
 import cn.edu.cqu.Model.Student;
-import cn.edu.cqu.Model.User;
 import cn.edu.cqu.Model.vActivity;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
@@ -28,9 +24,9 @@ import cn.edu.cqu.Model.vQuestion;
 import cn.edu.cqu.Model.vStudent;
 import cn.edu.cqu.Model.vStudentMaterial;
 import cn.edu.cqu.Model.vStudy;
+import cn.edu.cqu.Model.vTest;
 import cn.edu.cqu.Service.AdminService;
 import cn.edu.cqu.Service.StudentService;
-import cn.edu.cqu.Service.UserService;
 import cn.edu.cqu.Utils.Utils;
 
 @Controller
@@ -426,7 +422,6 @@ public class StudentController {
 
 		session.setAttribute("message", "");
 		ArrayList<vAttendance> vattendances = studentService.select_attendance_now_by_student_id(student_id);
-		String branch_name = studentService.select_branch_name_by_student_id(student_id);
 		String temp = "";
 		String start = "<div class=\"row\">";
 		String end = "</div>";
@@ -546,13 +541,26 @@ public class StudentController {
 				} else {
 					// 已申请入党
 					ArrayList<vStudentMaterial> vStudentMaterials = studentService
-							.stu_select_vStudentMaterial_by_student_id(student_id);
+							.select_vStudentMaterial_by_student_id(student_id);
+					ArrayList<vStudentMaterial> offline_material_list = new ArrayList<vStudentMaterial>();
 					session.setAttribute("material_list", vStudentMaterials);
 					session.setAttribute("student_status",
 							studentService.select_vstudent_by_student_id(student_id).getStudent_status());
 					ArrayList<MaterialTypeMap> material_all = studentService
 							.select_material_type_map_to_upload(student_id);
 					// 提交材料查看
+					Iterator<vStudentMaterial> vStudentMaterial_iterator = vStudentMaterials.iterator();
+					while (vStudentMaterial_iterator.hasNext()) {
+						vStudentMaterial next = vStudentMaterial_iterator.next();
+						if (next.getMaterial_type_from().equals("2")
+								&& !(next.getStudent_status_limite() > (student_status + 1))) {
+							if (next.getMaterial_url().equals("无")) {
+								next.setMaterial_url(null);
+							}
+							offline_material_list.add(next);
+							vStudentMaterial_iterator.remove();
+						}
+					}
 					for (vStudentMaterial v : vStudentMaterials) {
 						if (v.getMaterial_url().equals("无")) {
 							v.setMaterial_url(null);
@@ -566,6 +574,8 @@ public class StudentController {
 							iterator.remove();
 						}
 					}
+
+					session.setAttribute("offline_material_list", offline_material_list);
 					session.setAttribute("material_all", material_all);
 				}
 				session.setAttribute("vapply", vapply);
@@ -661,28 +671,32 @@ public class StudentController {
 		String total_duration = studentService.attendance_total_duration(student_id);
 		String branch_name = studentService.select_branch_name_by_student_id(student_id);
 		ArrayList<vAttendance> vattendances = studentService.select_attendance_by_student_id(student_id);
+
 		int total_attendance_time = studentService.select_total_attendance_time(student_id);
 		int total_activity_time_all = studentService.select_total_activity_time_all(student_num);
 		double absent_percent = 0;
 		if (total_activity_time_all == 0) {
 			absent_percent = 0;
 		} else {
-			absent_percent = total_attendance_time * 100.0 / total_activity_time_all;
+			absent_percent = (float) Math.round(total_attendance_time * 100 / total_activity_time_all);
 		}
-		int test_total_time = studentService.select_test_total_time(student_num);
-		int test_total_time_all = studentService.select_test_total_time_all(student_num);
-		int test_total_correct = studentService.select_test_total_correct(student_num);
+
+		int test_total_time = studentService.select_test_num_answerd(student_num);
+		int test_total_time_all = studentService.select_test_num_total(student_num);
+
+		int total_answered_num = studentService.select_answer_total_num(student_num);
+		int total_correct_num = studentService.select_answer_num_correct(student_num);
 		double test_percent = 0;
 		double score_percent = 0;
 		if (test_total_time_all == 0) {
 			test_percent = 0;
 		} else {
-			test_percent = test_total_time * 100.0 / test_total_time_all;
+			test_percent = (float) Math.round(test_total_time * 100 / test_total_time_all);
 		}
-		if (test_total_time == 0) {
+		if (total_answered_num == 0) {
 			score_percent = 0;
 		} else {
-			score_percent = test_total_correct * 100.0 / test_total_time;
+			score_percent = (float) Math.round(total_correct_num * 100 / total_answered_num);
 		}
 		String temp = "";
 		String start = "<div class=\"row\">";
@@ -728,6 +742,23 @@ public class StudentController {
 		session.setAttribute("content", temp);
 		if (student.getStudent_status() == 2)
 			session.setAttribute("content", "<center><p>您当前的政治面貌暂无可参与活动</p></center>");
+
+		ArrayList<vTest> vTests = adminService.select_vTest(student_num);
+		for (vTest v : vTests) {
+			v.setCorrect_num(adminService.select_correct_num_by_student_per_test(student_num, v.getTest_id()));
+		}
+
+		int correct_num = 0, total_num = 0;
+		for (vTest v : vTests) {
+			correct_num += v.getCorrect_num();
+			total_num += v.getTotal_num();
+		}
+		if (total_num == 0) {
+			score_percent = 0;
+		} else {
+			score_percent = (float) Math.round(correct_num * 100 / total_num);
+		}
+		session.setAttribute("test_list", vTests);
 		session.setAttribute("absent_percent", absent_percent);
 		session.setAttribute("test_total_time", test_total_time);
 		session.setAttribute("test_percent", test_percent);

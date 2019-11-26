@@ -8,6 +8,7 @@
 		select *
 		from
 		study
+		order by study_id DESC
 	</select>
 
 	<select id="select_study_by_id"
@@ -17,6 +18,7 @@
 		study_view
 		where
 		study_id = ${study_id}
+		order by study_id DESC
 	</select>
 
 	<!-- 生成study -->
@@ -60,6 +62,7 @@
 				and study_status = #{study_status}
 			</if>
 		</where>
+		order by study_id DESC
 	</select>
 
 </mapper>

@@ -169,18 +169,17 @@ hr.new5 {
 		<h4>&ensp;&ensp;&ensp;竞答详情</h4>
 
 <hr class="new4">
-
-				<h4>&ensp;&ensp;</h4>
-		<div class="container">
-			<table class="table table-hover table-bordered" id="tables"
-							data-toggle="table" data-toggle="table" data-pagination="true"
-							data-side-pagination="client" style="border: 0px solid black">
-							<thead>
+<center>
+		<div  style="text-align:center">
+			<table  style=" margin: auto;border: 0px solid;" width='60%'>
+				<thead>
 								<tr>
 									<th>试卷名称</th>
 									<th>完成时间</th>
-									<th>试卷总分</th>
 									<th>实际得分</th>
+									<th>试卷总分</th>
+									
+									
 								</tr>
 
 							</thead>
@@ -189,15 +188,20 @@ hr.new5 {
 									<tr style="height: auto;">
 										<td>${test_list.test_name }</td>
 										<td>${test_list.answer_date}</td>
-										<td>${test_list.total_num}</td>
 										<td>${test_list.correct_num}</td>
+										<td>${test_list.total_num}</td>
+										
+										
 									</tr>
 								</c:forEach>
 							</tbody>
 
-						</table>
+			</table>
 		</div>
+		</center>
 	</div>
+
+
 				
 	
 	

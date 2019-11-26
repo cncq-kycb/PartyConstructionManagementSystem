@@ -11,6 +11,24 @@ public class vActivity {
 	private String activity_status;
 	private String activity_location;
 	private String means;
+	private int yqdrs;
+	private int hdzrs;
+
+	public int getYqdrs() {
+		return yqdrs;
+	}
+
+	public void setYqdrs(int yqdrs) {
+		this.yqdrs = yqdrs;
+	}
+
+	public int getHdzrs() {
+		return hdzrs;
+	}
+
+	public void setHdzrs(int hdzrs) {
+		this.hdzrs = hdzrs;
+	}
 
 	public String getActivity_id() {
 		return activity_id;
@@ -90,6 +108,15 @@ public class vActivity {
 
 	public void setMeans(String means) {
 		this.means = means;
+	}
+
+	@Override
+	public String toString() {
+		return "vActivity [activity_id=" + activity_id + ", branch_id=" + branch_id + ", branch_name=" + branch_name
+				+ ", activity_name=" + activity_name + ", activity_date=" + activity_date + ", activity_item="
+				+ activity_item + ", activity_duration=" + activity_duration + ", activity_status=" + activity_status
+				+ ", activity_location=" + activity_location + ", means=" + means + ", yqdrs=" + yqdrs + ", hdzrs="
+				+ hdzrs + "]";
 	}
 
 }

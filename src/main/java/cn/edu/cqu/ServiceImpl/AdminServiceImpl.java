@@ -513,9 +513,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int select_test_total_time(String student_num) {
+	public int select_answer_total_num(String student_num) {
 		// TODO Auto-generated method stub
-		Integer num = testMapper.select_test_total_time(student_num);
+		Integer num = testMapper.select_answer_total_num(student_num);
 		if (num == null) {
 			return 0;
 		}
@@ -523,9 +523,59 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int select_test_total_correct(String student_num) {
+	public int select_answer_num_correct(String student_num) {
 		// TODO Auto-generated method stub
-		Integer num = testMapper.select_test_total_correct(student_num);
+		Integer num = testMapper.select_answer_num_correct(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_test_num_total(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_num_total(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_count_uploaded(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = applyMapper.select_count_uploaded(student_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_count_upload_all(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = applyMapper.select_count_upload_all(student_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_count_signed_activity(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.select_count_signed_activity(student_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_count_activity_all(String student_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.select_count_activity_all(student_id);
 		if (num == null) {
 			return 0;
 		}
@@ -549,4 +599,45 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return applyMapper.select_vStudentMaterial_by_student_num_for_admin(student_id);
 	}
+
+	@Override
+	public Integer select_count_answered(String test_id) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_count_answered(test_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_count_total_student_num(String activity_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.select_count_total_student_num(activity_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public int select_count_signed_in_student_num(String activity_id) {
+		// TODO Auto-generated method stub
+		Integer num = attendanceMapper.select_count_signed_in_student_num(activity_id);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public Integer select_test_num_answerd(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_num_answerd(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
 }

@@ -17,7 +17,6 @@ import cn.edu.cqu.Dao.StudentMapper;
 import cn.edu.cqu.Dao.StudyMapper;
 import cn.edu.cqu.Dao.TestMapper;
 import cn.edu.cqu.Model.MaterialTypeMap;
-import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
@@ -197,7 +196,7 @@ public class StudentServiceImpl implements StudentService {
 	public boolean add_pic_for_attendance(String student_id, String activity_id, String attendance_pic) {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println(student_id+" "+activity_id+" "+attendance_pic);
+			System.out.println(student_id + " " + activity_id + " " + attendance_pic);
 			attendanceMapper.add_pic_for_attendance(student_id, activity_id, attendance_pic);
 			return true;
 		} catch (Exception e) {
@@ -326,9 +325,9 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public int select_test_total_time_all(String student_num) {
+	public int select_test_num_total(String student_num) {
 		// TODO Auto-generated method stub
-		Integer num = testMapper.select_test_total_time_all(student_num);
+		Integer num = testMapper.select_test_num_total(student_num);
 		if (num == null) {
 			return 0;
 		}
@@ -336,9 +335,9 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public int select_test_total_correct(String student_num) {
+	public int select_answer_num_correct(String student_num) {
 		// TODO Auto-generated method stub
-		Integer num = testMapper.select_test_total_correct(student_num);
+		Integer num = testMapper.select_answer_num_correct(student_num);
 		if (num == null) {
 			return 0;
 		}
@@ -346,9 +345,9 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public int select_test_total_time(String student_num) {
+	public int select_answer_total_num(String student_num) {
 		// TODO Auto-generated method stub
-		Integer num = testMapper.select_test_total_time(student_num);
+		Integer num = testMapper.select_answer_total_num(student_num);
 		if (num == null) {
 			return 0;
 		}
@@ -369,6 +368,22 @@ public class StudentServiceImpl implements StudentService {
 	public int select_total_activity_time_all(String student_num) {
 		// TODO Auto-generated method stub
 		Integer num = attendanceMapper.count_activity_time_all(student_num);
+		if (num == null) {
+			return 0;
+		}
+		return num;
+	}
+
+	@Override
+	public ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_id(String student_id) {
+		// TODO Auto-generated method stub
+		return applyMapper.select_vStudentMaterial_by_student_num_for_admin(student_id);
+	}
+
+	@Override
+	public int select_test_num_answerd(String student_num) {
+		// TODO Auto-generated method stub
+		Integer num = testMapper.select_test_num_answerd(student_num);
 		if (num == null) {
 			return 0;
 		}

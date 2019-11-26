@@ -78,7 +78,7 @@
 		<div class="container">
 			<div class="content bg-red">
 				<div class="services-caption">
-					<a href="/mis/stu/test_page"><h4>每日竞答</h4></a>
+					<a href="/mis/stu/material_page"><h4>热点资讯</h4></a>
 				</div>
 			</div>
 			</div>
@@ -94,7 +94,7 @@
 					<div class="container">
 			<div class="content bg-purple">
 				<div class="services-caption">
-					<a href="/mis/stu/material_page"><h4>新闻共享</h4></a>
+					<a href="/mis/stu/test_page"><h4>每日竞答</h4></a>
 				</div>
 			</div>
 			</div>

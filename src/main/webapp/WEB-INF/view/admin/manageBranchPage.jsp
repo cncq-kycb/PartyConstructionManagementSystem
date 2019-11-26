@@ -223,7 +223,7 @@ table tr th {
 								</tbody>
 							</table>
 							<div>
-								<input id="student_num" type="text" class="form-control"
+								<input hidden="hidden" id="student_num" type="text" class="form-control"
 									name="student_num" readonly>
 							</div>
 						</div>

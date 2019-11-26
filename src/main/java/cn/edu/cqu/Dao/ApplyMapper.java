@@ -29,4 +29,7 @@ public interface ApplyMapper {
 	void update_student_status_material_offline(@Param("material_type_id") String material_type_id,
 			@Param("student_id") String student_id);
 
+	Integer select_count_uploaded(String student_id);
+	
+	Integer select_count_upload_all(String student_id);
 }

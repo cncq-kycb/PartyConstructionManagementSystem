@@ -150,7 +150,7 @@ table tr th {
 						</div>
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" name="inputForm "
-								action="/mis/admin/sbFinder" method="post">
+								action="/mis/admin/Finder" method="post">
 
 								<div class="tableWrap">
 									<table width="100%" class="table table-hover table-bordered"
@@ -208,8 +208,8 @@ table tr th {
 									<th>性别</th>
 									<th>政治面貌</th>
 									<th>所在支部</th>
-									<th>手机号码</th>
-									<th>电子邮箱</th>
+									<th>答题参与率</th>
+									<th>答题正确率</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -221,8 +221,8 @@ table tr th {
 										<td>${member_list.student_gender}</td>
 										<td>${member_list.student_status}</td>
 										<td>${member_list.branch_name}</td>
-										<td>${member_list.student_tel}</td>
-										<td>${member_list.student_email}</td>
+										<td>${member_list.daticanyulv}%</td>
+										<td>${member_list.datizhengquelv}%</td>
 										<td>
 											<button class="btn btn-warning btn-sm"
 												onclick="updateMemberModal(this)" data-toggle="modal">查看竞答结果</button>
@@ -232,32 +232,27 @@ table tr th {
 							</tbody>
 						</table>
 					</div>
-					<center>
-						<div class="col-sm-4 offset-sm-5">
-							<ul class="pagination">
-								<c:if test="${pageInfo.hasPreviousPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/admin/resultByStudentPage?pn=${pageInfo.pageNum -1}"
-										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									</a></li>
-								</c:if>
-								<c:forEach var="pageNum" items="${pageInfo.navigatepageNums}">
-									<c:if test="${pageNum == pageInfo.pageNum }">
-										<li class="active page-item"><a class="page-link">${pageNum }</a></li>
-									</c:if>
-									<c:if test="${pageNum != pageInfo.pageNum }">
-										<li class="page-item"><a class="page-link"
-											href="/mis/admin/resultByStudentPage?pn=${pageNum }">${pageNum }</a></li>
-									</c:if>
-								</c:forEach>
-								<c:if test="${pageInfo.hasNextPage}">
-									<li class="page-item"><a class="page-link"
-										href="/mis/admin/resultByStudentPage?pn=${pageInfo.pageNum +1}"
-										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-									</a></li>
-								</c:if>
-							</ul>
-						</div>
+<center>
+						<li>共<i class="blue">${pageInfo.total}</i>条记录，当前显示第<i
+							class="blue">${pageInfo.pageNum}</i>页， 总<i class="blue">${pageInfo.pages }</i>页
+							<c:if
+								test="${pageInfo.pages !=1&& pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/admin/Finder?currentPage=1"><button
+									class="layui-btn layui-btn-normal  layui-btn-sm">首页</button></a> 
+									</c:if> <c:if
+								test="${pageInfo.hasPreviousPage && pageInfo.pageNum!=1}">
+								<a
+									href="${pageContext.request.contextPath}/admin/Finder?currentPage=${pageInfo.pageNum-1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">上一页</button></a>
+							</c:if> <c:if test="${pageInfo.hasNextPage && pageInfo.pageNum!=pageInfo.pages }">
+								<a
+									href="${pageContext.request.contextPath}/admin/Finder?currentPage=${pageInfo.pageNum+1}"><button
+										class="layui-btn layui-btn-normal  layui-btn-sm">下一页</button></a>
+							</c:if> <c:if
+								test="${pageInfo.pages !=1&& pageInfo.pageNum!=0}"><a
+							href="${pageContext.request.contextPath}/admin/Finder?currentPage=${pageInfo.pages}"><button>
+									末页</button></a></c:if> 
+						</li>
 					</center>
 					<div class="cxbottom">
 						<center>
@@ -284,7 +279,7 @@ table tr th {
 					</button>
 				</div>
 				<form name="updateMemberForm" id="updateMemberForm"
-					action="/mis/admin/resultByStudentPageFinder"
+					action="/mis/admin/resultByStudentPageFinder2"
 					method="post" class="form-validate">
 					<div class="modal-body">
 						学&ensp;&ensp;&ensp;&ensp;号：<input id="student_num_check"
@@ -307,15 +302,7 @@ table tr th {
 						所在支部： <input id="branch_name_check" style="border: none;"
 							type="text" name="branch_name_check" readonly>
 					</div>
-					<div class="modal-body">
-						手机号码：<input id="student_tel_check" type="text"
-							name="student_tel_check" style="border: none;" readonly>
-					</div>
-					<div class="modal-body">
-						电子邮箱：<input id="student_email_check" type="text"
-							name="student_email_check" style="border: none;" readonly>
-					</div>
-					<div class="modal-footer"></div>
+
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">确 定</button>
 					</div>
@@ -345,15 +332,13 @@ table tr th {
 			var student_gender_check = $td.eq(2).text();
 			var student_status_check = $td.eq(3).text();
 			var branch_name_check = $td.eq(4).text();
-			var student_tel_check = $td.eq(5).text();
-			var student_email_check = $td.eq(6).text();
+
 			$("#student_num_check").val(student_num_check);
 			$("#student_name_check").val(student_name_check);
 			$("#student_gender_check").val(student_gender_check);
 			$("#student_status_check").val(student_status_check);
 			$("#branch_name_check").val(branch_name_check);
-			$("#student_tel_check").val(student_tel_check);
-			$("#student_email_check").val(student_email_check);
+
 		}
 	</script>
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import cn.edu.cqu.Model.MaterialTypeMap;
-import cn.edu.cqu.Model.Study;
 import cn.edu.cqu.Model.StudyStatusMap;
 import cn.edu.cqu.Model.vApply;
 import cn.edu.cqu.Model.vAttendance;
@@ -70,14 +69,18 @@ public interface StudentService {
 
 	boolean add_material_for_join(String student_id, String material_type_id, String material_url);
 
-	int select_test_total_time_all(String student_num);
+	int select_test_num_total(String student_num);
 
-	int select_test_total_correct(String student_num);
+	int select_test_num_answerd(String student_num);
 
-	int select_test_total_time(String student_num);
+	int select_answer_num_correct(String student_num);
+
+	int select_answer_total_num(String student_num);
 
 	int select_total_attendance_time(String student_id);
 
 	int select_total_activity_time_all(String student_num);
+
+	ArrayList<vStudentMaterial> select_vStudentMaterial_by_student_id(String student_id);
 
 }

@@ -169,7 +169,7 @@ table tr th {
 							<h1>&ensp;</h1>
 						</center>
 					</div>
-					<div id="content" style="width: 100%; height: 533px;">
+					<div id="content" style="width: 100%; height: 100%;">
 						<table class="table table-hover table-bordered" id="Table"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client">

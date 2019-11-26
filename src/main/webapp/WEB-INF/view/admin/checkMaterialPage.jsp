@@ -71,10 +71,7 @@ table tr th {
 							<h2>${branch_name}-${student_num}-${student_name}-${student_status}材料表</h2>
 
 							<h3>&ensp;</h3>
-							<div class="cxbottom">
-							
-
-							</div>
+							<div class="cxbottom"></div>
 						</center>
 
 					</div>
@@ -96,7 +93,8 @@ table tr th {
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${material_list}" var="material_list" varStatus="st">
+							<c:forEach items="${material_list}" var="material_list"
+								varStatus="st">
 								<tr style="height: auto;">
 									<td>${material_list.material_type_name}</td>
 									<td>${material_list.material_date}</td>
@@ -111,17 +109,23 @@ table tr th {
 										</c:choose></td>
 									<td>
 										<form action="/mis/download" id="thisForm${st.index }">
-											<input type="hidden" type="text" name="filename" value="${material_list.material_type_name}"> 
-												<input type="hidden" type="text" name="url" value="${material_list.material_url}"> 
-												<input type="hidden" type="text" name="student_num" value="${student_num}">
-												<input type="hidden" type="text" name="material_type_id" value="${material_list.material_type_id}">
+											<input type="hidden" type="text" name="filename"
+												value="${material_list.material_type_name}"> <input
+												type="hidden" type="text" name="url"
+												value="${material_list.material_url}"> <input
+												type="hidden" type="text" name="student_num"
+												value="${student_num}"> <input type="hidden"
+												type="text" name="material_type_id"
+												value="${material_list.material_type_id}">
 											<c:choose>
-												<c:when test="${not empty material_list.material_url && material_list.material_type_from=='1'}">
+												<c:when
+													test="${not empty material_list.material_url && material_list.material_type_from=='1'}">
 													<button type="button" id="downloadButton"
 														name="downloadButton" onclick="download(${st.index});">下载</button>
 												</c:when>
 
-												<c:when test="${empty material_list.material_url && material_list.material_type_from=='2'}">
+												<c:when
+													test="${empty material_list.material_url && material_list.material_type_from=='2'}">
 													<button type="button" id="checkButton" name="checkButton"
 														onclick="check(${st.index});">线下提交确认</button>
 												</c:when>

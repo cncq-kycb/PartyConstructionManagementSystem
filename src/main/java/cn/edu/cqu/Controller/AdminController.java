@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.cqu.Model.Activity;
@@ -52,13 +56,18 @@ public class AdminController {
 
 	// 党员管理页面模糊查询
 	@RequestMapping(value = "/manageMemberPageFinder")
-	public String manageMemberPageFinder(String student_num_input, String student_name_input,
+	public ModelAndView manageMemberPageFinder(HttpSession session, String student_num_input, String student_name_input,
 			String student_status_input, String branch_name_input,
-			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 				student_status_input, branch_name_input);
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
 		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		// pageInfo.setPages((int)Math.ceil(vStudents.size()/8.0));//总页数
+		// pageInfo.setTotal(vStudents.size());//总条数
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("student_num_input", student_num_input);
 		session.setAttribute("student_name_input", student_name_input);
@@ -66,17 +75,45 @@ public class AdminController {
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
-		return "admin/manageMemberPage";
+		return new ModelAndView("admin/manageMemberPage");
+
 	}
 
 	// 模糊查询
-	@RequestMapping(value = "/sbFinder")
-	public String sbFinder(String student_num_input, String student_name_input, String student_status_input,
-			String branch_name_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+	@RequestMapping(value = "/Finder")
+
+	public ModelAndView Finder(HttpSession session, String student_num_input, String student_name_input,
+			String student_status_input, String branch_name_input,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 				student_status_input, branch_name_input);
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		for (vStudent v : vStudents) {
+			String student_num = v.getStudent_num();
+			// 应参与答题总数
+			int total_test_time_all = adminService.select_test_num_total(student_num);
+			// 答题参与数
+			int total_test_time_answered = adminService.select_test_num_answerd(student_num);
+			// 已答题目数
+			int total_answer_num = adminService.select_answer_total_num(student_num);
+			// 正确题目数
+			int total_correct_num = adminService.select_answer_num_correct(student_num);
+			if (total_answer_num == 0) {
+				v.setDatizhengquelv(0);
+			} else {
+				v.setDatizhengquelv(Math.round(total_correct_num * 100.0 / total_answer_num));
+			}
+			if (total_test_time_all == 0) {
+				v.setDaticanyulv(0);
+			} else {
+				v.setDaticanyulv(Math.round(total_test_time_answered * 100.0 / total_test_time_all));
+			}
+		}
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
 		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("student_num_input", student_num_input);
 		session.setAttribute("student_name_input", student_name_input);
@@ -84,13 +121,18 @@ public class AdminController {
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
-		return "admin/resultByStudentPage";
+		return new ModelAndView("admin/resultByStudentPage");
+
 	}
 
 	// 修改信息
 	@RequestMapping(value = "/updateMember")
-	public String updateMember(String student_num_check, String student_name_check, String student_gender_check,
-			String student_tel_check, String student_email_check, HttpSession session) {
+	public ModelAndView updateMember(HttpSession session, String student_num_check, String student_name_check,
+			String student_gender_check, String student_tel_check, String student_email_check,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		if (adminService.update_student_info(student_num_check, student_name_check, student_gender_check,
 				student_tel_check, student_email_check)) {
 			session.setAttribute("message", "1");
@@ -100,7 +142,8 @@ public class AdminController {
 			String branch_name_input = (String) session.getAttribute("branch_name_input");
 			ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 					student_status_input, branch_name_input);
-			PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+			PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+			map.put("pageInfo", pageInfo);
 			session.setAttribute("student_num_input", student_num_input);
 			session.setAttribute("student_name_input", student_name_input);
 			session.setAttribute("student_status_input", student_status_input);
@@ -109,29 +152,53 @@ public class AdminController {
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/manageMemberPage";
+		return new ModelAndView("admin/manageMemberPage");
 	}
 
 	// 成员级别管理页面
 	@RequestMapping(value = "/updateStatusPage")
-	public String updateStatusPage(HttpSession session) {
+	public ModelAndView updateStatusPage(HttpSession session, @RequestParam(defaultValue = "1") Integer currentPage,
+			HttpServletRequest request, Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
 		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>();
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/updateStatusPage";
+		session.setAttribute("student_num_input", "");
+		session.setAttribute("student_name_input", "");
+		session.setAttribute("student_status_input", "");
+		session.setAttribute("branch_name_input", "");
+		return new ModelAndView("admin/updateStatusPage");
 	}
 
 	// 成员级别管理查找
 	@RequestMapping(value = "/distributionPageFinder")
-	public String distributionPageFinder(String student_num_input, String student_name_input,
+	public ModelAndView distributionPageFinder(HttpSession session, String student_num_input, String student_name_input,
 			String student_status_input, String branch_name_input,
-			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 				student_status_input, branch_name_input);
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		for (vStudent v : vStudents) {
+			String student_id = v.getStudent_id();
+			String student_num = v.getStudent_num();
+			v.setYijiaocailiaoshu(adminService.select_count_uploaded(student_id));
+			v.setZongcailiaoshu(adminService.select_count_upload_all(student_id));
+
+			v.setYicanyuhuodongshu(adminService.select_count_signed_activity(student_id));
+			v.setHuodongzongshu(adminService.select_count_activity_all(student_id));
+
+			v.setYicanjiajingdashu(adminService.select_test_num_answerd(student_num));
+			v.setJingdazongshu(adminService.select_test_num_total(student_num));
+		}
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+		map.put("pageInfo", pageInfo);
 		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		session.setAttribute("actionURL", "distributionPageFinder");
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("student_num_input", student_num_input);
 		session.setAttribute("student_name_input", student_name_input);
@@ -139,7 +206,7 @@ public class AdminController {
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("message", "");
-		return "admin/updateStatusPage";
+		return new ModelAndView("admin/updateStatusPage");
 	}
 
 	// 查看学生相关资料
@@ -196,13 +263,15 @@ public class AdminController {
 				v.setCorrect_num(0);
 			}
 		}
-		int total_time = adminService.select_test_total_time(student_num_result);
-		int total_correct = adminService.select_test_total_correct(student_num_result);
+		// 答题总数
+		int total_time = adminService.select_answer_total_num(student_num_result);
+		// 正确数
+		int total_correct = adminService.select_answer_num_correct(student_num_result);
 		double score_percent;
 		if (total_time == 0) {
 			score_percent = 0;
 		} else {
-			score_percent = total_correct * 100.0 / total_time;
+			score_percent = Math.round(total_correct * 100.0 / total_time);
 		}
 		session.setAttribute("test_list", test_list);
 		session.setAttribute("score_percent", score_percent);
@@ -242,7 +311,11 @@ public class AdminController {
 
 	// 提升等级阶段
 	@RequestMapping(value = "/updateLevel")
-	public String updateLevel(String student_num_check, HttpSession session) {
+	public ModelAndView addMemberPageFinder(HttpSession session, String student_num_check,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		ArrayList<StudentPermissionMap> spm = (ArrayList<StudentPermissionMap>) session.getAttribute("spm");
 		if (adminService.is_able_to_level_up(student_num_check)) {
 			if (adminService.update_student_status(student_num_check)) {
@@ -253,15 +326,17 @@ public class AdminController {
 				String branch_name_input = (String) session.getAttribute("branch_name_input");
 				ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 						student_status_input, branch_name_input);
-				PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+				PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+				map.put("pageInfo", pageInfo);
 				session.setAttribute("pageInfo", pageInfo);
-				return "admin/updateStatusPage";
+				return new ModelAndView("admin/updateStatusPage");
+
 			}
 			session.setAttribute("message", "3");
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/updateStatusPage";
+		return new ModelAndView("admin/updateStatusPage");
 	}
 
 	/*
@@ -270,7 +345,10 @@ public class AdminController {
 
 	// 跳转到权限管理
 	@RequestMapping(value = "/authorityPage")
-	public String permission_manage_page(HttpSession session) {
+	public ModelAndView permission_manage_page(HttpSession session,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		session.setAttribute("student_num_input", "");
 		session.setAttribute("student_name_input", "");
 		session.setAttribute("student_status_input", "");
@@ -281,30 +359,38 @@ public class AdminController {
 		session.setAttribute("ssm", ssm);
 		session.setAttribute("spm", spm);
 		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/authorityPage";
+		return new ModelAndView("admin/authorityPage");
 	}
 
-	// 查找用户
+	// 权限管理查找用户
 	@RequestMapping(value = "/authorityPageFinder")
-	public String authorityPageFinder(String student_num_input, String student_name_input, String student_status_input,
-			String branch_name_input, @RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+	public ModelAndView authorityPageFinder(HttpSession session, String student_num_input, String student_name_input,
+			String student_status_input, String branch_name_input,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 				student_status_input, branch_name_input);
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("student_num_input", student_num_input);
 		session.setAttribute("student_name_input", student_name_input);
-		session.setAttribute("student_status_input", student_status_input);
+		session.setAttribute("stud ent_status_input", student_status_input);
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("message", "");
-		return "admin/authorityPage";
+		return new ModelAndView("admin/authorityPage");
 	}
 
 	// 修改权限
 	@RequestMapping(value = "/updatePermission")
-	public String permission_update(String student_num_check, String student_permission, HttpSession session) {
+	public ModelAndView updatePermission(HttpSession session, String student_num_check, String student_permission,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<StudentPermissionMap> spm = (ArrayList<StudentPermissionMap>) session.getAttribute("spm");
 		String student_permission_update = null;
 		for (StudentPermissionMap item : spm) {
@@ -321,16 +407,17 @@ public class AdminController {
 			String branch_name_input = (String) session.getAttribute("branch_name_input");
 			ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
 					student_status_input, branch_name_input);
-			PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+			PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
 			session.setAttribute("student_num_input", student_num_input);
 			session.setAttribute("student_name_input", student_name_input);
 			session.setAttribute("student_status_input", student_status_input);
 			session.setAttribute("branch_name_input", branch_name_input);
+			map.put("pageInfo", pageInfo);
 			session.setAttribute("pageInfo", pageInfo);
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/authorityPage";
+		return new ModelAndView("admin/authorityPage");
 	}
 
 	// 党支部增删改查
@@ -366,6 +453,7 @@ public class AdminController {
 		ArrayList<vStudent> list = adminService.select_vstudent_by_branch_name(branch_name_input);
 		session.setAttribute("branch_name_input", branch_name_input);
 		session.setAttribute("list", list);
+		session.setAttribute("message", "");
 		return "admin/manageBranchPage";
 	}
 
@@ -391,41 +479,50 @@ public class AdminController {
 
 	// 添加支部成员页面
 	@RequestMapping(value = "/addMemberPage")
-	public String addMemberPage(HttpSession session) {
+	public ModelAndView addMember(HttpSession session, @RequestParam(defaultValue = "1") Integer currentPage,
+			HttpServletRequest request, Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		session.setAttribute("message", "");
 		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>();
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/addMemberPage";
+		session.setAttribute("student_num_input", "");
+		session.setAttribute("student_name_input", "");
+		return new ModelAndView("admin/addMemberPage");
 	}
 
 	// 添加支部成员查找
 	@RequestMapping(value = "/addMemberPageFinder")
-	public String addMemberPageFinder(String student_num_input, String student_name_input,
-			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+	public ModelAndView addMemberPageFinder(HttpSession session, String student_num_input, String student_name_input,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+
 		String student_status_input = null;
-		String branch_name_input = null;
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
-				student_status_input, branch_name_input);
-		Iterator<vStudent> iterator = vStudents.iterator();
-		while (iterator.hasNext()) {
-			vStudent next = iterator.next();
-			if (!(next.getBranch_name().equals("无"))) {
-				iterator.remove();
-			}
-		}
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
-		ArrayList<Branch> branch = adminService.select_all_branch();
+				student_status_input, "无");
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
+
+		ArrayList<Branch> branch = adminService.select_all_branch();
+
+		// pageInfo.setPages((int)Math.ceil(vStudents.size()/8.0));//总页数
+		// pageInfo.setTotal(vStudents.size());//总条数
+
 		session.setAttribute("student_num_input", student_num_input);
 		session.setAttribute("student_name_input", student_name_input);
 		session.setAttribute("branch", branch);
 		session.setAttribute("message", "");
-		return "admin/addMemberPage";
+		return new ModelAndView("admin/addMemberPage");
 	}
 
 	// 添加支部成员
 	@RequestMapping(value = "/addMember")
-	public String addMember(String student_num_check, String branch_name, HttpSession session) {
+	public ModelAndView addMember(HttpSession session, String student_num_check, String branch_name,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<Branch> branch = (ArrayList<Branch>) session.getAttribute("branch");
 		String branch_id = null;
 		for (Branch item : branch) {
@@ -439,39 +536,35 @@ public class AdminController {
 			String student_num_input = (String) session.getAttribute("student_num_input");
 			String student_name_input = (String) session.getAttribute("student_name_input");
 			String student_status_input = (String) session.getAttribute("student_status_input");
-			String branch_name_input = (String) session.getAttribute("branch_name_input");
 			ArrayList<vStudent> vStudents = adminService.select_vstudent(student_num_input, student_name_input,
-					student_status_input, branch_name_input);
-			Iterator<vStudent> iterator = vStudents.iterator();
-			while (iterator.hasNext()) {
-				vStudent next = iterator.next();
-				if (!(next.getBranch_name().equals("无"))) {
-					iterator.remove();
-				}
-			}
-			PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+					student_status_input, "无");
+			PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
+			map.put("pageInfo", pageInfo);
 			branch = adminService.select_all_branch();
 			session.setAttribute("pageInfo", pageInfo);
 			session.setAttribute("branch", branch);
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/addMemberPage";
+		return new ModelAndView("admin/addMemberPage");
 	}
 
 	// 成员管理页面
 	@RequestMapping(value = "/manageMemberPage")
-	public String manageMemberPage(HttpSession session) {
+	public ModelAndView manageMemberPage(HttpSession session, @RequestParam(defaultValue = "1") Integer currentPage,
+			HttpServletRequest request, Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
+		session.setAttribute("ssm", ssm);
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>();
+		map.put("pageInfo", pageInfo);
+		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("message", "");
 		session.setAttribute("student_num_input", "");
 		session.setAttribute("student_name_input", "");
+		session.setAttribute("student_status_input", "");
 		session.setAttribute("branch_name_input", "");
-		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
-		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
-		session.setAttribute("ssm", ssm);
-		session.setAttribute("pageInfo", pageInfo);
-		return "admin/manageMemberPage";
+		return new ModelAndView("admin/manageMemberPage");
 	}
 
 	// 从支部移除
@@ -598,35 +691,51 @@ public class AdminController {
 
 	// 组织生活签到管理页面
 	@RequestMapping(value = "/manageSignInPage")
-	public String manageSignInPage(HttpSession session) {
+	public ModelAndView manageSignInPage(HttpSession session, @RequestParam(defaultValue = "1") Integer currentPage,
+			HttpServletRequest request, Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		session.setAttribute("message", "");
 		ArrayList<ActivityStatusMap> asm = adminService.select_activity_status_map();
 		session.setAttribute("asm", asm);
 		ArrayList<vActivity> activities = new ArrayList<vActivity>();
-		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
+		for (vActivity v : activities) {
+			String activity_id = v.getActivity_id();
+			v.setHdzrs(adminService.select_count_total_student_num(activity_id));
+			v.setYqdrs(adminService.select_count_signed_in_student_num(activity_id));
+		}
+		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("activity_name_input", "");
 		session.setAttribute("activity_status_input", "");
 		session.setAttribute("activity_date_input", "");
 		session.setAttribute("activity_location_input", "");
-		return "admin/manageSignInPage";
+		return new ModelAndView("admin/manageSignInPage");
 	}
 
 	// 组织生活签到查询结果
 	@RequestMapping(value = "/manageSignInPageFinder")
-	public String manageSignInPageFinder(String activity_name_input, String activity_status_input,
-			String activity_date_input, String activity_location_input,
-			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+	public ModelAndView manageSignInPageFinder(HttpSession session, String activity_name_input,
+			String activity_status_input, String activity_date_input, String activity_location_input,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<vActivity> activities = adminService.select_vactivity(activity_name_input, activity_status_input,
 				activity_date_input, activity_location_input);
-		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
+		for (vActivity v : activities) {
+			String activity_id = v.getActivity_id();
+			v.setHdzrs(adminService.select_count_total_student_num(activity_id));
+			v.setYqdrs(adminService.select_count_signed_in_student_num(activity_id));
+		}
+		PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("activity_name_input", activity_name_input);
 		session.setAttribute("activity_status_input", activity_status_input);
 		session.setAttribute("activity_date_input", activity_date_input);
 		session.setAttribute("activity_location_input", activity_location_input);
 		session.setAttribute("message", "");
-		return "admin/manageSignInPage";
+		return new ModelAndView("admin/manageSignInPage");
 	}
 
 	// 组织生活签到审核与查看
@@ -648,7 +757,11 @@ public class AdminController {
 
 	// 修改活动状态
 	@RequestMapping(value = "/updateActivityStatus")
-	public String updateActivityStatus(String activity_id_update, String new_activity_status, HttpSession session) {
+	public ModelAndView updateActivityStatus(HttpSession session, String activity_id_update, String new_activity_status,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		ArrayList<ActivityStatusMap> asm = adminService.select_activity_status_map();
 		String activity_status = null;
 		for (ActivityStatusMap item : asm) {
@@ -665,12 +778,14 @@ public class AdminController {
 			String activity_location_input = (String) session.getAttribute("activity_location_input");
 			ArrayList<vActivity> activities = adminService.select_vactivity(activity_name_input, activity_status_input,
 					activity_date_input, activity_location_input);
-			PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 10);
+			PageInfo<vActivity> pageInfo = new PageInfo<vActivity>(activities, 8);
+			map.put("pageInfo", pageInfo);
 			session.setAttribute("pageInfo", pageInfo);
 		} else {
 			session.setAttribute("message", "2");
 		}
-		return "admin/manageSignInPage";
+		return new ModelAndView("admin/manageSignInPage");
+
 	}
 
 	// 发布学习内容页面
@@ -708,41 +823,50 @@ public class AdminController {
 
 	// 管理学习内容页面
 	@RequestMapping(value = "/manageStudyPage")
-	public String manageStudyPage(HttpSession session) {
+	public ModelAndView manageStudyPage(HttpSession session, @RequestParam(defaultValue = "1") Integer currentPage,
+			HttpServletRequest request, Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
 		ArrayList<vStudy> study_list = new ArrayList<vStudy>();
-		PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 10);
+		PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("study_status_map", study_status_map);
 		session.setAttribute("study_title_input", "");
 		session.setAttribute("message", "");
 		session.setAttribute("study_status_input", "");
-		return "admin/manageStudyPage";
+		return new ModelAndView("admin/manageStudyPage");
 	}
 
 	// 删除学习内容
 	@RequestMapping(value = "/deleteStudy")
-	public String deleteStudy(HttpSession session, String study_id_del) {
-		System.out.println(study_id_del);
+	public ModelAndView deleteStudy(HttpSession session, String study_id_del,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		if (adminService.delete_study(study_id_del)) {
 			String study_title_input = (String) session.getAttribute("study_title_input");
 			String study_status_input = (String) session.getAttribute("study_status_input");
 
 			ArrayList<vStudy> study_list = adminService.select_study_list(study_title_input, study_status_input);
-			PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 10);
+			PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 8);
+			map.put("pageInfo", pageInfo);
 			session.setAttribute("pageInfo", pageInfo);
 			session.setAttribute("message", "1");
 		} else {
 			session.setAttribute("message", "2");
 
 		}
-		return "admin/manageStudyPage";
+		return new ModelAndView("admin/manageStudyPage");
 	}
 
 	// 管理学习内容查询结果
 	@RequestMapping(value = "/manageStudyPageFinder")
-	public String manageStudyPageFinder(String study_title_input, String study_status_input,
-			@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpSession session) {
+	public ModelAndView manageStudyPageFinder(HttpSession session, String study_title_input, String study_status_input,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		ArrayList<StudyStatusMap> study_status_map = adminService.select_study_status_map();
 		for (StudyStatusMap item : study_status_map) {
 			if (item.getMeans().equals(study_status_input)) {
@@ -751,12 +875,13 @@ public class AdminController {
 			}
 		}
 		ArrayList<vStudy> study_list = adminService.select_study_list(study_title_input, study_status_input);
-		PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 10);
+		PageInfo<vStudy> pageInfo = new PageInfo<vStudy>(study_list, 8);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
 		session.setAttribute("study_title_input", study_title_input);
 		session.setAttribute("study_status_input", study_status_input);
 		session.setAttribute("message", "");
-		return "admin/manageStudyPage";
+		return new ModelAndView("admin/manageStudyPage");
 	}
 
 	// 推文详情页面
@@ -931,6 +1056,9 @@ public class AdminController {
 	@RequestMapping(value = "/resultByTestPage")
 	public String resultByTestPage(HttpSession session) {
 		ArrayList<Test> Tests = adminService.select_Test_all();
+		for (Test t : Tests) {
+			t.setYdrs(adminService.select_count_answered(t.getTest_id()));
+		}
 		session.setAttribute("test_list", Tests);
 		return "admin/resultByTestPage";
 	}
@@ -945,6 +1073,7 @@ public class AdminController {
 				v.setCorrect_num(0);
 				total_num = v.getTotal_num();
 			}
+			v.setYdrs(adminService.select_count_answered(v.getTest_id()));
 		}
 		int length = vTests.size();
 
@@ -958,7 +1087,9 @@ public class AdminController {
 
 	// 按学生查询知识竞答结果
 	@RequestMapping(value = "/resultByStudentPage")
-	public String resultByStudentPage(HttpSession session) {
+	public ModelAndView resultByStudentPage(HttpSession session, @RequestParam(defaultValue = "1") Integer currentPage,
+			HttpServletRequest request, Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
 		session.setAttribute("list", "");
 		session.setAttribute("score_percent", "");
 		session.setAttribute("total_time", "");
@@ -973,27 +1104,25 @@ public class AdminController {
 		session.setAttribute("branch_name_input", "");
 		ArrayList<StudentStatusMap> ssm = adminService.select_student_status_map();
 		ArrayList<vStudent> vStudents = new ArrayList<vStudent>();
-		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 10);
+		PageInfo<vStudent> pageInfo = new PageInfo<vStudent>(vStudents, 8);
 		session.setAttribute("ssm", ssm);
+		map.put("pageInfo", pageInfo);
 		session.setAttribute("pageInfo", pageInfo);
-		return "admin/resultByStudentPage";
+		return new ModelAndView("admin/resultByStudentPage");
 	}
 
 	// 知识竞答结果按学生查询
-	@RequestMapping(value = "/resultByStudentPageFinder")
-	public String resultByStudentPageFinder(String student_num_check, HttpSession session) {
-		if (student_num_check == null || student_num_check.equals("")) {
-			session.setAttribute("message", "2");
-			return "admin/resultByStudentPage";
-		}
+	@RequestMapping(value = "/resultByStudentPageFinder2")
+	public ModelAndView resultByStudentPageFinder(HttpSession session, String student_num_check,
+			@RequestParam(defaultValue = "1") Integer currentPage, HttpServletRequest request,
+			Map<String, Object> map) {
+		PageHelper.startPage(currentPage, 8);
+
 		ArrayList<vTest> vTests = adminService.select_vTest(student_num_check);
 		for (vTest v : vTests) {
 			v.setCorrect_num(adminService.select_correct_num_by_student_per_test(student_num_check, v.getTest_id()));
 		}
-		if (vTests == null) {
-			session.setAttribute("message", "1");
-			return "admin/resultByStudentPage";
-		}
+
 		int correct_num = 0, total_num = 0;
 		for (vTest v : vTests) {
 			correct_num += v.getCorrect_num();
@@ -1003,7 +1132,7 @@ public class AdminController {
 		if (total_num == 0) {
 			score_percent = 0;
 		} else {
-			score_percent = correct_num * 100.0 / total_num;
+			score_percent = Math.round(correct_num * 100.0 / total_num);
 		}
 		vStudent vstudent = adminService.select_vStudent_by_student_num(student_num_check);
 		session.setAttribute("list", vTests);
@@ -1014,7 +1143,7 @@ public class AdminController {
 		session.setAttribute("branch_name", vstudent.getBranch_name());
 		session.setAttribute("student_status", vstudent.getStudent_status());
 		session.setAttribute("message", "");
-		return "admin/resultByStudentPage2";
+		return new ModelAndView("admin/resultByStudentPage2");
 	}
 
 }

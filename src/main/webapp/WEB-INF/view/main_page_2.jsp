@@ -81,11 +81,11 @@
 	<div class="container">
 		<div class="slide">
 			<div class="slider-slide owl-carousel owl-theme">
-			<a href="/mis/stu/test_page">
+			<a href="/mis/stu/material_page">
 				<div class="content">
 					<div class="mask-red"></div>
 					<div class="slider-caption">
-						<h2>每日竞答</h2>
+						<h2>热点资讯</h2>
 						<p>富强  民主  文明  和谐</p>
 					</div>
 				</div>
@@ -99,11 +99,11 @@
 					</div>
 				</div>
 				</a>
-				<a href="/mis/stu/material_page">
+				<a href="/mis/stu/test_page">
 				<div class="content">
 					<div class="mask-purple"></div>
 					<div class="slider-caption">
-						<h2>新闻共享</h2>
+						<h2>每日竞答</h2>
 						<p>爱国 敬业 诚信 友善</p>
 					</div>
 				</div>
